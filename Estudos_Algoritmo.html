@@ -1,0 +1,2373 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guia Interativo dos Blocos Flowgorithm</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-main: #07090e;
+      --bg-panel: #0e121b;
+      --bg-card: #131824;
+      --border-subtle: #232b3d;
+      --fg-red-fill: #2a0d0e;
+      --fg-red-stroke: #c93b3b;
+      --fg-red-text: #ff7b7b;
+      --fg-cyan-fill: #0b2429;
+      --fg-cyan-stroke: #26a6b5;
+      --fg-cyan-text: #6ee7f5;
+      --fg-yellow-fill: #292409;
+      --fg-yellow-stroke: #c4b027;
+      --fg-yellow-text: #f7e663;
+      --fg-grey-fill: #1b1d24;
+      --fg-grey-stroke: #8e96a8;
+      --fg-grey-text: #e2e8f0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-main);
+      color: #f1f5f9;
+      overflow-x: hidden;
+    }
+
+    code, .mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Botões com a aparência fiel aos blocos do Flowgorithm */
+    .fg-block-btn {
+      transition: transform 0.18s ease, box-shadow 0.2s ease, filter 0.2s ease;
+      cursor: pointer;
+      position: relative;
+      user-select: none;
+    }
+
+    .fg-block-btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      filter: brightness(1.18);
+    }
+
+    .fg-block-btn:active {
+      transform: scale(0.98);
+    }
+
+    .fg-block-active {
+      transform: scale(1.05) !important;
+      box-shadow: 0 0 0 2px #ffffff, 0 0 22px rgba(255, 255, 255, 0.38) !important;
+      z-index: 10;
+    }
+
+    /* Animação do Tutor ("Pessoinha") */
+    @keyframes floatTutor {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+    }
+
+    @keyframes talkMouth {
+      0%, 100% { transform: scaleY(0.35); }
+      50% { transform: scaleY(1.15); }
+    }
+
+    @keyframes waveArm {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(-16deg); }
+    }
+
+    .tutor-float {
+      animation: floatTutor 3.2s ease-in-out infinite;
+    }
+
+    .tutor-talking .tutor-mouth {
+      transform-origin: center;
+      animation: talkMouth 0.26s ease-in-out infinite;
+    }
+
+    .tutor-talking .tutor-arm {
+      transform-origin: 68px 66px;
+      animation: waveArm 0.72s ease-in-out infinite;
+    }
+
+    @keyframes soundWave {
+      0%, 100% { height: 4px; }
+      50% { height: 15px; }
+    }
+
+    .sound-bar {
+      width: 3px;
+      height: 4px;
+      border-radius: 999px;
+      background-color: #38bdf8;
+    }
+
+    .tutor-speaking-wave .sound-bar:nth-child(1) { animation: soundWave 0.55s ease-in-out infinite 0.0s; }
+    .tutor-speaking-wave .sound-bar:nth-child(2) { animation: soundWave 0.55s ease-in-out infinite 0.15s; }
+    .tutor-speaking-wave .sound-bar:nth-child(3) { animation: soundWave 0.55s ease-in-out infinite 0.3s; }
+    .tutor-speaking-wave .sound-bar:nth-child(4) { animation: soundWave 0.55s ease-in-out infinite 0.1s; }
+
+    /* Caixas estilo Flowgorithm Menu */
+    .fg-group-box {
+      border: 1px solid #353d4f;
+      background-color: #0b0e14;
+      border-radius: 10px;
+      padding: 10px 12px 14px 12px;
+    }
+
+    .fg-group-header {
+      border: 1px solid #353d4f;
+      background-color: #131824;
+      color: #cbd5e1;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      letter-spacing: 0.02em;
+    }
+
+    /* Animação Gaveta de Arrays */
+    .drawer-card {
+      transition: all 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .drawer-open {
+      transform: translateX(10px);
+      border-color: #22d3ee !important;
+      background: linear-gradient(135deg, rgba(14, 116, 144, 0.28), rgba(15, 23, 42, 0.95)) !important;
+      box-shadow: 0 10px 25px -5px rgba(6, 182, 212, 0.25);
+    }
+
+    /* Passo ativo do fluxograma nos exercícios */
+    .flow-step-highlight {
+      box-shadow: 0 0 0 2px #38bdf8, 0 0 18px rgba(56, 189, 248, 0.35);
+      transform: scale(1.02);
+    }
+
+    /* Scrollbar discreta */
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0b0e14;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #283144;
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #3d4a66;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Barra Superior Executiva: Identidade + Navegação por Abas + Controles de Voz -->
+  <header class="sticky top-0 z-40 border-b border-slate-800/90 bg-[#090c13]/95 backdrop-blur-md">
+    <div class="max-w-[1480px] mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+      
+      <!-- Identidade -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500/20 via-indigo-500/20 to-emerald-500/20 border border-slate-700/80 flex items-center justify-center shadow-inner">
+          <svg class="w-6 h-6 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon>
+            <line x1="12" y1="22" x2="12" y2="15.5"></line>
+            <polyline points="22 8.5 12 15.5 2 8.5"></polyline>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-base sm:text-lg font-extrabold tracking-tight text-white">
+              Flowgorithm Studio Academy
+            </h1>
+            <span class="hidden md:inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">
+              UC 00245 • v2.0
+            </span>
+          </div>
+          <p class="text-xs text-slate-400">
+            Blocos Interativos, Arrays (Gavetas) & 10 Exercícios Resolvidos com Voz
+          </p>
+        </div>
+      </div>
+
+      <!-- Navegação Principal entre as 3 Secções -->
+      <nav class="flex items-center bg-slate-900/95 border border-slate-800 p-1 rounded-xl gap-1 order-3 lg:order-2 w-full lg:w-auto justify-between sm:justify-start">
+        <button id="tab-btn-blocks" onclick="switchTab('blocks')"
+          class="flex-1 sm:flex-initial px-3.5 py-2 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 bg-cyan-500 text-slate-950 shadow transition">
+          <span>🧩</span>
+          <span>1. Blocos & Simulador</span>
+        </button>
+        <button id="tab-btn-arrays" onclick="switchTab('arrays')"
+          class="flex-1 sm:flex-initial px-3.5 py-2 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 text-slate-300 hover:text-white hover:bg-slate-800/80 transition">
+          <span>🗄️</span>
+          <span>2. Arrays (Gavetas)</span>
+        </button>
+        <button id="tab-btn-exercises" onclick="switchTab('exercises')"
+          class="flex-1 sm:flex-initial px-3.5 py-2 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 text-slate-300 hover:text-white hover:bg-slate-800/80 transition">
+          <span>📘</span>
+          <span>3. 10 Exercícios Resolvidos</span>
+        </button>
+      </nav>
+
+      <!-- Controles Globais de Voz (Web Speech API) -->
+      <div class="flex items-center gap-2 order-2 lg:order-3">
+        <button id="btnVoiceToggle" onclick="toggleVoice()" title="Ativar ou silenciar a narração por voz"
+          class="px-3 py-2 rounded-xl font-bold text-xs flex items-center gap-1.5 bg-cyan-500/20 border border-cyan-500/50 text-cyan-200 hover:bg-cyan-500/30 transition active:scale-95">
+          <span id="voiceToggleIcon">🔊</span>
+          <span id="voiceToggleLabel">Voz Ativa</span>
+        </button>
+
+        <select id="voiceSelect" onchange="onVoiceChange()" title="Selecionar voz em Português"
+          class="hidden sm:block max-w-[155px] bg-slate-900 border border-slate-700 text-slate-200 text-xs rounded-xl px-2.5 py-2 focus:outline-none focus:border-cyan-500">
+          <option value="">Voz: Português</option>
+        </select>
+
+        <select id="speechRateSelect" onchange="onSpeechRateChange()" title="Velocidade da narração"
+          class="bg-slate-900 border border-slate-700 text-slate-200 text-xs rounded-xl px-2 py-2 focus:outline-none focus:border-cyan-500">
+          <option value="0.85">0.85x</option>
+          <option value="1.0" selected>1.0x</option>
+          <option value="1.2">1.2x</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Barra de Progresso -->
+    <div class="w-full h-1 bg-slate-900">
+      <div id="tourProgressBar" class="h-full bg-gradient-to-r from-cyan-400 via-amber-300 to-emerald-400 transition-all duration-300" style="width: 5%"></div>
+    </div>
+  </header>
+
+  <!-- ===================================================================== -->
+  <!-- SECÇÃO 1: BLOCOS DO FLOWGORITHM & SIMULADOR (BASE ORIGINAL PRESERVADA)-->
+  <!-- ===================================================================== -->
+  <div id="section-blocks" class="flex-1 max-w-[1480px] w-full mx-auto px-4 py-5 space-y-4">
+    
+    <!-- Barra de Ação do Tour Automático dos Blocos -->
+    <div class="bg-[#0e121b] border border-slate-800 rounded-2xl px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-2.5">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span class="text-xs sm:text-sm font-semibold text-slate-200">
+          Modo Guiado: Clica em qualquer bloco abaixo ou deixa o Prof. Algo explicar todos automaticamente com voz.
+        </span>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <button id="btnAutoPlay" onclick="toggleAutoTour()"
+          class="px-4 py-2 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 hover:from-emerald-400 hover:to-teal-400 shadow-lg shadow-emerald-950/50 transition active:scale-95">
+          <span id="autoPlayIcon">▶</span>
+          <span id="autoPlayLabel">Iniciar Explicação Automática</span>
+        </button>
+
+        <div class="flex items-center bg-slate-900 border border-slate-700 rounded-xl p-1 gap-1">
+          <button onclick="prevBlock()" title="Bloco Anterior"
+            class="px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:bg-slate-800 hover:text-white transition">
+            ◀ Anterior
+          </button>
+          <span id="stepCounter" class="px-2 text-xs mono text-cyan-300 font-semibold">1 / 21</span>
+          <button onclick="nextBlock()" title="Próximo Bloco"
+            class="px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:bg-slate-800 hover:text-white transition">
+            Próximo ▶
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grid Principal: Menu de Blocos à Esquerda + Tutor e Simulador à Direita -->
+    <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+
+      <!-- COLUNA ESQUERDA: Menu Fiel ao Flowgorithm (7 colunas) -->
+      <section class="xl:col-span-7 bg-[#0b0e14] border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-2xl">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+            Menu de Blocos do Flowgorithm (Clica para aprender)
+          </span>
+          <span class="text-[11px] text-slate-500 hidden sm:inline">21 ferramentas organizadas por categoria</span>
+        </div>
+
+        <!-- Grade idêntica ao menu oficial -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-3.5">
+
+          <!-- Lado Esquerdo do Menu: Clipboard + Miscellaneous + Statement -->
+          <div class="lg:col-span-8 flex flex-col gap-3.5">
+
+            <!-- Linha Superior: Clipboard + Miscellaneous -->
+            <div class="grid grid-cols-1 sm:grid-cols-12 gap-3.5">
+              <!-- Clipboard -->
+              <div class="sm:col-span-4 fg-group-box flex flex-col">
+                <div class="fg-group-header">Clipboard</div>
+                <div class="flex-1 flex items-center justify-center py-2">
+                  <button id="btn-clipboard" onclick="selectBlock('clipboard')" class="fg-block-btn p-2 rounded-xl border border-slate-700 bg-slate-900/80 flex flex-col items-center gap-1.5 w-24">
+                    <svg class="w-9 h-9" viewBox="0 0 48 48" fill="none">
+                      <rect x="8" y="8" width="22" height="28" rx="2" fill="#cbd5e1" stroke="#64748b" stroke-width="2"/>
+                      <rect x="14" y="4" width="10" height="6" rx="1.5" fill="#94a3b8" stroke="#475569" stroke-width="1.5"/>
+                      <rect x="20" y="16" width="20" height="26" rx="2" fill="#f8fafc" stroke="#64748b" stroke-width="2"/>
+                      <line x1="24" y1="22" x2="36" y2="22" stroke="#94a3b8" stroke-width="2"/>
+                      <line x1="24" y1="27" x2="36" y2="27" stroke="#94a3b8" stroke-width="2"/>
+                      <line x1="24" y1="32" x2="32" y2="32" stroke="#94a3b8" stroke-width="2"/>
+                    </svg>
+                    <span class="text-[11px] font-semibold text-slate-300">Colar / Copiar</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Miscellaneous -->
+              <div class="sm:col-span-8 fg-group-box flex flex-col">
+                <div class="fg-group-header">Miscellaneous</div>
+                <div class="flex-1 flex flex-wrap items-center justify-around gap-3 py-2">
+                  <!-- Comment -->
+                  <button id="btn-comment" onclick="selectBlock('comment')" class="fg-block-btn rounded">
+                    <svg width="112" height="44" viewBox="0 0 112 44">
+                      <rect x="2" y="2" width="108" height="40" fill="#0b2429" stroke="#26a6b5" stroke-width="1.8" stroke-dasharray="4 3" rx="2"/>
+                      <text x="56" y="26" text-anchor="middle" fill="#6ee7f5" font-size="13" font-family="Inter, sans-serif" font-weight="500">Comment</text>
+                    </svg>
+                  </button>
+
+                  <!-- Breakpoint -->
+                  <button id="btn-breakpoint" onclick="selectBlock('breakpoint')" class="fg-block-btn flex items-center gap-2.5 px-2 py-1 rounded-lg">
+                    <svg width="36" height="36" viewBox="0 0 36 36">
+                      <polygon points="11,2 25,2 34,11 34,25 25,34 11,34 2,25 2,11" fill="#2a2d36" stroke="#94a3b8" stroke-width="1.8"/>
+                    </svg>
+                    <span class="text-xs font-medium text-slate-200">Breakpoint</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Caixa Grande: Statement -->
+            <div class="fg-group-box">
+              <div class="fg-group-header">Statement</div>
+
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
+                <!-- Coluna 1: Input / Output -->
+                <div class="flex flex-col items-center gap-3.5">
+                  <span class="text-xs font-semibold text-slate-300 text-center">Input / Output</span>
+
+                  <!-- Input -->
+                  <button id="btn-input" onclick="selectBlock('input')" class="fg-block-btn">
+                    <svg width="118" height="44" viewBox="0 0 118 44">
+                      <polygon points="16,3 115,3 102,41 3,41" fill="#2a0d0e" stroke="#c93b3b" stroke-width="1.8"/>
+                      <text x="59" y="26" text-anchor="middle" fill="#ff7b7b" font-size="13" font-family="Inter, sans-serif" font-weight="500">Input</text>
+                    </svg>
+                  </button>
+
+                  <!-- Output -->
+                  <button id="btn-output" onclick="selectBlock('output')" class="fg-block-btn">
+                    <svg width="118" height="44" viewBox="0 0 118 44">
+                      <polygon points="16,3 115,3 102,41 3,41" fill="#0b2429" stroke="#26a6b5" stroke-width="1.8"/>
+                      <text x="59" y="26" text-anchor="middle" fill="#6ee7f5" font-size="13" font-family="Inter, sans-serif" font-weight="500">Output</text>
+                    </svg>
+                  </button>
+                </div>
+
+                <!-- Coluna 2: Variables -->
+                <div class="flex flex-col items-center gap-3.5">
+                  <span class="text-xs font-semibold text-slate-300 text-center">Variables</span>
+
+                  <!-- Declare -->
+                  <button id="btn-declare" onclick="selectBlock('declare')" class="fg-block-btn">
+                    <svg width="118" height="46" viewBox="0 0 118 46">
+                      <rect x="3" y="3" width="112" height="40" fill="#2a0d0e" stroke="#c93b3b" stroke-width="1.8"/>
+                      <line x1="3" y1="11" x2="115" y2="11" stroke="#c93b3b" stroke-width="1.5"/>
+                      <line x1="12" y1="3" x2="12" y2="43" stroke="#c93b3b" stroke-width="1.5"/>
+                      <text x="63" y="31" text-anchor="middle" fill="#ff7b7b" font-size="13" font-family="Inter, sans-serif" font-weight="500">Declare</text>
+                    </svg>
+                  </button>
+
+                  <!-- Assign -->
+                  <button id="btn-assign" onclick="selectBlock('assign')" class="fg-block-btn">
+                    <svg width="118" height="44" viewBox="0 0 118 44">
+                      <rect x="3" y="3" width="112" height="38" fill="#2a0d0e" stroke="#c93b3b" stroke-width="1.8"/>
+                      <text x="59" y="26" text-anchor="middle" fill="#ff7b7b" font-size="13" font-family="Inter, sans-serif" font-weight="500">Assign</text>
+                    </svg>
+                  </button>
+                </div>
+
+                <!-- Coluna 3: Control -->
+                <div class="flex flex-col items-center gap-3.5">
+                  <span class="text-xs font-semibold text-slate-300 text-center">Control</span>
+
+                  <!-- If -->
+                  <button id="btn-if" onclick="selectBlock('if')" class="fg-block-btn">
+                    <svg width="118" height="50" viewBox="0 0 118 50">
+                      <polygon points="59,3 115,25 59,47 3,25" fill="#1b1d24" stroke="#94a3b8" stroke-width="1.8"/>
+                      <text x="59" y="29" text-anchor="middle" fill="#f1f5f9" font-size="13" font-family="Inter, sans-serif" font-weight="600">If</text>
+                    </svg>
+                  </button>
+
+                  <!-- Call -->
+                  <button id="btn-call" onclick="selectBlock('call')" class="fg-block-btn">
+                    <svg width="118" height="44" viewBox="0 0 118 44">
+                      <rect x="3" y="3" width="112" height="38" fill="#1b1d24" stroke="#94a3b8" stroke-width="1.8"/>
+                      <line x1="13" y1="3" x2="13" y2="41" stroke="#94a3b8" stroke-width="1.5"/>
+                      <line x1="105" y1="3" x2="105" y2="41" stroke="#94a3b8" stroke-width="1.5"/>
+                      <text x="59" y="26" text-anchor="middle" fill="#f1f5f9" font-size="13" font-family="Inter, sans-serif" font-weight="500">Call</text>
+                    </svg>
+                  </button>
+                </div>
+
+                <!-- Coluna 4: Looping -->
+                <div class="flex flex-col items-center gap-3">
+                  <span class="text-xs font-semibold text-slate-300 text-center">Looping</span>
+
+                  <!-- While -->
+                  <button id="btn-while" onclick="selectBlock('while')" class="fg-block-btn">
+                    <svg width="118" height="42" viewBox="0 0 118 42">
+                      <polygon points="15,3 103,3 115,21 103,39 15,39 3,21" fill="#292409" stroke="#c4b027" stroke-width="1.8"/>
+                      <text x="59" y="25" text-anchor="middle" fill="#f7e663" font-size="13" font-family="Inter, sans-serif" font-weight="500">While</text>
+                    </svg>
+                  </button>
+
+                  <!-- For -->
+                  <button id="btn-for" onclick="selectBlock('for')" class="fg-block-btn">
+                    <svg width="118" height="42" viewBox="0 0 118 42">
+                      <polygon points="15,3 103,3 115,21 103,39 15,39 3,21" fill="#292409" stroke="#c4b027" stroke-width="1.8"/>
+                      <text x="59" y="25" text-anchor="middle" fill="#f7e663" font-size="13" font-family="Inter, sans-serif" font-weight="500">For</text>
+                    </svg>
+                  </button>
+
+                  <!-- Do -->
+                  <button id="btn-do" onclick="selectBlock('do')" class="fg-block-btn">
+                    <svg width="118" height="42" viewBox="0 0 118 42">
+                      <polygon points="15,3 103,3 115,21 103,39 15,39 3,21" fill="#292409" stroke="#c4b027" stroke-width="1.8"/>
+                      <text x="59" y="25" text-anchor="middle" fill="#f7e663" font-size="13" font-family="Inter, sans-serif" font-weight="500">Do</text>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Lado Direito do Menu: Turtle Graphics + Files -->
+          <div class="lg:col-span-4 flex flex-col gap-3.5">
+
+            <!-- Turtle Graphics -->
+            <div class="fg-group-box">
+              <div class="fg-group-header">Turtle Graphics</div>
+              <div class="grid grid-cols-2 gap-2.5 place-items-center pt-1">
+                <!-- Forward -->
+                <button id="btn-forward" onclick="selectBlock('forward')" class="fg-block-btn">
+                  <svg width="114" height="42" viewBox="0 0 114 42">
+                    <polygon points="3,5 98,5 111,21 98,37 3,37 14,21" fill="#0b2429" stroke="#26a6b5" stroke-width="1.8"/>
+                    <text x="58" y="25" text-anchor="middle" fill="#6ee7f5" font-size="12.5" font-family="Inter, sans-serif" font-weight="500">Forward</text>
+                  </svg>
+                </button>
+
+                <!-- Turn -->
+                <button id="btn-turn" onclick="selectBlock('turn')" class="fg-block-btn">
+                  <svg width="114" height="46" viewBox="0 0 114 46">
+                    <polygon points="22,4 22,12 92,12 92,4 111,23 92,42 92,34 22,34 22,42 3,23" fill="#2a0d0e" stroke="#c93b3b" stroke-width="1.8"/>
+                    <text x="57" y="27" text-anchor="middle" fill="#ff7b7b" font-size="12.5" font-family="Inter, sans-serif" font-weight="500">Turn</text>
+                  </svg>
+                </button>
+
+                <!-- Clear -->
+                <button id="btn-clear" onclick="selectBlock('clear')" class="fg-block-btn">
+                  <svg width="114" height="42" viewBox="0 0 114 42">
+                    <rect x="3" y="4" width="108" height="34" fill="#0b2429" stroke="#26a6b5" stroke-width="1.8"/>
+                    <line x1="96" y1="4" x2="96" y2="38" stroke="#26a6b5" stroke-width="1.5"/>
+                    <text x="50" y="25" text-anchor="middle" fill="#6ee7f5" font-size="12.5" font-family="Inter, sans-serif" font-weight="500">Clear</text>
+                  </svg>
+                </button>
+
+                <!-- Home -->
+                <button id="btn-home" onclick="selectBlock('home')" class="fg-block-btn">
+                  <svg width="114" height="46" viewBox="0 0 114 46">
+                    <polygon points="57,4 111,18 111,42 3,42 3,18" fill="#2a0d0e" stroke="#c93b3b" stroke-width="1.8"/>
+                    <text x="57" y="31" text-anchor="middle" fill="#ff7b7b" font-size="12.5" font-family="Inter, sans-serif" font-weight="500">Home</text>
+                  </svg>
+                </button>
+
+                <!-- Pen -->
+                <button id="btn-pen" onclick="selectBlock('pen')" class="fg-block-btn col-span-2">
+                  <svg width="114" height="42" viewBox="0 0 114 42">
+                    <polygon points="3,5 97,5 111,21 97,37 3,37" fill="#2a0d0e" stroke="#c93b3b" stroke-width="1.8"/>
+                    <line x1="14" y1="5" x2="14" y2="37" stroke="#c93b3b" stroke-width="1.5"/>
+                    <text x="56" y="25" text-anchor="middle" fill="#ff7b7b" font-size="12.5" font-family="Inter, sans-serif" font-weight="500">Pen</text>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Files -->
+            <div class="fg-group-box">
+              <div class="fg-group-header">Files</div>
+              <div class="grid grid-cols-2 gap-2.5 place-items-center pt-1">
+                <!-- Read -->
+                <button id="btn-read" onclick="selectBlock('read')" class="fg-block-btn">
+                  <svg width="114" height="42" viewBox="0 0 114 42">
+                    <path d="M12,4 L110,4 C102,14 102,28 110,38 L12,38 C4,28 4,14 12,4 Z" fill="#2a0d0e" stroke="#c93b3b" stroke-width="1.8"/>
+                    <text x="58" y="25" text-anchor="middle" fill="#ff7b7b" font-size="12.5" font-family="Inter, sans-serif" font-weight="500">Read</text>
+                  </svg>
+                </button>
+
+                <!-- Open -->
+                <button id="btn-open" onclick="selectBlock('open')" class="fg-block-btn">
+                  <svg width="114" height="42" viewBox="0 0 114 42">
+                    <path d="M12,4 L100,4 L111,15 L111,38 L12,38 C4,28 4,14 12,4 Z" fill="#2a0d0e" stroke="#c93b3b" stroke-width="1.8"/>
+                    <polyline points="100,4 100,15 111,15" fill="none" stroke="#c93b3b" stroke-width="1.5"/>
+                    <text x="58" y="25" text-anchor="middle" fill="#ff7b7b" font-size="12.5" font-family="Inter, sans-serif" font-weight="500">Open</text>
+                  </svg>
+                </button>
+
+                <!-- Write -->
+                <button id="btn-write" onclick="selectBlock('write')" class="fg-block-btn">
+                  <svg width="114" height="42" viewBox="0 0 114 42">
+                    <path d="M12,4 L110,4 C102,14 102,28 110,38 L12,38 C4,28 4,14 12,4 Z" fill="#0b2429" stroke="#26a6b5" stroke-width="1.8"/>
+                    <text x="58" y="25" text-anchor="middle" fill="#6ee7f5" font-size="12.5" font-family="Inter, sans-serif" font-weight="500">Write</text>
+                  </svg>
+                </button>
+
+                <!-- Close -->
+                <button id="btn-close" onclick="selectBlock('close')" class="fg-block-btn">
+                  <svg width="114" height="42" viewBox="0 0 114 42">
+                    <path d="M12,4 L111,4 L111,27 L100,38 L12,38 C4,28 4,14 12,4 Z" fill="#2a0d0e" stroke="#c93b3b" stroke-width="1.8"/>
+                    <polyline points="100,38 100,27 111,27" fill="none" stroke="#c93b3b" stroke-width="1.5"/>
+                    <text x="58" y="25" text-anchor="middle" fill="#ff7b7b" font-size="12.5" font-family="Inter, sans-serif" font-weight="500">Close</text>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Legenda Rápida das Cores -->
+            <div class="bg-slate-900/70 border border-slate-800 rounded-xl p-3 text-xs space-y-1.5">
+              <p class="font-bold text-slate-300 mb-1">Guia rápido das cores:</p>
+              <div class="flex items-center gap-2 text-slate-400">
+                <span class="w-3 h-3 rounded-sm bg-[#2a0d0e] border border-[#c93b3b]"></span>
+                <span><strong class="text-rose-300">Vermelho:</strong> Entrada, variáveis e ações internas</span>
+              </div>
+              <div class="flex items-center gap-2 text-slate-400">
+                <span class="w-3 h-3 rounded-sm bg-[#0b2429] border border-[#26a6b5]"></span>
+                <span><strong class="text-cyan-300">Azul-ciano:</strong> Saída de dados (mostrar/escrever)</span>
+              </div>
+              <div class="flex items-center gap-2 text-slate-400">
+                <span class="w-3 h-3 rounded-sm bg-[#292409] border border-[#c4b027]"></span>
+                <span><strong class="text-amber-300">Amarelo:</strong> Ciclos de repetição (While, For, Do)</span>
+              </div>
+              <div class="flex items-center gap-2 text-slate-400">
+                <span class="w-3 h-3 rounded-sm bg-[#1b1d24] border border-[#94a3b8]"></span>
+                <span><strong class="text-slate-200">Cinza:</strong> Decisão (If) e chamadas de função</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- COLUNA DIREITA: Tutor Animado + Explicação Simples + Simulador Vivo (5 colunas) -->
+      <section class="xl:col-span-5 flex flex-col gap-4">
+
+        <!-- Card do Tutor ("Pessoinha") com Balão de Fala -->
+        <div class="bg-gradient-to-br from-[#141824] to-[#0f121b] border border-slate-700/80 rounded-2xl p-4 shadow-xl relative overflow-hidden">
+          <div class="flex items-start gap-3.5">
+            <!-- Avatar SVG da Pessoinha -->
+            <div id="tutorAvatar" class="tutor-float shrink-0 w-20 h-24 rounded-2xl bg-slate-900/90 border border-slate-700 flex items-center justify-center shadow-inner">
+              <svg width="76" height="88" viewBox="0 0 80 95" fill="none">
+                <path d="M18 88 C18 70, 62 70, 62 88 Z" fill="#0ea5e9"/>
+                <path d="M32 71 L40 80 L48 71" fill="#e0f2fe"/>
+                <g class="tutor-arm">
+                  <rect x="60" y="64" width="14" height="6" rx="3" fill="#fbbf24"/>
+                  <circle cx="74" cy="67" r="4" fill="#fde68a"/>
+                </g>
+                <rect x="35" y="56" width="10" height="14" rx="4" fill="#fde68a"/>
+                <circle cx="40" cy="36" r="22" fill="#fde68a"/>
+                <path d="M18 34 C18 16, 62 16, 62 34 C58 24, 48 22, 40 24 C32 22, 22 24, 18 34 Z" fill="#1e293b"/>
+                <circle cx="32" cy="36" r="6" stroke="#334155" stroke-width="2" fill="#ffffff" fill-opacity="0.25"/>
+                <circle cx="48" cy="36" r="6" stroke="#334155" stroke-width="2" fill="#ffffff" fill-opacity="0.25"/>
+                <line x1="38" y1="36" x2="42" y2="36" stroke="#334155" stroke-width="2"/>
+                <circle cx="32" cy="36" r="2.2" fill="#0f172a"/>
+                <circle cx="48" cy="36" r="2.2" fill="#0f172a"/>
+                <ellipse class="tutor-mouth" cx="40" cy="47" rx="5" ry="3.2" fill="#e11d48"/>
+              </svg>
+            </div>
+
+            <!-- Balão de Fala -->
+            <div class="flex-1 min-w-0">
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-bold text-cyan-400 uppercase tracking-wider">Prof. Algo • Explicação</span>
+                  <div id="soundWaveIndicator" class="flex items-end gap-0.5 h-3.5 px-1.5 py-0.5 rounded bg-slate-900/90 border border-slate-700/70">
+                    <span class="sound-bar"></span>
+                    <span class="sound-bar"></span>
+                    <span class="sound-bar"></span>
+                    <span class="sound-bar"></span>
+                  </div>
+                </div>
+                <span id="blockCategoryBadge" class="text-[11px] px-2 py-0.5 rounded-full bg-slate-800 border border-slate-700 text-slate-300 font-medium">
+                  Variables
+                </span>
+              </div>
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                <h2 id="blockTitle" class="text-xl sm:text-2xl font-extrabold text-white">
+                  Declare (Declarar Variável)
+                </h2>
+                <button onclick="speakCurrentBlock(false)"
+                  class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-200 border border-cyan-500/40 flex items-center gap-1.5 transition active:scale-95">
+                  <span>🔊</span>
+                  <span>Ouvir</span>
+                </button>
+              </div>
+              <p id="tutorSpeech" class="text-sm text-slate-200 leading-relaxed bg-slate-900/90 border border-slate-700/80 rounded-xl p-3">
+                "Antes de guardar qualquer número ou texto, tens de criar uma caixinha na memória do computador e dar-lhe um nome e um tipo!"
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card de Detalhes Didáticos -->
+        <div class="bg-[#11141d] border border-slate-800 rounded-2xl p-4 sm:p-5 space-y-4 shadow-xl">
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-3">
+              <div class="text-xs font-bold text-amber-300 uppercase tracking-wide mb-1">1. O que significa?</div>
+              <p id="blockMeaning" class="text-xs sm:text-sm text-slate-300 leading-relaxed"></p>
+            </div>
+            <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-3">
+              <div class="text-xs font-bold text-emerald-300 uppercase tracking-wide mb-1">2. Para que serve na prática?</div>
+              <p id="blockPurpose" class="text-xs sm:text-sm text-slate-300 leading-relaxed"></p>
+            </div>
+          </div>
+
+          <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-3">
+            <div class="text-xs font-bold text-cyan-300 uppercase tracking-wide mb-1">3. Como preencher no Flowgorithm?</div>
+            <p id="blockHowTo" class="text-xs sm:text-sm text-slate-300 leading-relaxed"></p>
+          </div>
+
+          <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-3">
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-xs font-bold text-rose-300 uppercase tracking-wide">4. Exemplo Prático (Aula)</span>
+              <span id="exampleTag" class="text-[11px] mono text-slate-400">Exercício 3</span>
+            </div>
+            <p id="blockExample" class="text-xs sm:text-sm text-slate-200 leading-relaxed"></p>
+          </div>
+
+          <!-- Palco de Simulação Interativa ao Vivo -->
+          <div class="border border-cyan-500/30 bg-[#090c12] rounded-xl p-3.5">
+            <div class="flex items-center justify-between gap-2 mb-2.5">
+              <span class="text-xs font-bold text-cyan-300 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                Simulação ao Vivo deste Bloco
+              </span>
+              <button onclick="replayCurrentDemo()"
+                class="text-xs px-2.5 py-1 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 font-semibold transition">
+                ↻ Repetir Demonstração
+              </button>
+            </div>
+            <div id="liveDemoStage" class="min-h-[140px] flex flex-col justify-center"></div>
+          </div>
+
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- SECÇÃO 2: ARRAYS (INDEXADOS COM GAVETAS & ASSOCIATIVOS)               -->
+  <!-- ===================================================================== -->
+  <div id="section-arrays" class="hidden flex-1 max-w-[1480px] w-full mx-auto px-4 py-6 space-y-6">
+
+    <!-- Cabeçalho Executivo da Secção de Arrays -->
+    <div class="bg-gradient-to-r from-[#111726] via-[#0f1420] to-[#111b24] border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xl flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      <div class="space-y-1.5 max-w-3xl">
+        <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-cyan-500/15 border border-cyan-500/30 text-cyan-300 text-xs font-bold">
+          <span>🗄️ Estrutura de Dados Fundamental</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          O que são Arrays? (Vetores / Listas em Memória)
+        </h2>
+        <p class="text-sm text-slate-300 leading-relaxed">
+          Em vez de criares 5 variáveis soltas (<code class="text-cyan-300">nome1, nome2, nome3...</code>), um <strong>Array</strong> é um <strong>armário único com várias gavetas numeradas</strong> onde guardas vários valores do mesmo tipo de forma organizada.
+        </p>
+      </div>
+
+      <button onclick="speakArraysIntro()"
+        class="shrink-0 px-4 py-3 rounded-xl font-bold text-xs sm:text-sm bg-cyan-500 hover:bg-cyan-400 text-slate-950 flex items-center gap-2 shadow-lg shadow-cyan-950/50 transition active:scale-95">
+        <span>🔊</span>
+        <span>Ouvir Prof. Algo Explicar Arrays</span>
+      </button>
+    </div>
+
+    <!-- Comparação Executiva: Array Indexado vs Array Associativo -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+      <!-- Card 1: Array Indexado (Usado no Flowgorithm) -->
+      <div class="bg-[#0e121b] border border-cyan-500/40 rounded-2xl p-5 space-y-4 shadow-xl">
+        <div class="flex items-center justify-between">
+          <span class="px-3 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 text-xs font-bold uppercase tracking-wider">
+            Tipo 1 • Array Indexado (Usado no Flowgorithm)
+          </span>
+          <span class="text-xs mono text-emerald-400 font-semibold">Índice Numérico: 0, 1, 2...</span>
+        </div>
+
+        <p class="text-sm text-slate-300 leading-relaxed">
+          Cada gaveta é identificada por um <strong>número inteiro chamado Índice</strong>. Na programação, a primeira gaveta <strong>começa sempre no número 0</strong>! Se um array tem tamanho <strong>5</strong>, as gavetas vão do índice <code class="text-amber-300 font-bold">0</code> ao <code class="text-amber-300 font-bold">4</code>.
+        </p>
+
+        <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 mono text-xs space-y-1.5">
+          <div class="text-slate-400">// Como declarar no Flowgorithm:</div>
+          <div class="text-rose-300">Declare String pilotos[5]</div>
+          <div class="text-cyan-300">pilotos[0] = "Manuela"</div>
+          <div class="text-cyan-300">pilotos[1] = "Max Verstappen"</div>
+        </div>
+      </div>
+
+      <!-- Card 2: Array Associativo (Dicionário / Chave -> Valor) -->
+      <div class="bg-[#0e121b] border border-amber-500/40 rounded-2xl p-5 space-y-4 shadow-xl">
+        <div class="flex items-center justify-between">
+          <span class="px-3 py-1 rounded-lg bg-amber-500/20 text-amber-300 text-xs font-bold uppercase tracking-wider">
+            Tipo 2 • Array Associativo (Chave → Valor)
+          </span>
+          <span class="text-xs mono text-amber-300 font-semibold">Etiqueta de Texto</span>
+        </div>
+
+        <p class="text-sm text-slate-300 leading-relaxed">
+          Em vez de números (<code class="text-slate-200">0, 1, 2</code>), cada gaveta tem uma <strong>etiqueta personalizada (Chave / Key)</strong> associada a um valor. É muito usado em PHP, JavaScript (Objetos) e Python (Dicionários).
+        </p>
+
+        <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 mono text-xs space-y-1.5">
+          <div class="text-slate-400">// Exemplo em linguagens web (PHP / JS):</div>
+          <div class="text-amber-300">ficha["nome"] = "Gabriel Bortoleto"</div>
+          <div class="text-amber-300">ficha["numero"] = 5</div>
+          <div class="text-emerald-300">ficha["categoria"] = "Fórmula 1"</div>
+        </div>
+        <p class="text-[11px] text-slate-400">
+          * Nota técnica: O Flowgorithm trabalha nativamente apenas com <strong>Arrays Indexados</strong> (índices numéricos a partir de 0).
+        </p>
+      </div>
+    </div>
+
+    <!-- LABORATÓRIO INTERATIVO: O Armário de 5 Gavetas (Manuela, Max Verstappen, Fernando Alonso, Kimi Antonelli, Gabriel Bortoleto) -->
+    <div class="bg-[#0e121b] border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-2xl space-y-5">
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4">
+        <div>
+          <h3 class="text-lg sm:text-xl font-extrabold text-white flex items-center gap-2">
+            <span>🗄️ Simulador Interativo: Armário de Arrays Indexados</span>
+            <span class="text-xs mono px-2.5 py-0.5 rounded-md bg-slate-800 text-cyan-300 border border-slate-700">String pilotos[5]</span>
+          </h3>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1">
+            Clica em qualquer gaveta para abrir, ver o conteúdo guardado e ouvir a explicação do índice!
+          </p>
+        </div>
+
+        <!-- Buscador Rápido por Índice -->
+        <div class="flex items-center gap-2 bg-slate-950 border border-slate-800 p-2 rounded-xl">
+          <span class="text-xs mono text-slate-400">Consultar índice:</span>
+          <div class="flex gap-1">
+            <button onclick="openDrawer(0, true)" class="px-2.5 py-1 rounded-lg mono text-xs font-bold bg-slate-800 hover:bg-cyan-500 hover:text-slate-950 text-cyan-300 transition">[0]</button>
+            <button onclick="openDrawer(1, true)" class="px-2.5 py-1 rounded-lg mono text-xs font-bold bg-slate-800 hover:bg-cyan-500 hover:text-slate-950 text-cyan-300 transition">[1]</button>
+            <button onclick="openDrawer(2, true)" class="px-2.5 py-1 rounded-lg mono text-xs font-bold bg-slate-800 hover:bg-cyan-500 hover:text-slate-950 text-cyan-300 transition">[2]</button>
+            <button onclick="openDrawer(3, true)" class="px-2.5 py-1 rounded-lg mono text-xs font-bold bg-slate-800 hover:bg-cyan-500 hover:text-slate-950 text-cyan-300 transition">[3]</button>
+            <button onclick="openDrawer(4, true)" class="px-2.5 py-1 rounded-lg mono text-xs font-bold bg-slate-800 hover:bg-cyan-500 hover:text-slate-950 text-cyan-300 transition">[4]</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        
+        <!-- Armário Visual com as 5 Gavetas -->
+        <div class="lg:col-span-7 bg-[#080a0f] border-2 border-slate-700 rounded-2xl p-4 space-y-3 shadow-inner" id="drawersContainer">
+          <!-- Renderizado via JS -->
+        </div>
+
+        <!-- Painel de Inspeção da Gaveta Selecionada -->
+        <div class="lg:col-span-5 bg-slate-900/90 border border-slate-700/80 rounded-2xl p-5 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider text-cyan-400">Inspetor de Memória</span>
+            <span id="drawerPositionBadge" class="text-xs mono px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+              1ª Gaveta (Índice 0)
+            </span>
+          </div>
+
+          <div class="bg-black/80 border border-slate-800 rounded-xl p-4 mono space-y-2">
+            <div class="text-xs text-slate-500">// Comando no Flowgorithm:</div>
+            <div id="drawerCodePreview" class="text-base sm:text-lg font-bold text-emerald-400">
+              Output pilotos[0]
+            </div>
+            <div class="text-xs text-slate-400 pt-1 border-t border-slate-800/80">
+              Valor retornado na consola: <span id="drawerOutputValue" class="text-white font-bold">"Manuela"</span>
+            </div>
+          </div>
+
+          <p id="drawerExplanationText" class="text-sm text-slate-300 leading-relaxed">
+            A gaveta com <strong>índice [0]</strong> é sempre a <strong>primeira posição</strong> de um Array. Dentro dela está guardado o nome <strong>"Manuela"</strong>.
+          </p>
+
+          <!-- Mini Comparação com Array Associativo no mesmo contexto -->
+          <div class="bg-amber-950/20 border border-amber-500/30 rounded-xl p-3 text-xs space-y-1">
+            <div class="font-bold text-amber-300">Como seria se fosse Array Associativo?</div>
+            <p id="associativeComparisonText" class="text-slate-300 mono text-[11px]">
+              piloto["lider"] = "Manuela" → Acedes pelo nome da chave ("lider") em vez do número 0.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- SECÇÃO 3: TODOS OS 10 EXERCÍCIOS RESOLVIDOS PASSO A PASSO             -->
+  <!-- ===================================================================== -->
+  <div id="section-exercises" class="hidden flex-1 max-w-[1480px] w-full mx-auto px-4 py-6 space-y-6">
+
+    <!-- Cabeçalho da Secção de Exercícios -->
+    <div class="bg-gradient-to-r from-[#111726] via-[#0f1420] to-[#131a24] border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xl flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      <div>
+        <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-bold mb-1.5">
+          <span>📘 Caderno de Exercícios N°2 • UC 00245 (Resolução Completa)</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          Todos os 10 Exercícios Resolvidos do Início ao Fim
+        </h2>
+        <p class="text-sm text-slate-300 mt-1">
+          Seleciona qualquer exercício abaixo para ver o passo a passo exato dos blocos no Flowgorithm, simular a execução bloco a bloco e ouvir a explicação.
+        </p>
+      </div>
+
+      <button onclick="speakCurrentExercise()"
+        class="shrink-0 px-4 py-3 rounded-xl font-bold text-xs sm:text-sm bg-emerald-500 hover:bg-emerald-400 text-slate-950 flex items-center gap-2 shadow-lg shadow-emerald-950/50 transition active:scale-95">
+        <span>🔊</span>
+        <span>Ouvir Resolução deste Exercício</span>
+      </button>
+    </div>
+
+    <!-- Seletor de Exercícios (1 a 10) -->
+    <div class="grid grid-cols-2 sm:grid-cols-5 lg:grid-cols-10 gap-2" id="exerciseSelectorGrid">
+      <!-- Renderizado via JS -->
+    </div>
+
+    <!-- Área de Resolução Detalhada do Exercício Selecionado -->
+    <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+
+      <!-- Coluna Esquerda (7 cols): Enunciado + Passo a Passo Completo + Variante Arrays (no Ex. 6) -->
+      <div class="xl:col-span-7 bg-[#0e121b] border border-slate-800 rounded-2xl p-5 sm:p-6 space-y-5 shadow-xl">
+        
+        <div class="flex flex-wrap items-start justify-between gap-3 border-b border-slate-800 pb-4">
+          <div>
+            <span id="exBadgeConcept" class="text-xs font-bold uppercase tracking-wider text-cyan-400">
+              Ciclo For + Acumulador
+            </span>
+            <h3 id="exTitle" class="text-xl sm:text-2xl font-extrabold text-white mt-0.5">
+              Exercício 1 • Soma da Sequência 1 + 4 + 7 + 10 + 13 + 16 + 19
+            </h3>
+          </div>
+          <!-- Botão de Alternância (Com Arrays / Sem Arrays) exclusivo para o Ex. 6 -->
+          <div id="ex6ModeToggle" class="hidden flex items-center bg-slate-950 border border-slate-700 rounded-xl p-1 gap-1">
+            <button id="btnEx6WithArray" onclick="setEx6Mode(true)" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-cyan-500 text-slate-950 transition">
+              Com Arrays [5]
+            </button>
+            <button id="btnEx6WithoutArray" onclick="setEx6Mode(false)" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-300 hover:text-white transition">
+              Sem Arrays
+            </button>
+          </div>
+        </div>
+
+        <!-- Enunciado Oficial -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
+          <div class="text-xs font-bold text-amber-300 uppercase tracking-wide mb-1">Enunciado do Caderno:</div>
+          <p id="exStatement" class="text-sm text-slate-200 leading-relaxed"></p>
+        </div>
+
+        <!-- Variáveis Utilizadas -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
+          <div class="text-xs font-bold text-rose-300 uppercase tracking-wide mb-2">Variáveis a Declarar no Início:</div>
+          <div id="exVariables" class="flex flex-wrap gap-2 mono text-xs"></div>
+        </div>
+
+        <!-- Lista Passo a Passo de Todos os Blocos (do Main ao End) -->
+        <div class="space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-emerald-300 uppercase tracking-wide">
+              Passo a Passo Completo no Flowgorithm (Do Início ao Fim):
+            </span>
+            <span class="text-[11px] text-slate-400">Clica num passo para destacar no fluxograma</span>
+          </div>
+          <div id="exStepsList" class="space-y-2"></div>
+        </div>
+      </div>
+
+      <!-- Coluna Direita (5 cols): Fluxograma Visual Interativo + Simulador de Consola -->
+      <div class="xl:col-span-5 flex flex-col gap-5">
+
+        <!-- Fluxograma Visual Bloco a Bloco -->
+        <div class="bg-[#0b0e14] border border-slate-800 rounded-2xl p-5 shadow-xl">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-4 border-b border-slate-800 pb-3">
+            <span class="text-xs font-bold uppercase tracking-wider text-cyan-400">
+              Fluxograma Visual (Bloco a Bloco)
+            </span>
+            <div class="flex items-center gap-1.5">
+              <button onclick="stepExerciseFlow()"
+                class="px-3 py-1.5 rounded-lg text-xs font-bold bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-200 border border-cyan-500/40 transition">
+                ⏭ Próximo Bloco
+              </button>
+              <button onclick="runFullExerciseSim()"
+                class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition">
+                ▶ Executar Tudo
+              </button>
+            </div>
+          </div>
+
+          <!-- Diagrama Vertical dos Blocos do Exercício -->
+          <div id="exFlowchartDiagram" class="flex flex-col items-center space-y-2 py-2 max-h-[420px] overflow-y-auto px-2">
+            <!-- Renderizado via JS -->
+          </div>
+        </div>
+
+        <!-- Consola de Saída (Resultado Exato do Caderno) -->
+        <div class="bg-[#07090d] border border-slate-700 rounded-2xl p-4 shadow-xl">
+          <div class="flex items-center justify-between mb-2.5 pb-2 border-b border-slate-800">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+              <span class="text-xs mono font-bold text-slate-300 ml-1">Consola Flowgorithm (Output Esperado)</span>
+            </div>
+            <span class="text-[11px] mono text-emerald-400">✓ Validado</span>
+          </div>
+          <pre id="exConsoleOutput" class="mono text-xs sm:text-sm text-emerald-300 whitespace-pre-wrap leading-relaxed bg-black/70 p-3.5 rounded-xl border border-slate-800/80"></pre>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // =========================================================================
+    // 1. DADOS DOS 21 BLOCOS DO FLOWGORITHM (SECÇÃO 1)
+    // =========================================================================
+    const blockOrder = [
+      'declare', 'assign', 'input', 'output',
+      'if', 'while', 'for', 'do', 'call',
+      'comment', 'breakpoint', 'clipboard',
+      'forward', 'turn', 'clear', 'home', 'pen',
+      'open', 'write', 'read', 'close'
+    ];
+
+    const blocksData = {
+      declare: {
+        category: 'Variables',
+        title: 'Declare (Declarar Variável)',
+        speech: '"Antes de guardar qualquer número ou texto, tens de criar uma caixinha na memória do computador e dar-lhe um nome e um tipo!"',
+        meaning: 'Vem do inglês "Declarar". Significa avisar o programa de que vai existir uma variável com um nome e um tipo de dado específico.',
+        purpose: 'Reserva espaço na memória para guardar valores que vão mudar durante o programa (como contadores, somas, nomes ou respostas do utilizador).',
+        howTo: 'Escolhe o nome (ex.: contador, aux) e o tipo: Integer (números inteiros), Real (números com vírgula), String (texto) ou Boolean (Verdadeiro/Falso).',
+        exampleTag: 'Exercícios 2 e 3',
+        example: 'No Exercício 3 criámos "Integer n", "Integer cont" (para contar até 26) e "String aux" (para juntar o texto "0 4 8 ... 100").',
+        demoType: 'declare'
+      },
+      assign: {
+        category: 'Variables',
+        title: 'Assign (Atribuir / Calcular)',
+        speech: '"É aqui que a matemática acontece! O Assign pega num valor ou numa conta e guarda dentro da caixinha da variável."',
+        meaning: 'Vem do inglês "Atribuir". Coloca um valor inicial ou o resultado de um cálculo dentro de uma variável já declarada.',
+        purpose: 'Serve para começar variáveis em zero (cont = 0), fazer somas (soma = soma + 7), aumentar contadores (cont = cont + 1) ou juntar textos.',
+        howTo: 'Na caixa "Variable" escreves APENAS o nome da variável (ex.: cont). Na caixa "Expression" escreves o valor ou conta (ex.: cont + 1, SEM colocar "=" antes!).',
+        exampleTag: 'Exercício 3',
+        example: 'Quando o número é divisível por 4, fazemos dois Assign: aux = aux & n & " " e cont = cont + 1.',
+        demoType: 'assign'
+      },
+      input: {
+        category: 'Statement • Input / Output',
+        title: 'Input (Entrada de Dados)',
+        speech: '"Quando o programa precisa que o utilizador escreva algo no teclado — como uma senha ou um número — usamos o bloco Input!"',
+        meaning: 'Vem do inglês "Entrada". Pausa o programa e espera que a pessoa digite um valor na consola.',
+        purpose: 'Permite interagir com o utilizador, lendo números para calcular tabuadas, médias, somas ou verificar senhas de acesso.',
+        howTo: 'Escreves apenas o nome da variável onde queres guardar o que o utilizador digitar (ex.: num ou senha). Dica: usa sempre um Output antes a explicar o que pedir!',
+        exampleTag: 'Exercícios 4, 6 e 9',
+        example: 'No Exercício 4 (Tabuada), o utilizador digita 7 e o bloco Input guarda o 7 dentro da variável escolhida.',
+        demoType: 'input'
+      },
+      output: {
+        category: 'Statement • Input / Output',
+        title: 'Output (Saída / Mostrar na Tela)',
+        speech: '"Tudo o que queres que apareça escrito na consola preta/branca para o utilizador ler sai pelo bloco Output!"',
+        meaning: 'Vem do inglês "Saída". Exibe mensagens de texto, resultados de contas ou valores de variáveis na consola.',
+        purpose: 'Mostrar perguntas ("Indique um número:"), apresentar resultados finais e exibir listas montadas.',
+        howTo: 'Texto fixo vai SEMPRE entre aspas ("Olá!"). Nomes de variáveis vão SEM aspas (aux). Para juntar texto e variável, usa o símbolo & ("Total: " & cont).',
+        exampleTag: 'Todos os Exercícios',
+        example: 'No Exercício 3 usamos Output com: "Ao todo foram encontrados " & cont & " números divisiveis por 4."',
+        demoType: 'output'
+      },
+      if: {
+        category: 'Statement • Control',
+        title: 'If (Se / Tomada de Decisão)',
+        speech: '"O bloco If é uma encruzilhada! Ele faz uma pergunta: se a resposta for Verdadeira (True) vai para um lado; se for Falsa (False) vai para o outro."',
+        meaning: 'Vem do inglês "Se". Avalia uma condição lógica que só pode dar Verdadeiro (True) ou Falso (False).',
+        purpose: 'Filtrar números (ex.: pares, positivos, divisíveis por 4), validar senhas corretas ou verificar se uma meta foi atingida.',
+        howTo: 'Escreve uma comparação usando == (igual), != (diferente), > (maior), < (menor) ou mod (resto da divisão). Ex.: n mod 4 == 0.',
+        exampleTag: 'Exercício 3',
+        example: 'Testamos "n mod 4 == 0". Se der True, somamos 1 ao contador. Se der False (como no nº 5), não fazemos nada e seguimos!',
+        demoType: 'if'
+      },
+      while: {
+        category: 'Statement • Looping',
+        title: 'While (Enquanto)',
+        speech: '"O While repete uma tarefa ENQUANTO uma condição for verdadeira. Ele pergunta ANTES de entrar no ciclo!"',
+        meaning: 'Vem do inglês "Enquanto". É um ciclo de repetição com teste no início.',
+        purpose: 'Ideal quando não sabemos quantas vezes vai repetir (ex.: pedir senha até acertar, ou pedir números até o utilizador digitar -1).',
+        howTo: 'Coloca a condição de continuação (ex.: contador <= 20). Atenção: dentro do ramo True tens de mudar a variável para o ciclo não ficar infinito!',
+        exampleTag: 'Exercícios 2, 8, 9 e 10',
+        example: 'No Exercício 2 usamos "contador <= 20" para imprimir de 0 a 20, somando contador = contador + 1 a cada volta.',
+        demoType: 'while'
+      },
+      for: {
+        category: 'Statement • Looping',
+        title: 'For (Para / Contagem Automática)',
+        speech: '"Quando já sabes exatamente onde a contagem começa e onde termina — como de 0 a 100 ou tabuada de 1 a 10 — o For faz tudo sozinho!"',
+        meaning: 'Vem do inglês "Para". É um ciclo contado que aumenta (ou diminui) uma variável automaticamente a cada volta.',
+        purpose: 'Percorrer sequências fixas de números sem precisares de criar manualmente o bloco "contador = contador + 1".',
+        howTo: 'Define a variável (n), o início (0), o fim (100) e o passo/Step (1). O que colocares no ramo "Next" repete em cada número; quando acaba, sai por "Done".',
+        exampleTag: 'Exercícios 3, 4 e 7',
+        example: 'No Exercício 3 usamos "n = 0 to 100" (Step 1) para analisar todos os números de 0 a 100.',
+        demoType: 'for'
+      },
+      do: {
+        category: 'Statement • Looping',
+        title: 'Do (Fazer ... Enquanto)',
+        speech: '"O Do é primo do While, mas com uma diferença: ele executa o bloco PELO MENOS UMA VEZ e só pergunta no final se deve repetir!"',
+        meaning: 'Vem do inglês "Fazer". É um ciclo com teste no fim (executa primeiro, testa depois).',
+        purpose: 'Muito útil para menus interativos ou pedidos de senha em que o utilizador tem obrigatoriamente de tentar uma primeira vez antes de testar.',
+        howTo: 'Coloca as ações dentro do ciclo e escreve a condição na parte inferior. Enquanto for True, ele volta para cima.',
+        exampleTag: 'Alternativa ao Ex. 9',
+        example: 'Pede a senha primeiro e, no fim, verifica "senha != 1234". Enquanto for diferente de 1234, volta a pedir.',
+        demoType: 'do'
+      },
+      call: {
+        category: 'Statement • Control',
+        title: 'Call (Chamar Função)',
+        speech: '"Imagina que tens uma receita separada que usas várias vezes. O bloco Call chama essa mini-rotina e depois volta para o programa principal!"',
+        meaning: 'Vem do inglês "Chamar". Executa uma função secundária criada por ti no Flowgorithm.',
+        purpose: 'Organizar programas grandes em partes pequenas e reutilizáveis, evitando repetir o mesmo código várias vezes.',
+        howTo: 'Primeiro crias a função no menu superior do Flowgorithm e depois usas o bloco Call escrevendo o nome dela (ex.: CalcularMedia()).',
+        exampleTag: 'Organização Modular',
+        example: 'Podes criar uma função "MostrarLinha()" que desenha "----------" e chamá-la com Call no início e no fim do programa.',
+        demoType: 'call'
+      },
+      comment: {
+        category: 'Miscellaneous',
+        title: 'Comment (Comentário)',
+        speech: '"O Comment é um post-it só para humanos! O computador ignora-o completamente quando corre o programa, mas ajuda-te a lembrar o que cada parte faz."',
+        meaning: 'Vem do inglês "Comentário". É uma anotação explicativa dentro do fluxograma.',
+        purpose: 'Documentar o teu trabalho para o formador ou para ti próprio não te esqueceres da lógica quando estudares para o teste.',
+        howTo: 'Clica e escreve uma frase simples em português explicando a secção (ex.: "Aqui começa o ciclo para contar os múltiplos de 4").',
+        exampleTag: 'Boas Práticas',
+        example: 'Colocar um Comment no topo com o teu nome, turma e número do exercício.',
+        demoType: 'comment'
+      },
+      breakpoint: {
+        category: 'Miscellaneous',
+        title: 'Breakpoint (Ponto de Paragem)',
+        speech: '"Deu um erro e não sabes onde? O Breakpoint é um sinal de STOP para debugar: o programa congela ali para espreitares o valor de cada variável!"',
+        meaning: 'Vem do inglês "Ponto de Quebra/Paragem". Pausa a execução do fluxograma exatamente naquele ponto.',
+        purpose: 'Encontrar erros de lógica passo a passo, vendo na janela de variáveis (Watch) o que está guardado naquele instante.',
+        howTo: 'Insere o Breakpoint antes do bloco suspeito, carrega em Play e depois usa o botão "Step" (passo a passo) para avançar devagar.',
+        exampleTag: 'Depuração (Debug)',
+        example: 'Parar logo dentro do If do Exercício 3 para confirmar se "cont" está mesmo a subir de 1 em 1.',
+        demoType: 'breakpoint'
+      },
+      clipboard: {
+        category: 'Clipboard',
+        title: 'Clipboard (Copiar e Colar Blocos)',
+        speech: '"Precisas de repetir um bloco parecido? Não faças tudo do zero! Usa o Clipboard para copiar e colar blocos no fluxograma."',
+        meaning: 'Área de transferência do Flowgorithm.',
+        purpose: 'Acelerar a montagem do fluxograma duplicando blocos Assign, Output ou estruturas inteiras.',
+        howTo: 'Clica num bloco existente, copia (Ctrl+C), clica na seta onde queres pôr e usa o ícone do Clipboard para colar.',
+        exampleTag: 'Produtividade',
+        example: 'Copiar um bloco Output e alterar apenas o texto para o Output seguinte.',
+        demoType: 'clipboard'
+      },
+      forward: {
+        category: 'Turtle Graphics',
+        title: 'Forward (Avançar Tartaruga)',
+        speech: '"O Flowgorithm tem uma tartaruga desenhadora! O bloco Forward manda a tartaruga andar para a frente deixando um risco no ecrã."',
+        meaning: 'Vem do inglês "Para a frente". Move a tartaruga uma certa distância (em píxeis) na direção para onde está a olhar.',
+        purpose: 'Desenhar linhas retas, quadrados, estrelas e figuras geométricas de forma visual e divertida.',
+        howTo: 'Indica quantos passos/píxeis queres que ela ande (ex.: 100).',
+        exampleTag: 'Desenho Geométrico',
+        example: 'Usar Forward 100 quatro vezes (virando 90° entre cada uma) desenha um quadrado perfeito!',
+        demoType: 'turtle'
+      },
+      turn: {
+        category: 'Turtle Graphics',
+        title: 'Turn (Rodar / Virar Tartaruga)',
+        speech: '"Para não andar sempre em linha reta, o bloco Turn gira a tartaruga para a esquerda ou para a direita nos graus que tu mandares!"',
+        meaning: 'Vem do inglês "Virar/Rodar". Altera o ângulo de direção da tartaruga sem a tirar do lugar.',
+        purpose: 'Fazer cantos de figuras (90° para quadrados, 120° para triângulos, 60° para hexágonos).',
+        howTo: 'Escolhe Left (esquerda) ou Right (direita) e escreve o ângulo em graus (ex.: 90).',
+        exampleTag: 'Desenho Geométrico',
+        example: 'Turn Right 90 faz a tartaruga virar num canto reto.',
+        demoType: 'turtle'
+      },
+      clear: {
+        category: 'Turtle Graphics',
+        title: 'Clear (Limpar Tela)',
+        speech: '"Enganaste-te no desenho ou queres começar uma figura nova? O bloco Clear apaga todos os riscos da tela da tartaruga!"',
+        meaning: 'Vem do inglês "Limpar". Apaga o ecrã gráfico.',
+        purpose: 'Limpar o quadro de desenho antes de iniciar uma nova animação ou figura.',
+        howTo: 'Basta inserir o bloco Clear — não precisa de preencher parâmetros.',
+        exampleTag: 'Desenho Geométrico',
+        example: 'Limpar o quadro antes de desenhar um novo polígono.',
+        demoType: 'turtle'
+      },
+      home: {
+        category: 'Turtle Graphics',
+        title: 'Home (Voltar ao Centro)',
+        speech: '"A tartaruga perdeu-se num canto do ecrã? O bloco Home teletransporta-a de volta para o centro exato da tela!"',
+        meaning: 'Vem do inglês "Casa / Início". Move a tartaruga para a posição inicial (centro, apontando para cima).',
+        purpose: 'Reposicionar a tartaruga na origem sem teres de calcular coordenadas.',
+        howTo: 'Basta inserir o bloco Home no ponto do fluxograma onde queres que ela volte ao centro.',
+        exampleTag: 'Desenho Geométrico',
+        example: 'Desenhar um raio a partir do centro, usar Home para voltar e desenhar o próximo raio.',
+        demoType: 'turtle'
+      },
+      pen: {
+        category: 'Turtle Graphics',
+        title: 'Pen (Caneta: Levantar, Baixar ou Cor)',
+        speech: '"A tartaruga segura uma caneta! Com o Pen podes levantar a caneta para ela andar sem riscar, baixar para desenhar ou mudar a cor!"',
+        meaning: 'Vem do inglês "Caneta". Controla o estado (Up/Down) e a cor do traço da tartaruga.',
+        purpose: 'Mover a tartaruga para outro lado do ecrã sem deixar rasto indesejado ou fazer desenhos coloridos.',
+        howTo: 'Escolhe "Up" (levanta a caneta, não risca), "Down" (baixa a caneta, risca) ou define uma cor e espessura.',
+        exampleTag: 'Desenho Geométrico',
+        example: 'Pen Up -> andar sem riscar -> Pen Down -> desenhar outra forma ao lado.',
+        demoType: 'turtle'
+      },
+      open: {
+        category: 'Files',
+        title: 'Open (Abrir Ficheiro)',
+        speech: '"Queres guardar dados num ficheiro .txt do computador para não se perderem quando fechas o programa? Primeiro tens de o abrir com Open!"',
+        meaning: 'Vem do inglês "Abrir". Abre um ficheiro de texto no computador para leitura ou escrita.',
+        purpose: 'Ligar o teu fluxograma a um ficheiro externo (ex.: "resultados.txt").',
+        howTo: 'Escreve o nome do ficheiro entre aspas (ex.: "dados.txt") e escolhe o modo: Read (ler) ou Write (escrever).',
+        exampleTag: 'Ficheiros de Texto',
+        example: 'Abrir "multiplos4.txt" em modo Write para guardar a lista do Exercício 3 num ficheiro.',
+        demoType: 'files'
+      },
+      write: {
+        category: 'Files',
+        title: 'Write (Escrever no Ficheiro)',
+        speech: '"Funciona igualzinho ao Output, mas em vez de aparecer só na consola, grava o texto dentro do ficheiro que abriste!"',
+        meaning: 'Vem do inglês "Escrever". Grava uma linha de dados dentro de um ficheiro aberto em modo Write.',
+        purpose: 'Salvar relatórios, listas de números ou registos permanentemente no disco.',
+        howTo: 'Escreve a expressão ou variável que queres gravar (ex.: aux) depois de teres usado o bloco Open.',
+        exampleTag: 'Ficheiros de Texto',
+        example: 'Gravar "Ao todo foram encontrados 26 números" dentro do ficheiro .txt.',
+        demoType: 'files'
+      },
+      read: {
+        category: 'Files',
+        title: 'Read (Ler do Ficheiro)',
+        speech: '"Funciona como o Input, mas em vez de pedir ao utilizador para digitar, lê o valor diretamente de dentro de um ficheiro!"',
+        meaning: 'Vem do inglês "Ler". Lê a próxima linha de um ficheiro aberto em modo Read e guarda numa variável.',
+        purpose: 'Importar listas de números, notas ou dados já guardados anteriormente num ficheiro de texto.',
+        howTo: 'Indica o nome da variável que vai receber o dado lido (ex.: linha ou valor).',
+        exampleTag: 'Ficheiros de Texto',
+        example: 'Ler números guardados num ficheiro "notas.txt" para calcular a média.',
+        demoType: 'files'
+      },
+      close: {
+        category: 'Files',
+        title: 'Close (Fechar Ficheiro)',
+        speech: '"Regra de ouro dos ficheiros: abriu, usou, FECHOU! O bloco Close guarda as alterações com segurança e liberta o ficheiro."',
+        meaning: 'Vem do inglês "Fechar". Encerra a ligação com o ficheiro aberto.',
+        purpose: 'Garantir que tudo o que foi escrito com Write fica realmente gravado no disco sem corromper o ficheiro.',
+        howTo: 'Coloca sempre o bloco Close no final, depois de terminares de ler ou escrever.',
+        exampleTag: 'Ficheiros de Texto',
+        example: 'Open -> Write -> Close.',
+        demoType: 'files'
+      }
+    };
+
+    // =========================================================================
+    // 2. DADOS DAS 5 GAVETAS DE ARRAYS (SECÇÃO 2)
+    // =========================================================================
+    const arrayDrawersData = [
+      {
+        index: 0,
+        name: 'Manuela',
+        positionLabel: '1ª Gaveta (Índice 0)',
+        role: 'Líder da Equipa',
+        assocKey: 'lider',
+        explanation: 'A gaveta com índice [0] é sempre a primeira posição de um Array. Em programação contamos a partir do zero (0), por isso pilotos[0] devolve "Manuela".'
+      },
+      {
+        index: 1,
+        name: 'Max Verstappen',
+        positionLabel: '2ª Gaveta (Índice 1)',
+        role: 'Piloto Principal',
+        assocKey: 'piloto_1',
+        explanation: 'A segunda gaveta tem o índice [1]. Apesar de ser o 2º elemento da lista, o endereço dela é pilotos[1] porque a contagem começou no 0!'
+      },
+      {
+        index: 2,
+        name: 'Fernando Alonso',
+        positionLabel: '3ª Gaveta (Índice 2)',
+        role: 'Piloto Veterano',
+        assocKey: 'veterano',
+        explanation: 'Na terceira posição do armário está o índice [2]. Quando escreves pilotos[2] no Flowgorithm, o computador vai direto a esta gaveta buscar "Fernando Alonso".'
+      },
+      {
+        index: 3,
+        name: 'Kimi Antonelli',
+        positionLabel: '4ª Gaveta (Índice 3)',
+        role: 'Jovem Promessa',
+        assocKey: 'rookie_1',
+        explanation: 'A quarta gaveta corresponde ao índice [3]. Repara que o índice é sempre a posição menos 1 (4ª posição = índice 3).'
+      },
+      {
+        index: 4,
+        name: 'Gabriel Bortoleto',
+        positionLabel: '5ª Gaveta (Índice 4)',
+        role: 'Talento Brasileiro',
+        assocKey: 'rookie_2',
+        explanation: 'A quinta e última gaveta de um array de tamanho 5 tem o índice [4]! Tentar aceder a pilotos[5] daria erro de fora dos limites (Out of Bounds).'
+      }
+    ];
+
+    // =========================================================================
+    // 3. DADOS DOS 10 EXERCÍCIOS RESOLVIDOS DO CADERNO N°2 (SECÇÃO 3)
+    // =========================================================================
+    const exercisesData = [
+      {
+        id: 1,
+        shortTitle: 'Ex. 1 • Soma',
+        concept: 'Ciclo For + Acumulador',
+        title: 'Exercício 1 • Soma da Sequência 1 + 4 + 7 + 10 + 13 + 16 + 19',
+        statement: 'Programa que calcule a soma da seguinte sequência: 1 + 4 + 7 + 10 + 13 + 16 + 19. Deve apresentar o resultado 70.',
+        variables: ['Integer n', 'Integer soma'],
+        narration: 'Exercício 1: Queremos somar os números de 1 até 19 saltando de 3 em 3. Declaramos Integer n e Integer soma. Começamos soma igual a zero. Depois usamos um ciclo For de 1 até 19 com Step 3, e dentro dele somamos soma recebe soma mais n. No final mostramos o resultado 70.',
+        steps: [
+          { type: 'main', label: 'Main', desc: 'Início do programa principal.' },
+          { type: 'declare', label: 'Declare Integer n, soma', desc: 'Cria a variável n (número atual) e soma (acumulador).' },
+          { type: 'assign', label: 'Assign: soma = 0', desc: 'Inicializa o acumulador da soma em zero antes do ciclo.' },
+          { type: 'for', label: 'For: n = 1 to 19 (Step 3)', desc: 'Percorre automaticamente: 1, 4, 7, 10, 13, 16, 19.' },
+          { type: 'assign', label: 'Assign (Next): soma = soma + n', desc: 'A cada volta, soma o valor atual de n ao total.' },
+          { type: 'output', label: 'Output (Done): "O resultado da soma dos valores 1 + 4 + 7 + 10 + 13 + 16 + 19 dá: " & soma', desc: 'Exibe o resultado final (70) após terminar o ciclo.' },
+          { type: 'end', label: 'End', desc: 'Fim do programa.' }
+        ],
+        console: 'O resultado da soma dos valores 1 + 4 + 7 + 10 + 13 + 16 + 19 dá: 70'
+      },
+      {
+        id: 2,
+        shortTitle: 'Ex. 2 • While 0..20',
+        concept: 'Ciclo While + Concatenação String',
+        title: 'Exercício 2 • Imprimir Valores de 0 a 20 com Ciclo While',
+        statement: 'Programa que imprime os valores de 0 a 20 na mesma linha, utilizando obrigatoriamente um ciclo While.',
+        variables: ['Integer contador', 'String aux'],
+        narration: 'Exercício 2: Para imprimir de 0 a 20 na mesma linha com While, declaramos Integer contador e String aux. Começamos contador igual a zero e aux com texto vazio. No ciclo While testamos contador menor ou igual a 20. Dentro do True juntamos o número em aux com espaço e somamos 1 ao contador. Quando dá False, mostramos aux.',
+        steps: [
+          { type: 'main', label: 'Main', desc: 'Início do programa.' },
+          { type: 'declare', label: 'Declare Integer contador | String aux', desc: 'contador controla o ciclo; aux guarda o texto na mesma linha.' },
+          { type: 'assign', label: 'Assign: contador = 0 | aux = ""', desc: 'Começa a contagem em 0 e o texto vazio.' },
+          { type: 'while', label: 'While: contador <= 20', desc: 'Repete enquanto o contador não ultrapassar 20.' },
+          { type: 'assign', label: 'Assign (True): aux = aux & contador & " "', desc: 'Cola o número atual e um espaço dentro da String aux.' },
+          { type: 'assign', label: 'Assign (True): contador = contador + 1', desc: 'Avança para o próximo número (evita ciclo infinito).' },
+          { type: 'output', label: 'Output (False): aux', desc: 'Mostra a linha completa de 0 a 20 de uma só vez.' },
+          { type: 'end', label: 'End', desc: 'Fim do programa.' }
+        ],
+        console: '0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20'
+      },
+      {
+        id: 3,
+        shortTitle: 'Ex. 3 • Div. por 4',
+        concept: 'Ciclo For + If (mod) + Contador',
+        title: 'Exercício 3 • Números Divisíveis por 4 (0 a 100) e Contagem',
+        statement: 'Programa que analise os números de 0 a 100, mostre todos os números divisíveis por 4 e indique quantos foram encontrados (26).',
+        variables: ['Integer n', 'Integer cont', 'String aux'],
+        narration: 'Exercício 3: Declaramos Integer n, Integer cont e String aux. Inicializamos cont igual a zero e aux vazio. Fazemos um ciclo For de 0 até 100 com Step 1. Dentro testamos com If se n mod 4 é igual a zero. Quando for True, juntamos n em aux e somamos 1 em cont. No Done exibimos a lista e o total de 26 números.',
+        steps: [
+          { type: 'main', label: 'Main', desc: 'Início do programa.' },
+          { type: 'declare', label: 'Declare Integer n, cont | String aux', desc: 'n percorre 0..100; cont conta os divisíveis; aux guarda a lista.' },
+          { type: 'assign', label: 'Assign: cont = 0 | aux = ""', desc: 'Inicializa o contador em 0 e o texto vazio.' },
+          { type: 'for', label: 'For: n = 0 to 100 (Step 1)', desc: 'Analisa cada número inteiro de 0 até 100.' },
+          { type: 'if', label: 'If: n mod 4 == 0', desc: 'Verifica se o resto da divisão de n por 4 é zero.' },
+          { type: 'assign', label: 'Assign (True): aux = aux & n & " " | cont = cont + 1', desc: 'Se for divisível por 4, guarda na lista e soma +1 ao contador.' },
+          { type: 'output', label: 'Output (Done): Título, aux e total "Ao todo foram encontrados " & cont & " números..."', desc: 'Exibe o cabeçalho, os 26 números e a contagem final.' },
+          { type: 'end', label: 'End', desc: 'Fim do programa.' }
+        ],
+        console: 'Números dívisíveis por 4, até ao limite do n° 100:\n0 4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80 84 88 92 96 100\nAo todo foram encontrados 26 números divisiveis por 4.'
+      },
+      {
+        id: 4,
+        shortTitle: 'Ex. 4 • Tabuada',
+        concept: 'Input + Ciclo For (1 a 10)',
+        title: 'Exercício 4 • Tabuada de um Número Inteiro',
+        statement: 'Programa que pede um valor inteiro ao utilizador (ex.: 7) e imprime a respetiva tabuada de 1 a 10.',
+        variables: ['Integer num', 'Integer i'],
+        narration: 'Exercício 4: Declaramos Integer num para guardar o número pedido e Integer i para o multiplicador. Pedimos o número com Output e lemos com Input num. Mostramos o título Tabuada dos 7, e fazemos um ciclo For de i igual a 1 até 10 exibindo num vezes i igual a num vezes i.',
+        steps: [
+          { type: 'main', label: 'Main', desc: 'Início do programa.' },
+          { type: 'declare', label: 'Declare Integer num, i', desc: 'num guarda o número escolhido; i varia de 1 a 10.' },
+          { type: 'output', label: 'Output: "Indique o número para o qual deseja ver a tabuada:"', desc: 'Pede o valor ao utilizador.' },
+          { type: 'input', label: 'Input: num', desc: 'Lê o número digitado (ex.: 7).' },
+          { type: 'output', label: 'Output: "Tabuada dos " & num', desc: 'Imprime o cabeçalho da tabuada.' },
+          { type: 'for', label: 'For: i = 1 to 10 (Step 1)', desc: 'Repete a multiplicação de 1 até 10.' },
+          { type: 'output', label: 'Output (Next): num & " x " & i & " = " & (num * i)', desc: 'Formata e mostra cada linha do cálculo.' },
+          { type: 'end', label: 'End', desc: 'Fim do programa.' }
+        ],
+        console: 'Indique o número para o qual deseja ver a tabuada:\n7\nTabuada dos 7\n7 x 1 = 7\n7 x 2 = 14\n7 x 3 = 21\n7 x 4 = 28\n7 x 5 = 35\n7 x 6 = 42\n7 x 7 = 49\n7 x 8 = 56\n7 x 9 = 63\n7 x 10 = 70'
+      },
+      {
+        id: 5,
+        shortTitle: 'Ex. 5 • Quadrado *',
+        concept: 'Ciclos For Aninhados (Linhas x Colunas)',
+        title: 'Exercício 5 • Desenhar Quadrado de Asteriscos',
+        statement: 'Programa que peça um número inteiro ao utilizador (ex.: 3) e desenhe um quadrado com asteriscos cujo lado tenha essa quantidade.',
+        variables: ['Integer lado', 'Integer linha', 'Integer col', 'String textoLinha'],
+        narration: 'Exercício 5: Usamos dois ciclos For um dentro do outro. O ciclo de fora controla as linhas de 1 até lado. Para cada linha, limpamos a variável textoLinha e o ciclo de dentro junta os asteriscos de 1 até lado. No fim de cada linha interna, imprimimos textoLinha.',
+        steps: [
+          { type: 'main', label: 'Main', desc: 'Início do programa.' },
+          { type: 'declare', label: 'Declare Integer lado, linha, col | String textoLinha', desc: 'Variáveis para dimensões e construção de cada linha.' },
+          { type: 'output', label: 'Output: "Indique o tamanho do lado do quadrado:"', desc: 'Solicita o tamanho ao utilizador.' },
+          { type: 'input', label: 'Input: lado', desc: 'Lê o tamanho do lado (ex.: 3).' },
+          { type: 'for', label: 'For (Externo): linha = 1 to lado', desc: 'Controla quantas linhas verticais serão desenhadas.' },
+          { type: 'assign', label: 'Assign: textoLinha = ""', desc: 'Limpa a linha antes de preencher os asteriscos.' },
+          { type: 'for', label: 'For (Interno): col = 1 to lado', desc: 'Junta os asteriscos daquela linha: textoLinha = textoLinha & "*".' },
+          { type: 'output', label: 'Output: textoLinha', desc: 'Imprime a linha completa de asteriscos e passa à próxima.' },
+          { type: 'end', label: 'End', desc: 'Fim do programa.' }
+        ],
+        console: 'Indique o tamanho do lado do quadrado:\n3\n***\n***\n***'
+      },
+      {
+        id: 6,
+        shortTitle: 'Ex. 6 • Positivos/Média',
+        concept: 'Arrays [5] vs Sem Arrays + Média',
+        title: 'Exercício 6 • 5 Números: Positivos, Soma e Média (Com e Sem Arrays)',
+        statement: 'Programa que pede 5 números (inteiros ou reais) e mostra: os positivos inseridos (>= 0), a soma apenas dos positivos e a respetiva média.',
+        variables: ['Real valores[5]', 'Real soma, media', 'Integer i, contPos'],
+        hasArrayToggle: true,
+        narration: 'Exercício 6: Este exercício mostra o poder dos Arrays! Com Array, declaramos Real valores de 5 posições. No primeiro ciclo For de 0 até 4 lemos os 5 números para dentro das gavetas. No segundo ciclo For de 0 até 4 testamos se valores[i] é maior ou igual a zero, mostrando cada positivo, somando e calculando a média.',
+        stepsWithArray: [
+          { type: 'main', label: 'Main', desc: 'Início do programa (Versão COM Arrays).' },
+          { type: 'declare', label: 'Declare Real valores[5], soma, media | Integer i, contPos', desc: 'Cria um Array com 5 gavetas (índices 0 a 4) para números reais.' },
+          { type: 'assign', label: 'Assign: soma = 0 | contPos = 0', desc: 'Inicializa soma e contador de positivos em zero.' },
+          { type: 'for', label: 'For (Leitura): i = 0 to 4', desc: 'Pede "Insira o " & (i+1) & "º valor" e guarda em Input valores[i].' },
+          { type: 'output', label: 'Output: "os números positivos somados foram:"', desc: 'Cabeçalho antes de listar os positivos guardados no Array.' },
+          { type: 'for', label: 'For (Análise): i = 0 to 4', desc: 'Percorre as 5 gavetas do Array para verificar quais são >= 0.' },
+          { type: 'if', label: 'If: valores[i] >= 0', desc: 'Se True: Output valores[i], soma = soma + valores[i], contPos = contPos + 1.' },
+          { type: 'assign', label: 'Assign: media = soma / contPos', desc: 'Calcula a média dividindo a soma (6) pelos positivos encontrados (4) = 1.5.' },
+          { type: 'output', label: 'Output: Soma e Média final', desc: 'Exibe "A soma dos valores positivos dá: 6" e "A média dos valores positivos dá: 1.5".' },
+          { type: 'end', label: 'End', desc: 'Fim do programa.' }
+        ],
+        stepsWithoutArray: [
+          { type: 'main', label: 'Main', desc: 'Início do programa (Versão SEM Arrays).' },
+          { type: 'declare', label: 'Declare Real num, soma, media | Integer i, contPos | String listaPos', desc: 'Sem Array, usamos uma String listaPos para ir guardando os positivos.' },
+          { type: 'assign', label: 'Assign: soma = 0 | contPos = 0 | listaPos = ""', desc: 'Inicializa acumuladores.' },
+          { type: 'for', label: 'For: i = 1 to 5', desc: 'Pede cada valor e lê na mesma variável num.' },
+          { type: 'if', label: 'If: num >= 0', desc: 'Se True: soma = soma + num, contPos = contPos + 1 e concatena em listaPos.' },
+          { type: 'assign', label: 'Assign: media = soma / contPos', desc: 'Calcula a média (6 / 4 = 1.5).' },
+          { type: 'output', label: 'Output: listaPos, soma e media', desc: 'Exibe "Os números positivos somados foram: 3 , 2 , 0 , 1", soma 6 e média 1.5.' },
+          { type: 'end', label: 'End', desc: 'Fim do programa.' }
+        ],
+        consoleWithArray: 'Insira o 1º valor\n-2.5\nInsira o 2º valor\n3\nInsira o 3º valor\n2\nInsira o 4º valor\n0\nInsira o 5º valor\n1\nos números positivos somados foram:\n3\n2\n0\n1\nA soma dos valores positivos dá: 6\nA média dos valores positivos dá: 1.5',
+        consoleWithoutArray: 'Insira o 1º valor\n-2.5\nInsira o 2º valor\n3\nInsira o 3º valor\n2\nInsira o 4º valor\n0\nInsira o 5º valor\n1\nOs números positivos somados foram: 3 , 2 , 0 , 1\nA soma deu: 6\nA média dos valores deu: 1.5'
+      },
+      {
+        id: 7,
+        shortTitle: 'Ex. 7 • Pares/Ímpares',
+        concept: 'For (1..5) + If (num mod 2 == 0)',
+        title: 'Exercício 7 • Contar Valores Pares e Ímpares',
+        statement: 'Programa que pede 5 números inteiros ao utilizador (3, 6, 1, 2, 7) e indique quantos são pares (2) e quantos são ímpares (3).',
+        variables: ['Integer i, num', 'Integer pares, impares'],
+        narration: 'Exercício 7: Declaramos Integer i, num, pares e impares. Começamos pares e impares em zero. Fazemos um ciclo For de 1 até 5 pedindo cada número. Com um If testamos se num mod 2 é igual a zero: se for True, somamos 1 em pares; se for False, somamos 1 em impares.',
+        steps: [
+          { type: 'main', label: 'Main', desc: 'Início do programa.' },
+          { type: 'declare', label: 'Declare Integer i, num, pares, impares', desc: 'Declara o contador do ciclo, o número lido e os dois contadores.' },
+          { type: 'assign', label: 'Assign: pares = 0 | impares = 0', desc: 'Inicializa ambos os contadores a zero.' },
+          { type: 'for', label: 'For: i = 1 to 5 (Step 1)', desc: 'Repete o pedido 5 vezes.' },
+          { type: 'output', label: 'Output & Input: "Insira o " & i & "º valor:" → Input num', desc: 'Pede e lê cada número inteiro.' },
+          { type: 'if', label: 'If: num mod 2 == 0', desc: 'True: pares = pares + 1 | False: impares = impares + 1.' },
+          { type: 'output', label: 'Output (Done): "Inseriu " & pares & " valores pares e " & impares & " valores ímpares."', desc: 'Mostra o resumo final.' },
+          { type: 'end', label: 'End', desc: 'Fim do programa.' }
+        ],
+        console: 'Insira o 1º valor:\n3\nInsira o 2º valor:\n6\nInsira o 3º valor:\n1\nInsira o 4º valor:\n2\nInsira o 5º valor:\n7\nInseriu 2 valores pares e 3 valores ímpares.'
+      },
+      {
+        id: 8,
+        shortTitle: 'Ex. 8 • Soma até 20',
+        concept: 'While (soma < 20) + Contador',
+        title: 'Exercício 8 • Pedir Números até a Soma Atingir 20',
+        statement: 'Programa que pede números ao utilizador (inteiros ou reais) até que a sua soma atinja ou ultrapasse o total de 20.',
+        variables: ['Real num, soma', 'Integer ordem'],
+        narration: 'Exercício 8: Como não sabemos quantos números serão digitados até chegar a 20, usamos While! Começamos soma igual a zero e ordem igual a 1. Enquanto soma for menor que 20, pedimos o valor, somamos em soma e aumentamos ordem. Quando atingir 20 ou mais, mostramos o total.',
+        steps: [
+          { type: 'main', label: 'Main', desc: 'Início do programa.' },
+          { type: 'declare', label: 'Declare Real num, soma | Integer ordem', desc: 'Real permite números inteiros ou com vírgula.' },
+          { type: 'assign', label: 'Assign: soma = 0 | ordem = 1', desc: 'Começa a soma em 0 e o indicador de ordem em 1º valor.' },
+          { type: 'while', label: 'While: soma < 20', desc: 'Continua a pedir números enquanto a soma não chegar a 20.' },
+          { type: 'output', label: 'Output & Input: "Indique o " & ordem & "º valor:" → Input num', desc: 'Lê o valor digitado (ex.: 7).' },
+          { type: 'assign', label: 'Assign: soma = soma + num | ordem = ordem + 1', desc: 'Acumula na soma e avança o número da ordem.' },
+          { type: 'output', label: 'Output (False): "Já atingiu os 20 valores. Ao todo totalizou " & soma', desc: 'Exibe o total acumulado (21).' },
+          { type: 'end', label: 'End', desc: 'Fim do programa.' }
+        ],
+        console: 'Indique o 1º valor:\n7\nIndique o 2º valor:\n7\nIndique o 3º valor:\n7\nJá atingiu os 20 valores. Ao todo totalizou 21'
+      },
+      {
+        id: 9,
+        shortTitle: 'Ex. 9 • Senha Acesso',
+        concept: 'Validação com While (senha != 1234)',
+        title: 'Exercício 9 • Validação de Senha de Acesso',
+        statement: 'Programa que pede uma senha (1234). Enquanto estiver incorreta mostra "Senha incorreta, tente novamente.". Ao acertar mostra "Acesso permitido. Obrigada."',
+        variables: ['Integer senha'],
+        narration: 'Exercício 9: Declaramos Integer senha. Primeiro pedimos a senha e lemos com Input senha. Depois entramos num ciclo While com a condição senha diferente de 1234. Enquanto estiver errada, mostramos Senha incorreta, tente novamente e voltamos a ler Input senha. Quando acertar, sai do ciclo e mostra Acesso permitido.',
+        steps: [
+          { type: 'main', label: 'Main', desc: 'Início do programa.' },
+          { type: 'declare', label: 'Declare Integer senha', desc: 'Guarda a tentativa de senha do utilizador.' },
+          { type: 'output', label: 'Output & Input: "Senha:" → Input senha', desc: 'Primeira tentativa de senha.' },
+          { type: 'while', label: 'While: senha != 1234', desc: 'Enquanto a senha for diferente de 1234, prende no ciclo.' },
+          { type: 'output', label: 'Output (True): "Senha incorreta, tente novamente."', desc: 'Avisa que a senha falhou.' },
+          { type: 'input', label: 'Output & Input (True): "Senha:" → Input senha', desc: 'Pede nova tentativa dentro do ciclo.' },
+          { type: 'output', label: 'Output (False): "Acesso permitido. Obrigada."', desc: 'Quando digita 1234, sai do ciclo e libera acesso.' },
+          { type: 'end', label: 'End', desc: 'Fim do programa.' }
+        ],
+        console: 'Senha:\n2345\nSenha incorreta, tente novamente.\nSenha:\n2323\nSenha incorreta, tente novamente.\nSenha:\n1234\nAcesso permitido. Obrigada.'
+      },
+      {
+        id: 10,
+        shortTitle: 'Ex. 10 • Pares Positivos',
+        concept: 'While (num >= 0) + If (num mod 2 == 0)',
+        title: 'Exercício 10 • Somar Pares Positivos até Inserir Negativo',
+        statement: 'Programa que pede números inteiros ao utilizador (positivos) e vai somando apenas os valores pares. Termina quando insere um valor negativo.',
+        variables: ['Integer num, somaPares'],
+        narration: 'Exercício 10: Este junta tudo o que aprendemos! Declaramos Integer num e somaPares. Lemos o primeiro número antes do While. Enquanto num for maior ou igual a zero, testamos com If se num mod 2 é igual a zero para somar apenas os pares, e pedimos o próximo número. Quando digitar negativo, termina e mostra a soma.',
+        steps: [
+          { type: 'main', label: 'Main', desc: 'Início do programa.' },
+          { type: 'declare', label: 'Declare Integer num, somaPares', desc: 'num recebe cada entrada; somaPares guarda a soma dos pares.' },
+          { type: 'assign', label: 'Assign: somaPares = 0', desc: 'Inicializa a soma em zero.' },
+          { type: 'input', label: 'Output & Input: "Indique um número:" → Input num', desc: 'Lê o primeiro número antes de entrar no ciclo.' },
+          { type: 'while', label: 'While: num >= 0', desc: 'Continua enquanto o número não for negativo.' },
+          { type: 'if', label: 'If (True): num mod 2 == 0', desc: 'Se for par (True): somaPares = somaPares + num. Se for ímpar (False): ignora.' },
+          { type: 'input', label: 'Output & Input (True): "Indique um número:" → Input num', desc: 'Pede o próximo número (se for -1, o While encerra).' },
+          { type: 'output', label: 'Output (False): "A soma dos valores positivos, pares, que indicou deu um total de: " & somaPares', desc: 'Exibe o total final (6).' },
+          { type: 'end', label: 'End', desc: 'Fim do programa.' }
+        ],
+        console: 'Indique um número:\n2\nIndique um número:\n3\nIndique um número:\n4\nIndique um número:\n-1\nA soma dos valores positivos, pares, que indicou deu um total de: 6'
+      }
+    ];
+
+    // =========================================================================
+    // 4. ESTADO GLOBAL & MOTOR DE VOZ (WEB SPEECH API - SPEECHSYNTHESIS)
+    // =========================================================================
+    let currentTab = 'blocks';
+    let currentBlockKey = 'declare';
+    let isAutoPlaying = false;
+    let tourTimer = null;
+    let demoInterval = null;
+    let turtleState = { x: 130, y: 70, angle: 0, penDown: true, color: '#38bdf8', lines: [] };
+
+    let voiceEnabled = true;
+    let availablePtVoices = [];
+    let selectedVoiceURI = '';
+    let speechRate = 1.0;
+    let speakSessionId = 0;
+
+    let currentDrawerIndex = 0;
+    let currentExerciseId = 1;
+    let ex6UseArray = true;
+    let currentFlowStepIndex = -1;
+
+    function initSpeechVoices() {
+      if (!('speechSynthesis' in window)) return;
+
+      const loadVoices = () => {
+        const allVoices = window.speechSynthesis.getVoices();
+        const ptVoices = allVoices.filter(v => v.lang && v.lang.toLowerCase().startsWith('pt'));
+        availablePtVoices = ptVoices.length > 0 ? ptVoices : allVoices;
+
+        const select = document.getElementById('voiceSelect');
+        if (!select) return;
+
+        const prev = select.value || selectedVoiceURI;
+        select.innerHTML = '';
+
+        if (availablePtVoices.length === 0) {
+          const opt = document.createElement('option');
+          opt.value = '';
+          opt.textContent = 'Voz: Português';
+          select.appendChild(opt);
+          return;
+        }
+
+        availablePtVoices.sort((a, b) => {
+          const score = v => v.lang.toLowerCase() === 'pt-pt' ? 0 : v.lang.toLowerCase().startsWith('pt') ? 1 : 2;
+          return score(a) - score(b);
+        });
+
+        availablePtVoices.forEach(voice => {
+          const opt = document.createElement('option');
+          opt.value = voice.voiceURI;
+          const cleanName = voice.name.replace(/Microsoft |Google |Online \(Natural\) - /g, '');
+          opt.textContent = `${cleanName} (${voice.lang})`;
+          select.appendChild(opt);
+        });
+
+        if (prev && availablePtVoices.some(v => v.voiceURI === prev)) {
+          select.value = prev;
+          selectedVoiceURI = prev;
+        } else {
+          selectedVoiceURI = availablePtVoices[0].voiceURI;
+          select.value = selectedVoiceURI;
+        }
+      };
+
+      loadVoices();
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+
+    function setSpeakingVisualState(speaking) {
+      const avatar = document.getElementById('tutorAvatar');
+      const wave = document.getElementById('soundWaveIndicator');
+      if (speaking) {
+        if (avatar) avatar.classList.add('tutor-talking');
+        if (wave) wave.classList.add('tutor-speaking-wave');
+      } else {
+        if (avatar) avatar.classList.remove('tutor-talking');
+        if (wave) wave.classList.remove('tutor-speaking-wave');
+      }
+    }
+
+    function stopSpeech() {
+      speakSessionId++;
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      setSpeakingVisualState(false);
+    }
+
+    function speakText(text, onFinishedCallback = null) {
+      clearTimeout(tourTimer);
+      stopSpeech();
+      const session = ++speakSessionId;
+
+      if (!voiceEnabled || !('speechSynthesis' in window)) {
+        setSpeakingVisualState(true);
+        const fallbackMs = Math.max(3200, Math.round(5200 / speechRate));
+        tourTimer = setTimeout(() => {
+          if (session !== speakSessionId) return;
+          setSpeakingVisualState(false);
+          if (onFinishedCallback) onFinishedCallback();
+        }, fallbackMs);
+        return;
+      }
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      const chosenVoice = availablePtVoices.find(v => v.voiceURI === selectedVoiceURI);
+      if (chosenVoice) {
+        utterance.voice = chosenVoice;
+        utterance.lang = chosenVoice.lang;
+      } else {
+        utterance.lang = 'pt-PT';
+      }
+
+      utterance.rate = speechRate;
+      utterance.pitch = 1.03;
+
+      utterance.onstart = () => {
+        if (session === speakSessionId) setSpeakingVisualState(true);
+      };
+
+      utterance.onend = () => {
+        if (session !== speakSessionId) return;
+        setSpeakingVisualState(false);
+        if (onFinishedCallback) {
+          tourTimer = setTimeout(() => {
+            if (session === speakSessionId) onFinishedCallback();
+          }, 950);
+        }
+      };
+
+      utterance.onerror = () => {
+        if (session !== speakSessionId) return;
+        setSpeakingVisualState(false);
+        if (onFinishedCallback) {
+          tourTimer = setTimeout(() => {
+            if (session === speakSessionId) onFinishedCallback();
+          }, 2200);
+        }
+      };
+
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function buildBlockNarration(key) {
+      const data = blocksData[key];
+      const cleanTitle = data.title.replace(/\(.*?\)/g, '').trim();
+      const cleanSpeech = data.speech.replace(/^"|"$/g, '').trim();
+      const cleanMeaning = data.meaning.replace(/ex\.:/gi, 'por exemplo,');
+      const cleanPurpose = data.purpose.replace(/ex\.:/gi, 'por exemplo,');
+      return `Bloco ${cleanTitle}. ${cleanSpeech} ${cleanMeaning} Na prática, ${cleanPurpose.charAt(0).toLowerCase() + cleanPurpose.slice(1)}`;
+    }
+
+    function speakCurrentBlock(autoAdvanceAfter = false) {
+      const text = buildBlockNarration(currentBlockKey);
+      speakText(text, () => {
+        if (autoAdvanceAfter && isAutoPlaying && currentTab === 'blocks') {
+          nextBlock(true);
+        }
+      });
+    }
+
+    function toggleVoice() {
+      voiceEnabled = !voiceEnabled;
+      const btn = document.getElementById('btnVoiceToggle');
+      const icon = document.getElementById('voiceToggleIcon');
+      const label = document.getElementById('voiceToggleLabel');
+
+      if (voiceEnabled) {
+        icon.textContent = '🔊';
+        label.textContent = 'Voz Ativa';
+        btn.className = 'px-3 py-2 rounded-xl font-bold text-xs flex items-center gap-1.5 bg-cyan-500/20 border border-cyan-500/50 text-cyan-200 hover:bg-cyan-500/30 transition active:scale-95';
+        if (currentTab === 'blocks') speakCurrentBlock(isAutoPlaying);
+        else if (currentTab === 'arrays') speakArraysIntro();
+        else if (currentTab === 'exercises') speakCurrentExercise();
+      } else {
+        icon.textContent = '🔇';
+        label.textContent = 'Muda';
+        btn.className = 'px-3 py-2 rounded-xl font-bold text-xs flex items-center gap-1.5 bg-slate-800 border border-slate-700 text-slate-400 hover:bg-slate-700 transition active:scale-95';
+        stopSpeech();
+        if (isAutoPlaying && currentTab === 'blocks') {
+          speakCurrentBlock(true);
+        }
+      }
+    }
+
+    function onVoiceChange() {
+      const select = document.getElementById('voiceSelect');
+      selectedVoiceURI = select.value;
+      if (voiceEnabled && currentTab === 'blocks') {
+        speakCurrentBlock(isAutoPlaying);
+      }
+    }
+
+    function onSpeechRateChange() {
+      const select = document.getElementById('speechRateSelect');
+      speechRate = parseFloat(select.value) || 1.0;
+      if (voiceEnabled && currentTab === 'blocks') {
+        speakCurrentBlock(isAutoPlaying);
+      }
+    }
+
+    // =========================================================================
+    // 5. NAVEGAÇÃO ENTRE ABAS (BLOCOS / ARRAYS / EXERCÍCIOS)
+    // =========================================================================
+    function switchTab(tabName) {
+      currentTab = tabName;
+      if (tabName !== 'blocks' && isAutoPlaying) {
+        stopAutoTour();
+      }
+      stopSpeech();
+
+      const tabs = ['blocks', 'arrays', 'exercises'];
+      tabs.forEach(t => {
+        const sec = document.getElementById('section-' + t);
+        const btn = document.getElementById('tab-btn-' + t);
+        if (t === tabName) {
+          sec.classList.remove('hidden');
+          btn.className = 'flex-1 sm:flex-initial px-3.5 py-2 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 bg-cyan-500 text-slate-950 shadow transition';
+        } else {
+          sec.classList.add('hidden');
+          btn.className = 'flex-1 sm:flex-initial px-3.5 py-2 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 text-slate-300 hover:text-white hover:bg-slate-800/80 transition';
+        }
+      });
+
+      if (tabName === 'arrays') {
+        renderDrawers();
+        openDrawer(currentDrawerIndex, false);
+      } else if (tabName === 'exercises') {
+        renderExerciseSelector();
+        selectExercise(currentExerciseId, false);
+      }
+    }
+
+    // =========================================================================
+    // 6. LÓGICA DA SECÇÃO 1: BLOCOS & SIMULADOR AO VIVO
+    // =========================================================================
+    function selectBlock(key, fromAuto = false, silent = false) {
+      if (!fromAuto && isAutoPlaying) {
+        stopAutoTour();
+      }
+
+      currentBlockKey = key;
+      const data = blocksData[key];
+      const index = blockOrder.indexOf(key);
+
+      document.querySelectorAll('.fg-block-btn').forEach(btn => btn.classList.remove('fg-block-active'));
+      const activeBtn = document.getElementById('btn-' + key);
+      if (activeBtn) {
+        activeBtn.classList.add('fg-block-active');
+      }
+
+      document.getElementById('blockCategoryBadge').textContent = data.category;
+      document.getElementById('blockTitle').textContent = data.title;
+      document.getElementById('tutorSpeech').textContent = data.speech;
+      document.getElementById('blockMeaning').textContent = data.meaning;
+      document.getElementById('blockPurpose').textContent = data.purpose;
+      document.getElementById('blockHowTo').textContent = data.howTo;
+      document.getElementById('exampleTag').textContent = data.exampleTag;
+      document.getElementById('blockExample').textContent = data.example;
+
+      document.getElementById('stepCounter').textContent = `${index + 1} / ${blockOrder.length}`;
+      const pct = Math.round(((index + 1) / blockOrder.length) * 100);
+      document.getElementById('tourProgressBar').style.width = pct + '%';
+
+      runLiveDemo(key);
+
+      if (!silent) {
+        speakCurrentBlock(fromAuto && isAutoPlaying);
+      }
+    }
+
+    function replayCurrentDemo() {
+      runLiveDemo(currentBlockKey);
+      if (voiceEnabled) {
+        speakCurrentBlock(isAutoPlaying);
+      }
+    }
+
+    function runLiveDemo(key) {
+      clearInterval(demoInterval);
+      const stage = document.getElementById('liveDemoStage');
+      const type = blocksData[key].demoType;
+
+      if (type === 'declare') {
+        stage.innerHTML = `
+          <div class="space-y-2.5">
+            <div class="text-xs text-slate-400">Memória do Computador a criar as "caixinhas":</div>
+            <div class="grid grid-cols-3 gap-2.5" id="memBoxes">
+              <div class="opacity-20 transition-all duration-500 border border-rose-500/60 bg-rose-950/30 rounded-lg p-2.5 text-center" id="box1">
+                <div class="text-[10px] mono text-rose-300">Integer</div>
+                <div class="font-bold text-sm text-white">n</div>
+                <div class="text-[11px] text-slate-400 mt-1">[ vazio ]</div>
+              </div>
+              <div class="opacity-20 transition-all duration-500 border border-rose-500/60 bg-rose-950/30 rounded-lg p-2.5 text-center" id="box2">
+                <div class="text-[10px] mono text-rose-300">Integer</div>
+                <div class="font-bold text-sm text-white">cont</div>
+                <div class="text-[11px] text-slate-400 mt-1">[ vazio ]</div>
+              </div>
+              <div class="opacity-20 transition-all duration-500 border border-cyan-500/60 bg-cyan-950/30 rounded-lg p-2.5 text-center" id="box3">
+                <div class="text-[10px] mono text-cyan-300">String</div>
+                <div class="font-bold text-sm text-white">aux</div>
+                <div class="text-[11px] text-slate-400 mt-1">[ "" ]</div>
+              </div>
+            </div>
+          </div>`;
+        let step = 0;
+        demoInterval = setInterval(() => {
+          step++;
+          if (step <= 3) {
+            const el = document.getElementById('box' + step);
+            if (el) el.classList.remove('opacity-20');
+          } else {
+            clearInterval(demoInterval);
+          }
+        }, 550);
+      }
+      else if (type === 'assign') {
+        let countVal = 0;
+        let auxVal = '';
+        const nums = [0, 4, 8, 12];
+        let idx = 0;
+        stage.innerHTML = `
+          <div class="space-y-2.5">
+            <div class="flex items-center justify-between text-xs bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 mono">
+              <span class="text-rose-300">cont = cont + 1</span>
+              <span class="text-emerald-400 font-bold" id="assignCountBadge">cont = 0</span>
+            </div>
+            <div class="flex items-center justify-between text-xs bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 mono">
+              <span class="text-cyan-300">aux = aux & n & " "</span>
+              <span class="text-amber-300 font-bold" id="assignAuxBadge">aux = ""</span>
+            </div>
+          </div>`;
+        demoInterval = setInterval(() => {
+          if (idx < nums.length) {
+            countVal++;
+            auxVal += nums[idx] + ' ';
+            document.getElementById('assignCountBadge').textContent = `cont = ${countVal}`;
+            document.getElementById('assignAuxBadge').textContent = `aux = "${auxVal}"`;
+            idx++;
+          } else {
+            clearInterval(demoInterval);
+          }
+        }, 750);
+      }
+      else if (type === 'input') {
+        stage.innerHTML = `
+          <div class="bg-black border border-slate-700 rounded-lg p-3 mono text-xs space-y-2">
+            <div class="text-cyan-300">Indique o número para ver a tabuada:</div>
+            <div class="flex items-center gap-2">
+              <span class="text-slate-500">&gt;</span>
+              <span id="inputTyping" class="px-2 py-0.5 bg-rose-950/60 border border-rose-500 text-rose-200 rounded">_</span>
+              <span id="inputSaved" class="text-[11px] text-emerald-400 hidden">✓ Guardado na variável num = 7</span>
+            </div>
+          </div>`;
+        setTimeout(() => {
+          const el = document.getElementById('inputTyping');
+          const saved = document.getElementById('inputSaved');
+          if (el) el.textContent = '7';
+          if (saved) saved.classList.remove('hidden');
+        }, 900);
+      }
+      else if (type === 'output') {
+        stage.innerHTML = `
+          <div class="bg-black border border-slate-700 rounded-lg p-3 mono text-xs space-y-1.5">
+            <div class="text-slate-400 text-[11px]">Consola do Flowgorithm:</div>
+            <div id="outLine1" class="text-cyan-300 opacity-0 transition-opacity duration-500">Números dívisíveis por 4, até ao limite do n° 100:</div>
+            <div id="outLine2" class="text-white opacity-0 transition-opacity duration-500">0 4 8 12 16 20 ... 96 100</div>
+            <div id="outLine3" class="text-emerald-300 opacity-0 transition-opacity duration-500">Ao todo foram encontrados 26 números divisiveis por 4.</div>
+          </div>`;
+        [1, 2, 3].forEach((n, i) => {
+          setTimeout(() => {
+            const el = document.getElementById('outLine' + n);
+            if (el) el.classList.remove('opacity-0');
+          }, 550 * (i + 1));
+        });
+      }
+      else if (type === 'if') {
+        const samples = [
+          { n: 4, ok: true, res: '4 mod 4 == 0 → TRUE (Entra e conta +1!)' },
+          { n: 5, ok: false, res: '5 mod 4 == 1 → FALSE (Ignora e segue!)' },
+          { n: 8, ok: true, res: '8 mod 4 == 0 → TRUE (Entra e conta +1!)' }
+        ];
+        let i = 0;
+        stage.innerHTML = `
+          <div class="space-y-2 text-xs">
+            <div class="flex items-center justify-between bg-slate-900 border border-slate-700 rounded-lg p-2.5">
+              <span class="mono font-bold text-white" id="ifTestNum">A testar n = 4...</span>
+              <span id="ifBadge" class="px-2 py-0.5 rounded font-bold bg-emerald-500/20 text-emerald-300">TRUE</span>
+            </div>
+            <div id="ifExplain" class="mono text-[11px] text-slate-300 px-1">4 mod 4 == 0 → TRUE (Entra e conta +1!)</div>
+          </div>`;
+        demoInterval = setInterval(() => {
+          i = (i + 1) % samples.length;
+          const item = samples[i];
+          const numEl = document.getElementById('ifTestNum');
+          const badgeEl = document.getElementById('ifBadge');
+          const expEl = document.getElementById('ifExplain');
+          if (!numEl) return;
+          numEl.textContent = `A testar n = ${item.n}...`;
+          badgeEl.textContent = item.ok ? 'TRUE' : 'FALSE';
+          badgeEl.className = item.ok
+            ? 'px-2 py-0.5 rounded font-bold bg-emerald-500/20 text-emerald-300'
+            : 'px-2 py-0.5 rounded font-bold bg-rose-500/20 text-rose-300';
+          expEl.textContent = item.res;
+        }, 1400);
+      }
+      else if (type === 'while' || type === 'for' || type === 'do') {
+        let val = 0;
+        const label = type === 'while' ? 'While (contador <= 5)' : type === 'for' ? 'For (n = 0 to 100)' : 'Do ... While (n <= 5)';
+        const displayNums = type === 'for' ? [0, 4, 8, 12, '...', 100] : [0, 1, 2, 3, 4, 5];
+        stage.innerHTML = `
+          <div class="space-y-2.5">
+            <div class="flex items-center justify-between text-xs">
+              <span class="mono font-bold text-amber-300">${label}</span>
+              <span id="loopStatus" class="text-emerald-400 font-semibold">A repetir...</span>
+            </div>
+            <div class="flex gap-2" id="loopSteps">
+              ${displayNums.map((num, idx) => `<div id="lstep-${idx}" class="flex-1 py-2 rounded-lg border border-slate-700 bg-slate-900 text-center mono text-xs font-bold text-slate-400">${num}</div>`).join('')}
+            </div>
+          </div>`;
+        demoInterval = setInterval(() => {
+          if (val < displayNums.length) {
+            const box = document.getElementById('lstep-' + val);
+            if (box) {
+              box.classList.remove('border-slate-700', 'text-slate-400');
+              box.classList.add('border-amber-400', 'bg-amber-500/20', 'text-amber-200');
+            }
+            val++;
+          } else {
+            const st = document.getElementById('loopStatus');
+            if (st) {
+              st.textContent = 'Fim do ciclo (Done / False)!';
+              st.className = 'text-cyan-300 font-semibold';
+            }
+            clearInterval(demoInterval);
+          }
+        }, 550);
+      }
+      else if (type === 'call') {
+        stage.innerHTML = `
+          <div class="flex items-center justify-between gap-2 text-xs mono">
+            <div id="callMain" class="flex-1 p-2.5 rounded-lg border border-cyan-400 bg-cyan-950/30 text-center">
+              <div class="font-bold text-white">Main</div>
+              <div class="text-[11px] text-cyan-300 mt-1">Call Saudacao()</div>
+            </div>
+            <div class="text-amber-300 font-bold">⇄</div>
+            <div id="callSub" class="flex-1 p-2.5 rounded-lg border border-slate-700 bg-slate-900 text-center opacity-50 transition-all">
+              <div class="font-bold text-amber-300">Saudacao()</div>
+              <div class="text-[11px] text-slate-300 mt-1">Output "Olá!"</div>
+            </div>
+          </div>`;
+        setTimeout(() => {
+          const sub = document.getElementById('callSub');
+          if (sub) {
+            sub.classList.remove('opacity-50', 'border-slate-700');
+            sub.classList.add('border-amber-400', 'bg-amber-950/30');
+          }
+        }, 700);
+      }
+      else if (type === 'comment') {
+        stage.innerHTML = `
+          <div class="space-y-2 text-xs">
+            <div class="border border-dashed border-cyan-500 bg-cyan-950/30 text-cyan-200 p-2.5 rounded-lg mono">
+              // Este bloco calcula os múltiplos de 4 até 100
+            </div>
+            <div class="text-[11px] text-slate-400 flex items-center justify-between">
+              <span>Execução na consola:</span>
+              <span class="text-emerald-400 font-semibold">Ignorado pelo PC (0 erros, 100% organização)</span>
+            </div>
+          </div>`;
+      }
+      else if (type === 'breakpoint') {
+        stage.innerHTML = `
+          <div class="flex items-center justify-between gap-3 bg-slate-900 border border-amber-500/40 rounded-lg p-3 text-xs">
+            <div class="flex items-center gap-2.5">
+              <span class="w-4 h-4 rounded-full bg-rose-500 inline-block animate-pulse"></span>
+              <div>
+                <div class="font-bold text-white">Programa Pausado no Breakpoint!</div>
+                <div class="text-[11px] text-slate-400">Janela Watch: n = 12 | cont = 4</div>
+              </div>
+            </div>
+            <span class="px-2 py-1 rounded bg-slate-800 mono text-[11px] text-amber-300">PAUSED</span>
+          </div>`;
+      }
+      else if (type === 'clipboard') {
+        stage.innerHTML = `
+          <div class="flex items-center justify-around gap-2 text-xs mono">
+            <div class="px-3 py-2 rounded border border-cyan-500 bg-cyan-950/40 text-cyan-200">Output "Linha 1"</div>
+            <span class="text-slate-400">Ctrl+C → Ctrl+V</span>
+            <div id="pastedBlock" class="px-3 py-2 rounded border border-emerald-400 bg-emerald-950/40 text-emerald-200 opacity-0 transition-opacity duration-500">Output "Linha 1" (Cópia)</div>
+          </div>`;
+        setTimeout(() => {
+          const el = document.getElementById('pastedBlock');
+          if (el) el.classList.remove('opacity-0');
+        }, 650);
+      }
+      else if (type === 'turtle') {
+        stage.innerHTML = `
+          <div class="flex flex-col sm:flex-row items-center gap-3">
+            <canvas id="turtleCanvas" width="220" height="125" class="bg-black border border-slate-700 rounded-lg shrink-0"></canvas>
+            <div class="flex flex-wrap gap-1.5 text-xs">
+              <button onclick="turtleStep('forward')" class="px-2.5 py-1.5 rounded bg-cyan-950 border border-cyan-500 text-cyan-200 hover:bg-cyan-900">Forward 45</button>
+              <button onclick="turtleStep('turn')" class="px-2.5 py-1.5 rounded bg-rose-950 border border-rose-500 text-rose-200 hover:bg-rose-900">Turn 90°</button>
+              <button onclick="turtleStep('pen')" class="px-2.5 py-1.5 rounded bg-amber-950 border border-amber-500 text-amber-200 hover:bg-amber-900">Cor / Pen</button>
+              <button onclick="turtleStep('home')" class="px-2.5 py-1.5 rounded bg-slate-800 border border-slate-600 text-slate-200 hover:bg-slate-700">Home</button>
+              <button onclick="turtleStep('clear')" class="px-2.5 py-1.5 rounded bg-slate-800 border border-slate-600 text-slate-200 hover:bg-slate-700">Clear</button>
+            </div>
+          </div>`;
+        resetTurtle();
+        let stepCount = 0;
+        demoInterval = setInterval(() => {
+          if (stepCount < 8) {
+            if (stepCount % 2 === 0) turtleStep('forward');
+            else turtleStep('turn');
+            stepCount++;
+          } else {
+            clearInterval(demoInterval);
+          }
+        }, 420);
+      }
+      else if (type === 'files') {
+        stage.innerHTML = `
+          <div class="bg-slate-900 border border-slate-700 rounded-lg p-3 mono text-xs space-y-1.5">
+            <div class="flex items-center justify-between text-[11px]">
+              <span class="text-amber-300 font-bold">📄 resultado_ex3.txt</span>
+              <span id="fileStatusBadge" class="text-emerald-400">Open ("Write")</span>
+            </div>
+            <div id="fileContentPreview" class="bg-black/80 border border-slate-800 rounded p-2 text-cyan-200 min-h-[44px]">
+              A abrir ficheiro...
+            </div>
+          </div>`;
+        setTimeout(() => {
+          const c = document.getElementById('fileContentPreview');
+          const s = document.getElementById('fileStatusBadge');
+          if (c) c.textContent = '0 4 8 12 ... 100 | Total: 26 números';
+          if (s) s.textContent = 'Write → Close (Salvo!)';
+        }, 800);
+      }
+    }
+
+    function resetTurtle() {
+      turtleState = { x: 85, y: 85, angle: -90, penDown: true, color: '#38bdf8', lines: [] };
+      drawTurtleCanvas();
+    }
+
+    function turtleStep(action) {
+      const colors = ['#38bdf8', '#fb7185', '#facc15', '#34d399'];
+      if (action === 'forward') {
+        const rad = (turtleState.angle * Math.PI) / 180;
+        const nx = turtleState.x + Math.cos(rad) * 45;
+        const ny = turtleState.y + Math.sin(rad) * 45;
+        if (turtleState.penDown) {
+          turtleState.lines.push({ x1: turtleState.x, y1: turtleState.y, x2: nx, y2: ny, color: turtleState.color });
+        }
+        turtleState.x = nx;
+        turtleState.y = ny;
+      } else if (action === 'turn') {
+        turtleState.angle += 90;
+      } else if (action === 'pen') {
+        const idx = (colors.indexOf(turtleState.color) + 1) % colors.length;
+        turtleState.color = colors[idx];
+      } else if (action === 'home') {
+        turtleState.x = 110;
+        turtleState.y = 62;
+        turtleState.angle = -90;
+      } else if (action === 'clear') {
+        turtleState.lines = [];
+      }
+      drawTurtleCanvas();
+    }
+
+    function drawTurtleCanvas() {
+      const canvas = document.getElementById('turtleCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      turtleState.lines.forEach(l => {
+        ctx.beginPath();
+        ctx.moveTo(l.x1, l.y1);
+        ctx.lineTo(l.x2, l.y2);
+        ctx.strokeStyle = l.color;
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+      });
+
+      ctx.save();
+      ctx.translate(turtleState.x, turtleState.y);
+      ctx.rotate((turtleState.angle * Math.PI) / 180);
+      ctx.beginPath();
+      ctx.moveTo(9, 0);
+      ctx.lineTo(-7, -6);
+      ctx.lineTo(-7, 6);
+      ctx.closePath();
+      ctx.fillStyle = '#4ade80';
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function nextBlock(fromAuto = false) {
+      const idx = blockOrder.indexOf(currentBlockKey);
+      const nextIdx = (idx + 1) % blockOrder.length;
+      selectBlock(blockOrder[nextIdx], fromAuto);
+    }
+
+    function prevBlock() {
+      const idx = blockOrder.indexOf(currentBlockKey);
+      const prevIdx = (idx - 1 + blockOrder.length) % blockOrder.length;
+      selectBlock(blockOrder[prevIdx], false);
+    }
+
+    function toggleAutoTour() {
+      if (isAutoPlaying) {
+        stopAutoTour();
+      } else {
+        startAutoTour();
+      }
+    }
+
+    function startAutoTour() {
+      isAutoPlaying = true;
+      const btn = document.getElementById('btnAutoPlay');
+      document.getElementById('autoPlayIcon').textContent = '⏸';
+      document.getElementById('autoPlayLabel').textContent = 'Pausar Explicação Automática';
+      btn.classList.remove('from-emerald-500', 'to-teal-500');
+      btn.classList.add('from-amber-400', 'to-orange-400');
+
+      selectBlock(currentBlockKey, true);
+    }
+
+    function stopAutoTour() {
+      isAutoPlaying = false;
+      clearTimeout(tourTimer);
+      const btn = document.getElementById('btnAutoPlay');
+      document.getElementById('autoPlayIcon').textContent = '▶';
+      document.getElementById('autoPlayLabel').textContent = 'Iniciar Explicação Automática';
+      btn.classList.remove('from-amber-400', 'to-orange-400');
+      btn.classList.add('from-emerald-500', 'to-teal-500');
+    }
+
+    // =========================================================================
+    // 7. LÓGICA DA SECÇÃO 2: ARRAYS (GAVETAS INTERATIVAS)
+    // =========================================================================
+    function renderDrawers() {
+      const container = document.getElementById('drawersContainer');
+      if (!container) return;
+
+      container.innerHTML = arrayDrawersData.map(item => `
+        <button id="drawer-card-${item.index}" onclick="openDrawer(${item.index}, true)"
+          class="drawer-card w-full text-left flex items-center justify-between gap-3 p-3.5 rounded-xl border border-slate-800 bg-slate-900/90 hover:border-slate-600 cursor-pointer">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-11 rounded-lg bg-slate-950 border border-cyan-500/40 flex flex-col items-center justify-center shrink-0">
+              <span class="text-[9px] uppercase text-slate-500 font-bold">Índice</span>
+              <span class="mono text-sm font-extrabold text-cyan-300">[${item.index}]</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-sm sm:text-base text-white">${item.name}</span>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">${item.role}</span>
+              </div>
+              <div class="text-xs mono text-slate-400 mt-0.5">pilotos[${item.index}] = "${item.name}"</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <span id="drawer-status-${item.index}" class="text-[11px] font-semibold text-slate-500">Fechada</span>
+            <div class="w-8 h-3 rounded-full bg-slate-800 border border-slate-600"></div>
+          </div>
+        </button>
+      `).join('');
+    }
+
+    function openDrawer(index, speak = false) {
+      currentDrawerIndex = index;
+      const item = arrayDrawersData[index];
+
+      arrayDrawersData.forEach(d => {
+        const card = document.getElementById('drawer-card-' + d.index);
+        const st = document.getElementById('drawer-status-' + d.index);
+        if (!card) return;
+        if (d.index === index) {
+          card.classList.add('drawer-open');
+          if (st) {
+            st.textContent = 'Aberta ✓';
+            st.className = 'text-[11px] font-bold text-cyan-300';
+          }
+        } else {
+          card.classList.remove('drawer-open');
+          if (st) {
+            st.textContent = 'Fechada';
+            st.className = 'text-[11px] font-semibold text-slate-500';
+          }
+        }
+      });
+
+      document.getElementById('drawerPositionBadge').textContent = item.positionLabel;
+      document.getElementById('drawerCodePreview').textContent = `Output pilotos[${item.index}]`;
+      document.getElementById('drawerOutputValue').textContent = `"${item.name}"`;
+      document.getElementById('drawerExplanationText').textContent = item.explanation;
+      document.getElementById('associativeComparisonText').textContent =
+        `piloto["${item.assocKey}"] = "${item.name}" → Acedes pela etiqueta "${item.assocKey}" em vez do número ${item.index}.`;
+
+      if (speak) {
+        speakText(`Gaveta índice ${item.index}: ${item.name}. ${item.explanation}`);
+      }
+    }
+
+    function speakArraysIntro() {
+      const text = 'Um Array é como um armário com várias gavetas numeradas na memória do computador. Nos Arrays Indexados, usados no Flowgorithm, a primeira gaveta começa sempre no índice zero! No nosso exemplo com 5 gavetas: no índice 0 temos Manuela; no índice 1, Max Verstappen; no índice 2, Fernando Alonso; no índice 3, Kimi Antonelli; e no índice 4, Gabriel Bortoleto. Já nos Arrays Associativos, usamos etiquetas de texto como chave em vez de números.';
+      speakText(text);
+    }
+
+    // =========================================================================
+    // 8. LÓGICA DA SECÇÃO 3: TODOS OS 10 EXERCÍCIOS RESOLVIDOS
+    // =========================================================================
+    function renderExerciseSelector() {
+      const grid = document.getElementById('exerciseSelectorGrid');
+      if (!grid) return;
+
+      grid.innerHTML = exercisesData.map(ex => `
+        <button id="ex-btn-${ex.id}" onclick="selectExercise(${ex.id}, true)"
+          class="px-2.5 py-2.5 rounded-xl border text-left transition cursor-pointer ${
+            ex.id === currentExerciseId
+              ? 'border-cyan-400 bg-cyan-500/20 text-white shadow-lg'
+              : 'border-slate-800 bg-[#0e121b] text-slate-400 hover:border-slate-600 hover:text-slate-200'
+          }">
+          <div class="text-[11px] font-extrabold mono ${ex.id === currentExerciseId ? 'text-cyan-300' : 'text-slate-500'}">
+            EXERCÍCIO ${ex.id}
+          </div>
+          <div class="text-xs font-bold truncate mt-0.5">${ex.shortTitle.replace(/^Ex\.\s*\d+\s*•\s*/, '')}</div>
+        </button>
+      `).join('');
+    }
+
+    function selectExercise(id, speak = false) {
+      currentExerciseId = id;
+      currentFlowStepIndex = -1;
+      const ex = exercisesData.find(e => e.id === id);
+      if (!ex) return;
+
+      renderExerciseSelector();
+
+      document.getElementById('exBadgeConcept').textContent = ex.concept;
+      document.getElementById('exTitle').textContent = ex.title;
+      document.getElementById('exStatement').textContent = ex.statement;
+
+      // Mostrar botão de alternância Com Arrays / Sem Arrays apenas no Exercício 6
+      const toggleBox = document.getElementById('ex6ModeToggle');
+      if (ex.hasArrayToggle) {
+        toggleBox.classList.remove('hidden');
+      } else {
+        toggleBox.classList.add('hidden');
+      }
+
+      // Variáveis
+      const varsToUse = ex.hasArrayToggle && !ex6UseArray
+        ? ['Real num, soma, media', 'Integer i, contPos', 'String listaPos']
+        : ex.variables;
+
+      document.getElementById('exVariables').innerHTML = varsToUse
+        .map(v => `<span class="px-2.5 py-1 rounded-lg bg-rose-950/40 border border-rose-500/40 text-rose-200">${v}</span>`)
+        .join('');
+
+      // Passos e Consola
+      const stepsToUse = ex.hasArrayToggle
+        ? (ex6UseArray ? ex.stepsWithArray : ex.stepsWithoutArray)
+        : ex.steps;
+
+      const consoleToUse = ex.hasArrayToggle
+        ? (ex6UseArray ? ex.consoleWithArray : ex.consoleWithoutArray)
+        : ex.console;
+
+      document.getElementById('exConsoleOutput').textContent = consoleToUse;
+      renderExerciseStepsAndFlow(stepsToUse);
+
+      if (speak) {
+        speakText(ex.narration);
+      }
+    }
+
+    function setEx6Mode(useArray) {
+      ex6UseArray = useArray;
+      const btnWith = document.getElementById('btnEx6WithArray');
+      const btnWithout = document.getElementById('btnEx6WithoutArray');
+      if (useArray) {
+        btnWith.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-cyan-500 text-slate-950 transition';
+        btnWithout.className = 'px-3 py-1.5 rounded-lg text-xs font-bold text-slate-300 hover:text-white transition';
+      } else {
+        btnWithout.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-cyan-500 text-slate-950 transition';
+        btnWith.className = 'px-3 py-1.5 rounded-lg text-xs font-bold text-slate-300 hover:text-white transition';
+      }
+      selectExercise(6, true);
+    }
+
+    function getFlowBlockStyle(type) {
+      switch (type) {
+        case 'main':
+        case 'end':
+          return 'rounded-full border-slate-500 bg-slate-800/90 text-slate-200 px-6';
+        case 'declare':
+        case 'assign':
+        case 'input':
+          return 'rounded-md border-[#c93b3b] bg-[#2a0d0e] text-[#ff9b9b]';
+        case 'output':
+          return 'rounded-md border-[#26a6b5] bg-[#0b2429] text-[#6ee7f5]';
+        case 'for':
+        case 'while':
+          return 'rounded-xl border-[#c4b027] bg-[#292409] text-[#f7e663]';
+        case 'if':
+          return 'rounded-lg border-slate-400 bg-[#1b1d24] text-white';
+        default:
+          return 'rounded-md border-slate-600 bg-slate-900 text-slate-200';
+      }
+    }
+
+    function renderExerciseStepsAndFlow(steps) {
+      const listEl = document.getElementById('exStepsList');
+      const flowEl = document.getElementById('exFlowchartDiagram');
+
+      listEl.innerHTML = steps.map((st, idx) => `
+        <div id="ex-step-row-${idx}" onclick="highlightFlowStep(${idx})"
+          class="p-3 rounded-xl border border-slate-800 bg-slate-900/70 hover:border-cyan-500/50 transition cursor-pointer flex items-start gap-3">
+          <span class="w-6 h-6 rounded-lg bg-slate-800 border border-slate-700 text-cyan-300 mono text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
+            ${idx + 1}
+          </span>
+          <div class="min-w-0 flex-1">
+            <div class="mono text-xs sm:text-sm font-bold text-white">${st.label}</div>
+            <p class="text-xs text-slate-400 mt-0.5 leading-relaxed">${st.desc}</p>
+          </div>
+        </div>
+      `).join('');
+
+      flowEl.innerHTML = steps.map((st, idx) => `
+        <div class="w-full flex flex-col items-center">
+          <div id="ex-flow-node-${idx}" onclick="highlightFlowStep(${idx})"
+            class="cursor-pointer transition-all duration-200 border-2 px-4 py-2 text-center mono text-xs font-semibold max-w-[92%] ${getFlowBlockStyle(st.type)}">
+            ${st.label}
+          </div>
+          ${idx < steps.length - 1 ? '<div class="text-slate-600 text-xs leading-none my-1">↓</div>' : ''}
+        </div>
+      `).join('');
+    }
+
+    function highlightFlowStep(idx) {
+      currentFlowStepIndex = idx;
+      const ex = exercisesData.find(e => e.id === currentExerciseId);
+      const steps = ex.hasArrayToggle
+        ? (ex6UseArray ? ex.stepsWithArray : ex.stepsWithoutArray)
+        : ex.steps;
+
+      steps.forEach((_, i) => {
+        const row = document.getElementById('ex-step-row-' + i);
+        const node = document.getElementById('ex-flow-node-' + i);
+        if (row) {
+          row.className = i === idx
+            ? 'p-3 rounded-xl border border-cyan-400 bg-cyan-950/30 transition cursor-pointer flex items-start gap-3'
+            : 'p-3 rounded-xl border border-slate-800 bg-slate-900/70 hover:border-cyan-500/50 transition cursor-pointer flex items-start gap-3';
+        }
+        if (node) {
+          if (i === idx) {
+            node.classList.add('flow-step-highlight');
+            node.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          } else {
+            node.classList.remove('flow-step-highlight');
+          }
+        }
+      });
+
+      if (steps[idx]) {
+        speakText(`Passo ${idx + 1}: ${steps[idx].desc}`);
+      }
+    }
+
+    function stepExerciseFlow() {
+      const ex = exercisesData.find(e => e.id === currentExerciseId);
+      const steps = ex.hasArrayToggle
+        ? (ex6UseArray ? ex.stepsWithArray : ex.stepsWithoutArray)
+        : ex.steps;
+
+      const nextIdx = (currentFlowStepIndex + 1) % steps.length;
+      highlightFlowStep(nextIdx);
+    }
+
+    function runFullExerciseSim() {
+      const ex = exercisesData.find(e => e.id === currentExerciseId);
+      const steps = ex.hasArrayToggle
+        ? (ex6UseArray ? ex.stepsWithArray : ex.stepsWithoutArray)
+        : ex.steps;
+
+      let i = 0;
+      clearInterval(demoInterval);
+      highlightFlowStep(0);
+      demoInterval = setInterval(() => {
+        i++;
+        if (i < steps.length) {
+          highlightFlowStep(i);
+        } else {
+          clearInterval(demoInterval);
+        }
+      }, 950);
+    }
+
+    function speakCurrentExercise() {
+      const ex = exercisesData.find(e => e.id === currentExerciseId);
+      if (ex) {
+        speakText(ex.narration);
+      }
+    }
+
+    // =========================================================================
+    // 9. INICIALIZAÇÃO
+    // =========================================================================
+    window.addEventListener('DOMContentLoaded', () => {
+      initSpeechVoices();
+      selectBlock('declare', false, true);
+      renderDrawers();
+      renderExerciseSelector();
+    });
+
+    window.addEventListener('beforeunload', () => {
+      stopSpeech();
+    });
+  </script>
+</body>
+</html>
