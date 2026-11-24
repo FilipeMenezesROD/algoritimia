@@ -7,7 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
       --bg-main: #090a0d;
@@ -27,7 +27,6 @@
       font-family: 'JetBrains Mono', monospace;
     }
 
-    /* Acessibilidade: foco visível de alto contraste em todos os elementos interativos */
     button:focus-visible,
     select:focus-visible,
     input:focus-visible,
@@ -161,7 +160,6 @@
 <body class="min-h-screen flex flex-col">
   <a href="#main-content" class="sr-only-skip">Saltar diretamente para o conteúdo principal</a>
 
-  <!-- Barra Superior com Guia por Voz Académica PT-PT, Acessibilidade e Navegação -->
   <header class="sticky top-0 z-30 border-b border-slate-800 bg-[#0d0f15]/95 backdrop-blur-md" role="banner">
     <div class="max-w-[1440px] mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
       <div class="flex items-center gap-3">
@@ -182,7 +180,6 @@
         </div>
       </div>
 
-      <!-- Navegação Rápida entre Secções -->
       <nav aria-label="Secções do guia académico" class="flex flex-wrap items-center bg-slate-900/95 border border-slate-800 rounded-xl p-1 gap-1 text-xs font-semibold">
         <button id="nav-blocos" onclick="switchSection('blocos')" aria-current="page"
           class="px-3 py-1.5 rounded-lg bg-cyan-500/20 text-cyan-200 border border-cyan-500/40 transition">
@@ -190,11 +187,15 @@
         </button>
         <button id="nav-conceitos" onclick="switchSection('conceitos')"
           class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition">
-          2. Arrays, Procedimentos &amp; Funções
+          2. Arrays &amp; Funções (Completo)
+        </button>
+        <button id="nav-caderno1" onclick="switchSection('caderno1')"
+          class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition">
+          Caderno N.º 1 (Suposto)
         </button>
         <button id="nav-exercicios" onclick="switchSection('exercicios')"
           class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition">
-          3. Caderno N.º 2 (Fluxogramas 1–10)
+          3. Caderno N.º 2 (1–10)
         </button>
         <button id="nav-funcmanager" onclick="switchSection('funcmanager')"
           class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition">
@@ -202,7 +203,6 @@
         </button>
       </nav>
 
-      <!-- Controles do Tour Automático + Voz Académica PT-PT + Acessibilidade -->
       <div class="flex flex-wrap items-center gap-2" role="group" aria-label="Controlos de voz e tour automático">
         <label for="voiceLocaleSelect" class="sr-only">Selecionar variante do português para a guia por voz</label>
         <select id="voiceLocaleSelect" onchange="changeVoiceLocale()"
@@ -255,10 +255,10 @@
     </div>
   </header>
 
-  <!-- ===================================================================== -->
-  <!-- SECÇÃO 1: MENU FIEL AO FLOWGORITHM + DOCENTE UNIVERSITÁRIO POR VOZ     -->
-  <!-- ===================================================================== -->
   <main id="main-content" tabindex="-1">
+    <!-- ===================================================================== -->
+    <!-- SECÇÃO 1: MENU FIEL AO FLOWGORITHM + DOCENTE UNIVERSITÁRIO POR VOZ     -->
+    <!-- ===================================================================== -->
     <section id="section-blocos" class="flex-1 max-w-[1440px] w-full mx-auto px-4 py-5 grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
 
       <div class="xl:col-span-7 bg-[#090a0e] border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-2xl">
@@ -493,7 +493,7 @@
               </div>
               <div class="flex items-center gap-2 text-slate-300">
                 <span class="w-3 h-3 rounded-sm bg-[#292409] border border-[#c4b027]" aria-hidden="true"></span>
-                <span><strong class="text-amber-300">Amarelo:</strong> Estruturas iterativas (While, For, Do)</span>
+                <span><strong class="text-amber-300">Amarelo:</strong> Estruturas iterativas (While, For, Do) e desvios condicionais</span>
               </div>
               <div class="flex items-center gap-2 text-slate-300">
                 <span class="w-3 h-3 rounded-sm bg-[#1b1d24] border border-[#94a3b8]" aria-hidden="true"></span>
@@ -593,243 +593,269 @@
     </section>
 
     <!-- ===================================================================== -->
-    <!-- SECÇÃO 2: ARRAYS (INDEXADOS vs ASSOCIATIVOS) + PROCEDIMENTOS & FUNÇÕES -->
+    <!-- SECÇÃO 2: ARRAYS COMPLETOS + PROCEDIMENTOS & FUNÇÕES COMPLETAS        -->
     <!-- ===================================================================== -->
     <section id="section-conceitos" class="hidden flex-1 max-w-[1440px] w-full mx-auto px-4 py-6 space-y-8">
 
       <div class="bg-gradient-to-r from-[#121622] to-[#0d1018] border border-slate-800 rounded-2xl p-5 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <span class="text-xs font-bold uppercase tracking-wider text-cyan-300">Fundamentos de Estruturas de Dados e Modularidade</span>
-          <h2 class="text-xl sm:text-2xl font-extrabold text-white mt-1">Arrays Indexados vs. Arrays Associativos e Sub-rotinas</h2>
-          <p class="text-xs sm:text-sm text-slate-300 mt-1">Análise formal das estruturas contíguas indexadas, mapas associativos e distinção entre procedimentos e funções.</p>
+          <span class="text-xs font-bold uppercase tracking-wider text-cyan-300">Referência Completa • Flowgorithm &amp; Modularidade</span>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-white mt-1">Explicação Completa de Arrays e Funções / Procedimentos no Flowgorithm</h2>
+          <p class="text-xs sm:text-sm text-slate-300 mt-1">Declaração de arrays com <code class="text-rose-300">Declare</code>, índices de base zero, comparação com arrays associativos, parâmetros, âmbito local e devolução de valores com <code class="text-emerald-300">Return</code> vs. <code class="text-rose-300">None</code>.</p>
         </div>
-        <button onclick="speakCustomText('Nesta secção analisamos formalmente os vetores indexados de base zero, os arrays associativos baseados em chaves e a decomposição modular em procedimentos sem retorno e funções com valor de retorno.')"
+        <button onclick="speakArraysAndFunctions()"
           class="px-4 py-2 rounded-xl bg-cyan-500/20 border border-cyan-500/40 text-cyan-200 text-xs font-bold hover:bg-cyan-500/30 transition">
-          🎓 Ouvir Síntese Académica
+          🎓 Ouvir Síntese Completa
         </button>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-
-        <div class="lg:col-span-7 bg-[#11141d] border border-slate-800 rounded-2xl p-5 space-y-4 shadow-xl">
-          <div class="flex items-center justify-between gap-2">
-            <div>
-              <span class="text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30">
-                1. Array Indexado (Vetor de Base Zero)
-              </span>
-              <h3 class="text-lg font-extrabold text-white mt-2">Acesso Posicional por Índice Inteiro</h3>
-            </div>
-            <button onclick="speakCustomText('Um array indexado armazena uma sequência homogénea de elementos em posições contíguas endereçadas por um índice inteiro a partir de zero. Num vetor de dimensão cinco, os índices válidos pertencem ao intervalo de zero a quatro.')"
-              class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-cyan-200 border border-slate-700 transition">
-              🔊 Ouvir
-            </button>
-          </div>
-
-          <p class="text-sm text-slate-200 leading-relaxed">
-            Em vez de declarar múltiplas variáveis escalares isoladas (<code class="text-rose-300">item0</code>, <code class="text-rose-300">item1</code>...), um array indexado agrupa elementos do mesmo tipo sob um identificador único <code class="text-cyan-300">String Array pilotos[5]</code>, acedidos por deslocamento a partir do índice <strong class="text-amber-300">0</strong>.
-          </p>
-
-          <div class="bg-[#090c12] border border-slate-800 rounded-xl p-4 space-y-3">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-slate-200">Estrutura <code class="text-cyan-300">pilotos[5]</code> (selecione uma posição):</span>
-              <span id="drawerInspector" aria-live="polite" class="text-xs mono text-emerald-400 font-semibold">pilotos[1] → "Max Verstappen"</span>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-5 gap-2.5" id="indexedDrawersGrid">
-              <button onclick="openDrawer(0, 'Manuela')" id="drawer-0"
-                class="drawer-card text-left p-3 rounded-xl border border-slate-700 bg-slate-900/90">
-                <div class="flex items-center justify-between text-[11px] mono text-amber-300 font-bold">
-                  <span>Índice [0]</span>
-                  <span>1.º elem.</span>
-                </div>
-                <div class="mt-2 font-bold text-sm text-white">Manuela</div>
-                <div class="mt-1 text-[10px] mono text-slate-400">pilotos[0]</div>
-              </button>
-
-              <button onclick="openDrawer(1, 'Max Verstappen')" id="drawer-1"
-                class="drawer-card drawer-open text-left p-3 rounded-xl border border-slate-700 bg-slate-900/90">
-                <div class="flex items-center justify-between text-[11px] mono text-amber-300 font-bold">
-                  <span>Índice [1]</span>
-                  <span>2.º elem.</span>
-                </div>
-                <div class="mt-2 font-bold text-sm text-white">Max Verstappen</div>
-                <div class="mt-1 text-[10px] mono text-slate-400">pilotos[1]</div>
-              </button>
-
-              <button onclick="openDrawer(2, 'Fernando Alonso')" id="drawer-2"
-                class="drawer-card text-left p-3 rounded-xl border border-slate-700 bg-slate-900/90">
-                <div class="flex items-center justify-between text-[11px] mono text-amber-300 font-bold">
-                  <span>Índice [2]</span>
-                  <span>3.º elem.</span>
-                </div>
-                <div class="mt-2 font-bold text-sm text-white">Fernando Alonso</div>
-                <div class="mt-1 text-[10px] mono text-slate-400">pilotos[2]</div>
-              </button>
-
-              <button onclick="openDrawer(3, 'Kimi Antonelli')" id="drawer-3"
-                class="drawer-card text-left p-3 rounded-xl border border-slate-700 bg-slate-900/90">
-                <div class="flex items-center justify-between text-[11px] mono text-amber-300 font-bold">
-                  <span>Índice [3]</span>
-                  <span>4.º elem.</span>
-                </div>
-                <div class="mt-2 font-bold text-sm text-white">Kimi Antonelli</div>
-                <div class="mt-1 text-[10px] mono text-slate-400">pilotos[3]</div>
-              </button>
-
-              <button onclick="openDrawer(4, 'Gabriel Bortoleto')" id="drawer-4"
-                class="drawer-card text-left p-3 rounded-xl border border-slate-700 bg-slate-900/90">
-                <div class="flex items-center justify-between text-[11px] mono text-amber-300 font-bold">
-                  <span>Índice [4]</span>
-                  <span>5.º elem.</span>
-                </div>
-                <div class="mt-2 font-bold text-sm text-white">Gabriel Bortoleto</div>
-                <div class="mt-1 text-[10px] mono text-slate-400">pilotos[4]</div>
-              </button>
-            </div>
-
-            <div class="text-xs text-slate-300 bg-slate-900/80 border border-slate-800 rounded-lg p-2.5">
-              <strong class="text-amber-300">Limite de Limites (Bounds):</strong> Para um vetor de dimensão $N = 5$, os índices válidos são $0 \le i \le N-1$, ou seja, de <code class="text-amber-300">0</code> a <code class="text-amber-300">4</code>. Aceder a <code class="text-rose-400">pilotos[5]</code> provoca erro de execução (<em>Index out of bounds</em>).
-            </div>
-          </div>
-        </div>
-
-        <div class="lg:col-span-5 bg-[#11141d] border border-slate-800 rounded-2xl p-5 space-y-4 shadow-xl flex flex-col justify-between">
-          <div class="space-y-3">
-            <div class="flex items-center justify-between gap-2">
-              <span class="text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-purple-500/15 text-purple-300 border border-purple-500/30">
-                2. Array Associativo (Mapa Chave → Valor)
-              </span>
-              <button onclick="speakCustomText('Um array associativo, ou dicionário, associa cada valor a uma chave simbólica em vez de um índice numérico sequencial. O Flowgorithm suporta apenas arrays indexados; os associativos surgem em linguagens como Python, PHP e JavaScript.')"
-                class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-cyan-200 border border-slate-700 transition">
-                🔊 Ouvir
-              </button>
-            </div>
-
-            <h3 class="text-lg font-extrabold text-white">Endereçamento Semântico por Chave</h3>
-            <p class="text-sm text-slate-200 leading-relaxed">
-              Num <strong>Array Associativo</strong> (também designado por dicionário ou mapa), cada entrada é identificada por uma <strong>chave</strong> (frequentemente textual), tornando a consulta explícita pelo significado do atributo.
-            </p>
-
-            <div class="bg-[#090c12] border border-slate-800 rounded-xl p-3.5 space-y-2 mono text-xs">
-              <div class="text-slate-300 text-[11px] mb-1">Associação Chave ⇒ Valor:</div>
-              <div class="flex items-center justify-between p-2 rounded-lg bg-slate-900 border border-purple-500/30">
-                <span class="text-purple-300">registo["nome"]</span>
-                <span class="text-emerald-300 font-bold">"Filipe"</span>
-              </div>
-              <div class="flex items-center justify-between p-2 rounded-lg bg-slate-900 border border-purple-500/30">
-                <span class="text-purple-300">registo["uc"]</span>
-                <span class="text-emerald-300 font-bold">"00245 - Algoritmia"</span>
-              </div>
-              <div class="flex items-center justify-between p-2 rounded-lg bg-slate-900 border border-purple-500/30">
-                <span class="text-purple-300">registo["perfil"]</span>
-                <span class="text-emerald-300 font-bold">"Estudante"</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="text-xs text-slate-200 bg-purple-950/25 border border-purple-500/30 rounded-xl p-3">
-            <strong>Enquadramento no Curso:</strong> O <strong>Flowgorithm</strong> implementa exclusivamente <strong>Arrays Indexados</strong> (<code class="text-cyan-300">[0], [1], [2]...</code>). Os <strong>Arrays Associativos</strong> (ou dicionários) são fundamentais na transição para Python, PHP ou JavaScript.
-          </div>
-        </div>
-
-      </div>
-
+      <!-- PARTE I: ARRAYS NO FLOWGORITHM (CORREÇÃO INTEGRADA) -->
       <div class="bg-[#11141d] border border-slate-800 rounded-2xl p-5 sm:p-6 space-y-5 shadow-xl">
-        <div class="flex flex-wrap items-center justify-between gap-3">
+        <div class="border-b border-slate-800 pb-3 flex flex-wrap items-center justify-between gap-2">
           <div>
-            <span class="text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
-              Abstração e Modularização • Subprogramas
-            </span>
-            <h3 class="text-xl font-extrabold text-white mt-1.5">Procedimentos vs. Funções: Critério de Retorno</h3>
-            <p class="text-sm text-cyan-300 font-semibold mt-1">
-              "Um <u>Procedimento</u> executa uma operação sem devolver valor ao chamador (<code class="text-slate-200">Return Type: None</code>); uma <u>Função</u> computa e <strong>devolve sempre um valor tipificado</strong>."
-            </p>
+            <span class="text-xs font-bold uppercase tracking-wider text-amber-300">Parte I • Estruturas de Dados</span>
+            <h3 class="text-xl font-extrabold text-white mt-0.5">Arrays no Flowgorithm: Declaração, Índices e Comparação com Associativos</h3>
           </div>
-
-          <button onclick="speakCustomText('Do ponto de vista formal, um procedimento executa instruções com eventuais efeitos colaterais e não retorna valor ao bloco chamador, correspondendo no Flowgorithm ao tipo de retorno None. Uma função avalia uma expressão ou algoritmo e devolve explicitamente um valor do tipo declarado.')"
-            class="px-4 py-2 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-200 text-xs font-bold hover:bg-emerald-500/30 transition">
-            🎓 Ouvir Explicação Académica
+          <button onclick="speakCustomText('No Flowgorithm, um array indexado guarda vários valores do mesmo tipo em posições numeradas de zero até à dimensão menos um. Já os arrays associativos usam chaves em vez de índices numéricos e surgem noutras linguagens.')"
+            class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-cyan-200 border border-slate-700 transition">
+            🔊 Ouvir Parte I
           </button>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-
-          <div class="bg-[#090c12] border border-slate-800 rounded-2xl p-4 space-y-3">
-            <div class="flex items-center justify-between">
-              <span class="px-2.5 py-1 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs font-bold">
-                PROCEDIMENTO (Return Type: None)
-              </span>
-              <span class="text-xs mono text-slate-400">Sem valor de retorno</span>
-            </div>
-
-            <h4 class="text-base font-bold text-white">Execução de Tarefa Sem Devolução de Valor</h4>
-            <p class="text-xs sm:text-sm text-slate-200 leading-relaxed">
-              É invocado como instrução autónoma (através de <code class="text-cyan-300">Call</code>). Realiza ações como apresentar menus, escrever cabeçalhos ou formatar saídas, terminando o fluxo sem produzir um valor de retorno para atribuição.
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 text-xs sm:text-sm text-slate-200 leading-relaxed">
+          <div class="bg-[#080a0f] border border-slate-800 rounded-xl p-4 space-y-2.5">
+            <h4 class="text-base font-bold text-cyan-300">1. O que é um Array e como funciona no Flowgorithm?</h4>
+            <p>
+              No <strong>Flowgorithm</strong>, um <strong>Array</strong> (vetor unidimensional) é uma estrutura de tamanho fixo que armazena vários valores do <strong>mesmo tipo</strong> (<code class="text-rose-300">Integer</code>, <code class="text-rose-300">Real</code>, <code class="text-rose-300">String</code> ou <code class="text-rose-300">Boolean</code>) sob um único nome de variável.
             </p>
-
-            <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs space-y-1.5">
-              <div class="font-bold text-amber-300">Invocação no Flowgorithm:</div>
-              <div class="mono text-slate-200">Call MostrarMenu()</div>
-              <p class="text-slate-400 text-[11px]">Não pode ser colocado do lado direito de uma atribuição (<code class="text-rose-300">x = MostrarMenu()</code> é inválido pois não retorna valor).</p>
-            </div>
-
-            <button onclick="simulateSubroutine('proc')"
-              class="w-full py-2 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-200 text-xs font-bold transition">
-              ▶ Simular Procedimento (Return: None)
-            </button>
+            <p>
+              Para criar um array no Flowgorithm, usa-se o bloco <strong>Declare</strong>, ativa-se a caixa <strong>Array?</strong> e indica-se a <strong>Array Size</strong> (dimensão). Por exemplo, ao declarar <code class="text-rose-300">Real Array valores[5]</code>, o Flowgorithm cria 5 posições contíguas numeradas de <strong class="text-amber-300">0 até 4</strong> (<code class="text-cyan-300">valores[0]</code>, <code class="text-cyan-300">valores[1]</code>, <code class="text-cyan-300">valores[2]</code>, <code class="text-cyan-300">valores[3]</code> e <code class="text-cyan-300">valores[4]</code>).
+            </p>
+            <p>
+              A indexação começa sempre em <strong>0</strong>. Se o array tem tamanho <code class="text-amber-300">N</code>, o último índice válido é <code class="text-amber-300">N - 1</code>. Tentar aceder a <code class="text-rose-400">valores[5]</code> num array de tamanho 5 gera erro de limite fora do intervalo (<em>Index out of bounds</em>).
+            </p>
           </div>
 
-          <div class="bg-[#090c12] border border-slate-800 rounded-2xl p-4 space-y-3">
-            <div class="flex items-center justify-between">
-              <span class="px-2.5 py-1 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-bold">
-                FUNÇÃO (Return Type: Integer / Real / String / Boolean)
-              </span>
-              <span class="text-xs mono text-slate-400">Retorna valor tipificado</span>
-            </div>
-
-            <h4 class="text-base font-bold text-white">Computação com Devolução Explícita (<code class="text-emerald-300">Return</code>)</h4>
-            <p class="text-xs sm:text-sm text-slate-200 leading-relaxed">
-              Recebe parâmetros formais (zero ou mais), executa o processamento interno e encerra através do bloco <code class="text-emerald-300">Return</code>, devolvendo um valor compatível com o tipo declarado ao ponto de chamada.
+          <div class="bg-[#080a0f] border border-slate-800 rounded-xl p-4 space-y-2.5">
+            <h4 class="text-base font-bold text-purple-300">2. Array Indexado vs. Array Associativo</h4>
+            <p>
+              <strong>Array Indexado</strong> (o único suportado nativamente no Flowgorithm): cada elemento é acedido através de um <strong>índice inteiro sequencial</strong> (<code class="text-cyan-300">0, 1, 2, ...</code>). É ideal para ciclos <code class="text-amber-300">For</code> com contador (<code class="text-amber-300">i = 0 to 4</code>), somatórios, médias, pesquisas lineares e listas de valores.
             </p>
+            <p>
+              <strong>Array Associativo</strong> (também chamado de <em>dicionário</em>, <em>mapa</em> ou <em>objeto chave-valor</em>): em vez de índices numéricos <code class="text-cyan-300">0, 1, 2</code>, cada valor é associado a uma <strong>chave</strong> descritiva (por exemplo <code class="text-purple-300">dados["nome"]</code> ou <code class="text-purple-300">dados["saudacao"]</code>).
+            </p>
+            <p>
+              No Flowgorithm não existe tipo nativo de array associativo; quando um exercício (como o Exercício 6 do Caderno 3) menciona um dicionário, no Flowgorithm modela-se com variáveis <code class="text-rose-300">String</code> separadas (ex.: <code class="text-rose-300">saudacao</code> e <code class="text-rose-300">nome</code>) ou passa-se para linguagens como Python, JavaScript ou PHP.
+            </p>
+          </div>
+        </div>
 
-            <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs space-y-1.5">
-              <div class="font-bold text-emerald-300">Invocação no Flowgorithm:</div>
-              <div class="mono text-slate-200">area = AreaCirculo(raio)</div>
-              <p class="text-slate-400 text-[11px]">O valor devolvido por <code class="text-emerald-300">Return area</code> é atribuído diretamente a <code class="text-cyan-300">area</code> no subprograma chamador.</p>
-            </div>
-
-            <button onclick="simulateSubroutine('func')"
-              class="w-full py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-200 text-xs font-bold transition">
-              ▶ Simular Função (Com Return)
+        <!-- Simulador interativo de Array Indexado -->
+        <div class="bg-[#080a0f] border border-slate-800 rounded-xl p-4 space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <span class="text-xs font-bold text-amber-300 mono">Simulador Interativo: Real Array v[5] (Índices 0 a 4)</span>
+            <span id="arraySimStatus" aria-live="polite" class="text-xs mono text-emerald-300">v[0] = -2.5 | v[1] = 3 | v[2] = 2 | v[3] = 0 | v[4] = 1</span>
+          </div>
+          <div id="arraySlotsGrid" class="grid grid-cols-5 gap-2"></div>
+          <div class="flex flex-wrap items-center gap-2 text-xs">
+            <label for="arrayIndexInput" class="text-slate-300">Índice (0–4):</label>
+            <input id="arrayIndexInput" type="number" min="0" max="4" value="1" class="w-16 px-2 py-1 rounded bg-slate-900 border border-slate-700 text-white mono" />
+            <label for="arrayValInput" class="text-slate-300">Novo valor:</label>
+            <input id="arrayValInput" type="number" step="any" value="10" class="w-24 px-2 py-1 rounded bg-slate-900 border border-slate-700 text-white mono" />
+            <button onclick="updateArraySlot()" class="px-3 py-1 rounded-lg bg-cyan-500 text-slate-950 font-bold hover:bg-cyan-400 transition">
+              Atribuir v[idx]
             </button>
           </div>
+        </div>
 
+        <!-- Gavetas interativas de exemplo -->
+        <div class="bg-[#090c12] border border-slate-800 rounded-xl p-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-200">Exemplo de vetor <code class="text-cyan-300">pilotos[5]</code> (clique numa posição):</span>
+            <span id="drawerInspector" aria-live="polite" class="text-xs mono text-emerald-400 font-semibold">pilotos[1] → "Max Verstappen"</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-5 gap-2.5" id="indexedDrawersGrid">
+            <button onclick="openDrawer(0, 'Manuela')" id="drawer-0"
+              class="drawer-card text-left p-3 rounded-xl border border-slate-700 bg-slate-900/90">
+              <div class="flex items-center justify-between text-[11px] mono text-amber-300 font-bold">
+                <span>Índice [0]</span>
+                <span>1.º elem.</span>
+              </div>
+              <div class="mt-2 font-bold text-sm text-white">Manuela</div>
+              <div class="mt-1 text-[10px] mono text-slate-400">pilotos[0]</div>
+            </button>
+
+            <button onclick="openDrawer(1, 'Max Verstappen')" id="drawer-1"
+              class="drawer-card drawer-open text-left p-3 rounded-xl border border-slate-700 bg-slate-900/90">
+              <div class="flex items-center justify-between text-[11px] mono text-amber-300 font-bold">
+                <span>Índice [1]</span>
+                <span>2.º elem.</span>
+              </div>
+              <div class="mt-2 font-bold text-sm text-white">Max Verstappen</div>
+              <div class="mt-1 text-[10px] mono text-slate-400">pilotos[1]</div>
+            </button>
+
+            <button onclick="openDrawer(2, 'Fernando Alonso')" id="drawer-2"
+              class="drawer-card text-left p-3 rounded-xl border border-slate-700 bg-slate-900/90">
+              <div class="flex items-center justify-between text-[11px] mono text-amber-300 font-bold">
+                <span>Índice [2]</span>
+                <span>3.º elem.</span>
+              </div>
+              <div class="mt-2 font-bold text-sm text-white">Fernando Alonso</div>
+              <div class="mt-1 text-[10px] mono text-slate-400">pilotos[2]</div>
+            </button>
+
+            <button onclick="openDrawer(3, 'Kimi Antonelli')" id="drawer-3"
+              class="drawer-card text-left p-3 rounded-xl border border-slate-700 bg-slate-900/90">
+              <div class="flex items-center justify-between text-[11px] mono text-amber-300 font-bold">
+                <span>Índice [3]</span>
+                <span>4.º elem.</span>
+              </div>
+              <div class="mt-2 font-bold text-sm text-white">Kimi Antonelli</div>
+              <div class="mt-1 text-[10px] mono text-slate-400">pilotos[3]</div>
+            </button>
+
+            <button onclick="openDrawer(4, 'Gabriel Bortoleto')" id="drawer-4"
+              class="drawer-card text-left p-3 rounded-xl border border-slate-700 bg-slate-900/90">
+              <div class="flex items-center justify-between text-[11px] mono text-amber-300 font-bold">
+                <span>Índice [4]</span>
+                <span>5.º elem.</span>
+              </div>
+              <div class="mt-2 font-bold text-sm text-white">Gabriel Bortoleto</div>
+              <div class="mt-1 text-[10px] mono text-slate-400">pilotos[4]</div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PARTE II: FUNÇÕES E PROCEDIMENTOS NO FLOWGORITHM (CORREÇÃO INTEGRADA) -->
+      <div class="bg-[#11141d] border border-slate-800 rounded-2xl p-5 sm:p-6 space-y-5 shadow-xl">
+        <div class="border-b border-slate-800 pb-3 flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-emerald-300">Parte II • Modularização no Flowgorithm</span>
+            <h3 class="text-xl font-extrabold text-white mt-0.5">Funções vs. Procedimentos, Parâmetros, Return e Call</h3>
+          </div>
+          <button onclick="speakCustomText('Quanto aos subprogramas, um procedimento tem retorno None e é chamado com Call, enquanto uma função tem um tipo de retorno como Real ou Boolean e devolve um valor através de Return.')"
+            class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-cyan-200 border border-slate-700 transition">
+            🔊 Ouvir Parte II
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 text-xs sm:text-sm text-slate-200 leading-relaxed">
+          <div class="bg-[#080a0f] border border-slate-800 rounded-xl p-4 space-y-2.5">
+            <h4 class="text-base font-bold text-emerald-300">1. Função (com Return) vs. Procedimento (Return Type: None)</h4>
+            <p>
+              No Flowgorithm, todos os subprogramas criam-se através do <strong>Function Manager</strong> (menu <em>Program → Function Manager</em> ou botão correspondente). A diferença essencial está no <strong>Return Type</strong>:
+            </p>
+            <p>
+              <strong>Função</strong> tem um <strong>Return Type</strong> definido (<code class="text-emerald-300">Real</code>, <code class="text-emerald-300">Integer</code>, <code class="text-emerald-300">String</code> ou <code class="text-emerald-300">Boolean</code>) e termina obrigatoriamente num bloco <strong>Return</strong> que devolve um valor ao ponto onde foi chamada. Exemplo: <code class="text-cyan-300">area = AreaCirculo(raio)</code>.
+            </p>
+            <p>
+              <strong>Procedimento</strong> tem <strong>Return Type: None</strong>. Executa tarefas (como mostrar um menu, imprimir linhas ou apresentar resultados) sem devolver nenhum valor. Invoca-se com o bloco <strong>Call</strong>, por exemplo: <code class="text-amber-300">Call MostrarMenu()</code>.
+            </p>
+          </div>
+
+          <div class="bg-[#080a0f] border border-slate-800 rounded-xl p-4 space-y-2.5">
+            <h4 class="text-base font-bold text-cyan-300">2. Parâmetros, Argumentos e Âmbito Local</h4>
+            <p>
+              Os <strong>parâmetros</strong> são as variáveis declaradas na assinatura do subprograma (ex.: <code class="text-emerald-300">AreaCirculo(Real r)</code>). Os <strong>argumentos</strong> são os valores ou variáveis passados na chamada a partir do <code class="text-white">Main</code> (ex.: <code class="text-cyan-300">AreaCirculo(raio)</code>).
+            </p>
+            <p>
+              As variáveis declaradas dentro de uma função ou do <code class="text-white">Main</code> têm <strong>âmbito local</strong> ao subprograma onde foram criadas. Por isso, para uma função trabalhar com um dado do <code class="text-white">Main</code>, deve recebê-lo por <strong>parâmetro</strong> e devolver o resultado via <strong>Return</strong>.
+            </p>
+            <p>
+              Nota importante sobre arrays no Flowgorithm: quando um array é passado como parâmetro para uma função, indica-se o tipo e o nome (ex.: <code class="text-cyan-300">Real Array nums</code>) e o tamanho é tratado conforme a declaração do array chamador.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <button onclick="simulateSubroutine('proc')"
+            class="w-full py-2.5 px-4 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-200 text-xs font-bold transition">
+            ▶ Simular Procedimento (Return Type: None • Call)
+          </button>
+          <button onclick="simulateSubroutine('func')"
+            class="w-full py-2.5 px-4 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-200 text-xs font-bold transition">
+            ▶ Simular Função (Com Return • Atribuição)
+          </button>
         </div>
 
         <div id="subroutineStage" aria-live="polite" class="bg-[#090c12] border border-cyan-500/30 rounded-xl p-4 text-xs mono text-slate-200">
           Selecione uma das simulações acima para observar a transferência de controlo entre o subprograma chamador e o subprograma invocado.
         </div>
 
-        <div class="bg-slate-900/90 border border-slate-700/80 rounded-2xl p-4 space-y-2.5">
-          <div class="text-xs font-bold uppercase tracking-wider text-amber-300">
-            Assinatura de Subprograma: <code class="text-white">Identificador(lista_opcional_de_parâmetros)</code>
+        <div class="bg-[#000000] border border-slate-700/90 rounded-2xl p-3 overflow-x-auto" id="functionsOverviewChart"></div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SECÇÃO SUPOSTA: CADERNO N.º 1 — FUNDAMENTOS E SEQUÊNCIA (EX. 1–4)   -->
+    <!-- ===================================================================== -->
+    <section id="section-caderno1" class="hidden flex-1 max-w-[1440px] w-full mx-auto px-4 py-6 space-y-6">
+
+      <div class="bg-gradient-to-r from-[#121622] to-[#0d1018] border border-slate-800 rounded-2xl p-5 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-amber-300">UC 00245 • Caderno de Exercícios N.º 1 (Suposto / Introdutório)</span>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-white mt-1">Fundamentos: Declaração, Atribuição, E/S e Decisão Simples</h2>
+          <p class="text-xs sm:text-sm text-slate-300 mt-1">Caderno introdutório reconstituído para consolidar <code class="text-cyan-300">Declare</code>, <code class="text-cyan-300">Assign</code>, <code class="text-cyan-300">Input</code>, <code class="text-cyan-300">Output</code> e <code class="text-cyan-300">If</code> antes dos ciclos do Caderno N.º 2.</p>
+        </div>
+        <button onclick="speakCurrentCad1()"
+          class="px-4 py-2.5 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-200 text-xs font-bold hover:bg-amber-500/30 transition">
+          🎓 Ouvir Exercício do Caderno N.º 1
+        </button>
+      </div>
+
+      <div role="tablist" aria-label="Exercícios do Caderno N.º 1 (Suposto)" class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="cad1SelectorGrid"></div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div class="lg:col-span-7 bg-[#11141d] border border-slate-800 rounded-2xl p-5 space-y-4 shadow-xl">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+            <div>
+              <span id="cad1Badge" class="text-xs font-bold uppercase tracking-wider text-amber-300">Caderno N.º 1 • Exercício 1 de 4</span>
+              <h3 id="cad1Title" class="text-lg sm:text-xl font-extrabold text-white mt-0.5"></h3>
+            </div>
+            <span id="cad1ConceptTag" class="px-2.5 py-1 rounded-lg bg-cyan-500/15 border border-cyan-500/30 text-cyan-300 text-xs font-semibold"></span>
           </div>
-          <p class="text-xs sm:text-sm text-slate-200 leading-relaxed">
-            Na definição de um subprograma em <strong>Program → Add Function</strong>, especifica-se o nome, o tipo de retorno e os parâmetros formais:
-          </p>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-            <div class="p-3 rounded-xl bg-[#090c12] border border-slate-800">
-              <span class="font-bold text-cyan-300">1. Parâmetros opcionais:</span>
-              <p class="text-slate-300 mt-1">Se o subprograma não exige dados de entrada, a lista de parâmetros é vazia, ex.: <code class="text-white">MostrarMenu()</code>. Caso contrário, declaram-se os parâmetros tipados, ex.: <code class="text-white">AreaCirculo(Real r)</code>.</p>
+
+          <div class="bg-slate-900/85 border border-slate-800 rounded-xl p-3.5 text-xs sm:text-sm text-slate-200">
+            <strong class="text-white">Enunciado:</strong> <span id="cad1Statement"></span>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold uppercase tracking-wider text-cyan-300">
+                Estrutura Pronta em Fluxograma (Estilo Flowgorithm)
+              </span>
+              <span class="text-[11px] mono text-slate-400">Fluxo de controlo: Main → End</span>
             </div>
-            <div class="p-3 rounded-xl bg-[#090c12] border border-slate-800">
-              <span class="font-bold text-emerald-300">2. Parâmetros formais vs. argumentos reais:</span>
-              <p class="text-slate-300 mt-1">Os identificadores no chamador (<code class="text-amber-300">raio</code>) não têm de coincidir com o nome do parâmetro formal (<code class="text-emerald-300">r</code>); a correspondência é posicional (por ordem).</p>
-            </div>
+            <div id="cad1FlowchartVisual" aria-live="polite" class="bg-[#000000] border border-slate-700/90 rounded-2xl p-3 overflow-x-auto"></div>
           </div>
         </div>
 
+        <div class="lg:col-span-5 space-y-4">
+          <div class="bg-gradient-to-br from-[#141824] to-[#0f121b] border border-slate-700/80 rounded-2xl p-4 space-y-2 shadow-xl">
+            <div class="text-xs font-bold text-cyan-300 uppercase tracking-wider">Fundamentação Académica do Fluxograma</div>
+            <p id="cad1LogicSummary" aria-live="polite" class="text-xs sm:text-sm text-slate-100 leading-relaxed"></p>
+          </div>
+
+          <div class="bg-[#090c12] border border-slate-800 rounded-2xl p-4 space-y-2.5 shadow-xl">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-emerald-400 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-400" aria-hidden="true"></span>
+                Saída Esperada na Consola
+              </span>
+              <span class="text-[11px] mono text-slate-400">Flowgorithm Console</span>
+            </div>
+            <pre id="cad1ConsoleOutput" class="bg-black border border-slate-800 rounded-xl p-3.5 mono text-xs text-slate-200 whitespace-pre-wrap leading-relaxed"></pre>
+          </div>
+
+          <div class="bg-rose-950/25 border border-rose-500/35 rounded-2xl p-4 text-xs text-rose-100 space-y-1.5">
+            <div class="font-bold text-rose-300">Atenção em Aula:</div>
+            <p id="cad1Pitfall" class="leading-relaxed"></p>
+          </div>
+        </div>
       </div>
+
     </section>
 
     <!-- ===================================================================== -->
@@ -840,8 +866,8 @@
       <div class="bg-gradient-to-r from-[#121622] to-[#0d1018] border border-slate-800 rounded-2xl p-5 flex flex-wrap items-center justify-between gap-4">
         <div>
           <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">UC 00245 • Caderno de Exercícios N.º 2 (Exercícios 1 ao 10)</span>
-          <h2 class="text-xl sm:text-2xl font-extrabold text-white mt-1">Diagramas de Fluxograma Prontos (Representação Visual Estruturada)</h2>
-          <p class="text-xs sm:text-sm text-slate-300 mt-1">Cada exercício apresenta a <strong>estrutura completa em diagrama de fluxograma</strong>, análise de terminação/ciclos e saída esperada na consola.</p>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-white mt-1">Diagramas de Fluxograma Prontos (Sem Sobreposição de Texto)</h2>
+          <p class="text-xs sm:text-sm text-slate-300 mt-1">Cada exercício apresenta a <strong>estrutura completa em diagrama de fluxograma</strong> no estilo Flowgorithm com ramos <code class="text-emerald-300">True</code>/<code class="text-rose-300">False</code> e saída esperada na consola.</p>
         </div>
         <button onclick="speakCurrentExercise()"
           class="px-4 py-2.5 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-200 text-xs font-bold hover:bg-emerald-500/30 transition">
@@ -871,11 +897,11 @@
           <div class="space-y-2">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold uppercase tracking-wider text-cyan-300">
-                Estrutura Pronta em Fluxograma (Diagrama Visual)
+                Estrutura Pronta em Fluxograma (Estilo Flowgorithm)
               </span>
-              <span class="text-[11px] mono text-slate-400">Fluxo de controlo: Main → Fim</span>
+              <span class="text-[11px] mono text-slate-400">Fluxo de controlo: Main → End</span>
             </div>
-            <div id="exFlowchartVisual" aria-live="polite" class="bg-[#07090e] border border-slate-700/90 rounded-2xl p-3 overflow-x-auto"></div>
+            <div id="exFlowchartVisual" aria-live="polite" class="bg-[#000000] border border-slate-700/90 rounded-2xl p-3 overflow-x-auto"></div>
           </div>
         </div>
 
@@ -1067,7 +1093,7 @@
             </div>
 
             <div class="text-xs font-bold uppercase tracking-wider text-cyan-300">Fluxograma Estrutural da Solução:</div>
-            <div id="ex3FlowchartVisual" class="bg-[#07090e] border border-slate-700/90 rounded-2xl p-3 overflow-x-auto"></div>
+            <div id="ex3FlowchartVisual" class="bg-[#000000] border border-slate-700/90 rounded-2xl p-3 overflow-x-auto"></div>
           </div>
 
           <div class="lg:col-span-6 bg-[#090c12] border border-cyan-500/30 rounded-2xl p-4 space-y-3.5">
@@ -1276,11 +1302,17 @@
       }
     }
 
+    function speakArraysAndFunctions() {
+      speakCustomText(
+        'No Flowgorithm, um array indexado guarda vários valores do mesmo tipo em posições numeradas de zero até à dimensão menos um. Já os arrays associativos usam chaves em vez de índices numéricos e surgem noutras linguagens. Quanto aos subprogramas, um procedimento tem retorno None e é chamado com Call, enquanto uma função tem um tipo de retorno como Real ou Boolean e devolve um valor através de Return.'
+      );
+    }
+
     // =========================================================================
     // NAVEGAÇÃO ENTRE SECÇÕES (COM ARIA-CURRENT)
     // =========================================================================
     function switchSection(sectionName) {
-      const sections = ['blocos', 'conceitos', 'exercicios', 'funcmanager'];
+      const sections = ['blocos', 'conceitos', 'caderno1', 'exercicios', 'funcmanager'];
       sections.forEach(sec => {
         const el = document.getElementById('section-' + sec);
         const nav = document.getElementById('nav-' + sec);
@@ -1315,9 +1347,9 @@
       declare: {
         category: 'Variables',
         title: 'Declare (Declaração Tipada de Variável)',
-        speech: '"Em Algoritmia, cada identificador de memória deve ser explicitamente declarado com o respetivo tipo de dados antes da sua primeira utilização."',
+        speech: '"Na programação estruturada, nenhuma variável deve ser utilizada antes de ser declarada com o respetivo tipo de dados."',
         meaning: 'Define o identificador simbólico e o tipo de dados (Integer, Real, String ou Boolean) associado a uma posição de memória.',
-        purpose: 'Garante verificação estática/dinâmica de tipos e reserva espaço adequado ao domínio de valores que o algoritmo irá manipular.',
+        purpose: 'Garante verificação de tipos e reserva espaço adequado ao domínio de valores que o algoritmo irá manipular.',
         howTo: 'Indique o identificador (ex.: contador, soma) e o tipo primitivo: Integer (inteiros), Real (vírgula flutuante), String (cadeia de caracteres) ou Boolean (lógico).',
         exampleTag: 'Exercícios 2 e 3',
         example: 'No Exercício 3 declaram-se Integer n, Integer cont (contagem de múltiplos) e String aux (acumulação textual da sequência).',
@@ -1326,7 +1358,7 @@
       assign: {
         category: 'Variables',
         title: 'Assign (Atribuição e Avaliação de Expressão)',
-        speech: '"A instrução de atribuição avalia a expressão à direita e armazena o resultado na variável de destino, substituindo o seu valor anterior."',
+        speech: '"A instrução de atribuição avalia a expressão à direita e guarda o resultado na variável à esquerda, substituindo o valor anterior."',
         meaning: 'Operação fundamental de atualização de estado da memória: variável ← expressão.',
         purpose: 'Inicializa acumuladores (soma = 0), atualiza contadores (cont = cont + 1), calcula fórmulas ou concatena cadeias de caracteres.',
         howTo: 'No campo Variable insere-se apenas o nome da variável; no campo Expression escreve-se a expressão (sem repetir o sinal de igualdade no início).',
@@ -1337,21 +1369,21 @@
       input: {
         category: 'Statement • Input / Output',
         title: 'Input (Entrada de Dados na Consola)',
-        speech: '"O bloco Input suspende a execução do algoritmo até que o utilizador forneça um valor válido na consola, convertendo-o para o tipo da variável de destino."',
+        speech: '"O bloco Input suspende a execução até que o utilizador introduza um valor na consola e o guarda na variável indicada."',
         meaning: 'Canal de entrada interativa que lê um dado externo e o atribui a uma variável previamente declarada.',
-        purpose: 'Captar parâmetros, senhas ou sequências fornecidas em tempo de execução.',
-        howTo: 'Indique apenas o nome da variável de destino (ex.: num ou senha). Preceda sempre por um Output descritivo para clareza da interface.',
+        purpose: 'Captar números, senhas, opções de menu ou valores fornecidos durante a execução.',
+        howTo: 'Indique apenas o nome da variável de destino (ex.: num ou senha). Preceda sempre por um Output descritivo para clareza.',
         exampleTag: 'Exercícios 4, 6 e 9',
-        example: 'No Exercício 4, Input num lê o inteiro base para geração da respetiva tabuada.',
+        example: 'No Exercício 4, Input num lê o número inteiro para gerar a respetiva tabuada.',
         demoType: 'input'
       },
       output: {
         category: 'Statement • Input / Output',
         title: 'Output (Saída de Dados na Consola)',
-        speech: '"O bloco Output avalia a expressão indicada e envia a respetiva representação textual para a consola de saída do algoritmo."',
+        speech: '"O bloco Output avalia a expressão indicada e envia o resultado para a janela de consola."',
         meaning: 'Instrução de apresentação de resultados, mensagens informativas ou estados de variáveis.',
-        purpose: 'Comunicar ao utilizador prompts, respostas intermédias e resultados finais do processamento.',
-        howTo: 'Literais de texto escrevem-se entre aspas duplas ("..."); identificadores de variáveis escrevem-se sem aspas; a concatenação faz-se com o operador &.',
+        purpose: 'Comunicar ao utilizador pedidos de dados, etapas intermédias e respostas finais.',
+        howTo: 'Literais de texto escrevem-se entre aspas duplas ("..."); identificadores escrevem-se sem aspas; a concatenação usa o operador &.',
         exampleTag: 'Todos os Exercícios',
         example: 'Exibe resultados formatados, como "Ao todo foram encontrados " & cont & " números divisiveis por 4."',
         demoType: 'output'
@@ -1359,188 +1391,188 @@
       if: {
         category: 'Statement • Control',
         title: 'If (Estrutura Condicional / Desvio)',
-        speech: '"A estrutura condicional If avalia uma expressão booleana e desvia o fluxo de execução para o ramo True ou para o ramo False."',
-        meaning: 'Seleção binária baseada numa condição relacional ou lógica (==, !=, <, <=, >, >=, and, or, not).',
-        purpose: 'Executar ações seletivas conforme o estado das variáveis, como testar divisibilidade (n mod 4 == 0) ou validar condições.',
-        howTo: 'Escreva uma expressão booleana bem formada. Ambos os ramos (True e False) são suportados conforme a necessidade do problema.',
+        speech: '"A estrutura condicional If avalia uma condição lógica e encaminha a execução pelo ramo True ou pelo ramo False."',
+        meaning: 'Seleção binária baseada numa expressão relacional ou lógica (==, !=, <, <=, >, >=, and, or, not).',
+        purpose: 'Executar ações seletivas conforme o estado das variáveis, como testar divisibilidade (n mod 4 == 0) ou comparar valores.',
+        howTo: 'Escreva uma condição booleana clara. Utilize True e False conforme a decisão pretendida.',
         exampleTag: 'Exercício 3',
-        example: 'A condição n mod 4 == 0 verifica se o resto da divisão inteira de n por 4 é nulo.',
+        example: 'A condição n mod 4 == 0 verifica se o resto da divisão inteira de n por 4 é igual a zero.',
         demoType: 'if'
       },
       while: {
         category: 'Statement • Looping',
         title: 'While (Iteração com Pré-Condição)',
-        speech: '"O ciclo While verifica a condição antes de cada iteração. Se a condição permanecer verdadeira sem atualização adequada da variável de controlo, ocorre um ciclo infinito."',
+        speech: '"O ciclo While testa a condição antes de cada repetição. Se a condição nunca se tornar falsa, ocorre um ciclo infinito."',
         meaning: 'Estrutura repetitiva controlada por condição avaliada à entrada do ciclo (0 ou mais iterações).',
-        purpose: 'Repetir um bloco enquanto uma condição se mantiver válida, como validação de senha até acerto ou leitura até valor sentinela.',
-        howTo: 'Garanta que a expressão booleana evolui para falso ao longo das iterações (atualizando a variável testada dentro do ciclo).',
+        purpose: 'Repetir instruções enquanto uma condição se mantiver verdadeira, como validar uma senha até acertar ou somar até atingir um limite.',
+        howTo: 'Atualize sempre dentro do ciclo a variável testada na condição para garantir que o laço termina.',
         exampleTag: 'Exercícios 2, 8, 9 e 10',
-        example: 'No Exercício 9 (senha 1234), o ciclo repete enquanto senha != 1234, exigindo nova leitura Input senha dentro do corpo do ciclo.',
+        example: 'No Exercício 9 (senha 1234), repete enquanto senha != 1234, lendo nova tentativa Input senha dentro do laço.',
         demoType: 'while'
       },
       for: {
         category: 'Statement • Looping',
         title: 'For (Iteração de Contagem Definida)',
-        speech: '"O ciclo For governa explicitamente uma variável de controlo entre um limite inicial e um limite final com um incremento (Step) constante."',
-        meaning: 'Iteração enumerada com inicialização, condição de limite e atualização automática da variável de controlo.',
-        purpose: 'Percorrer intervalos numéricos conhecidos ou estruturas indexadas de dimensão fixa.',
-        howTo: 'Defina a variável de controlo, o valor inicial, o valor final e o passo (Step). O ramo Next executa o corpo e o ramo Done prossegue após o término.',
+        speech: '"O ciclo For controla uma variável de contagem entre um valor inicial e um valor final com um passo constante."',
+        meaning: 'Iteração enumerada com início, fim e incremento/decremento automático.',
+        purpose: 'Percorrer intervalos numéricos conhecidos ou arrays de dimensão fixa.',
+        howTo: 'Defina variável inicial, valor final e passo (Step). O ramo Next executa o corpo e Done segue após o término.',
         exampleTag: 'Exercícios 1, 3, 4, 5 e 7',
-        example: 'No Exercício 1, n varia de 1 até 19 com passo 3 (1, 4, 7, 10, 13, 16, 19).',
+        example: 'No Exercício 1, n vai de 1 até 19 com passo 3 (1, 4, 7, 10, 13, 16, 19), somando 70.',
         demoType: 'for'
       },
       do: {
         category: 'Statement • Looping',
         title: 'Do (Iteração com Pós-Condição)',
-        speech: '"O ciclo Do executa o corpo do laço pelo menos uma vez antes de avaliar a condição de continuidade no final da iteração."',
+        speech: '"O ciclo Do executa o bloco pelo menos uma vez antes de testar a condição no final da repetição."',
         meaning: 'Estrutura repetitiva com teste no fim (1 ou mais iterações garantidas).',
-        purpose: 'Situações em que a ação deve ocorrer obrigatoriamente uma vez antes da primeira verificação condicional.',
-        howTo: 'Coloque as instruções no corpo do laço e especifique a condição booleana no fecho.',
+        purpose: 'Situações em que a ação deve correr pelo menos uma vez antes da primeira verificação.',
+        howTo: 'Coloque as instruções no corpo e defina a condição booleana de continuidade no fecho.',
         exampleTag: 'Alternativa de Leitura',
-        example: 'Executa a leitura e só depois testa se o valor introduzido satisfaz a condição de paragem.',
+        example: 'Executa uma leitura ou operação e só depois avalia se deve repetir.',
         demoType: 'do'
       },
       call: {
         category: 'Statement • Control',
         title: 'Call (Invocação de Subprograma)',
-        speech: '"A instrução Call transfere o controlo para um procedimento ou função definida no programa e regressa ao ponto seguinte após a conclusão."',
+        speech: '"O bloco Call chama uma função ou procedimento e regressa ao ponto seguinte quando este termina."',
         meaning: 'Chamada explícita a um subprograma modularizado.',
-        purpose: 'Promover reutilização, legibilidade e separação de responsabilidades entre o programa principal e sub-rotinas.',
-        howTo: 'Declare o subprograma no Function Manager e invoque-o pelo nome com os argumentos correspondentes.',
+        purpose: 'Reutilizar código, organizar menus ou cálculos e separar responsabilidades em subprogramas.',
+        howTo: 'Crie o subprograma no Function Manager e chame-o com Call passando os argumentos necessários.',
         exampleTag: 'Caderno N.º 3',
-        example: 'Call MostrarMenu() invoca o procedimento responsável por apresentar as opções do menu.',
+        example: 'Call MostrarMenu() apresenta o menu de opções do círculo antes da escolha do utilizador.',
         demoType: 'call'
       },
       comment: {
         category: 'Miscellaneous',
         title: 'Comment (Comentário Técnico)',
-        speech: '"Os comentários documentam a intenção do algoritmo para leitura humana e não alteram a semântica nem a execução do programa."',
-        meaning: 'Anotação textual ignorada pelo motor de execução.',
-        purpose: 'Explicitar invariantes de ciclo, regras de negócio e decisões de projeto.',
-        howTo: 'Redija notas objetivas junto às estruturas principais do fluxograma.',
+        speech: '"Os comentários explicam o algoritmo para quem lê o diagrama e não afetam a execução do programa."',
+        meaning: 'Anotação textual ignorada na execução.',
+        purpose: 'Documentar regras, condições de paragem ou o papel de variáveis.',
+        howTo: 'Escreva notas curtas e objetivas junto aos blocos principais.',
         exampleTag: 'Boas Práticas Académicas',
-        example: 'Documentar a condição de paragem de um ciclo ou o significado de uma variável acumuladora.',
+        example: 'Explicar por que razão um ciclo termina ou o que representa uma variável acumuladora.',
         demoType: 'comment'
       },
       breakpoint: {
         category: 'Miscellaneous',
         title: 'Breakpoint (Ponto de Depuração)',
-        speech: '"O Breakpoint suspende a execução num ponto específico do fluxograma para inspeção do estado das variáveis durante a depuração."',
+        speech: '"O Breakpoint pausa a execução num ponto escolhido para inspecionar variáveis durante a depuração."',
         meaning: 'Marcador de paragem temporária para análise passo a passo.',
-        purpose: 'Diagnosticar erros lógicos, condições falsas ou alterações inesperadas de variáveis.',
-        howTo: 'Posicione o Breakpoint no bloco a inspecionar e utilize a execução passo a passo (Step).',
+        purpose: 'Detetar erros lógicos, condições que não mudam ou valores inesperados.',
+        howTo: 'Coloque o Breakpoint no bloco a observar e avance passo a passo.',
         exampleTag: 'Depuração de Algoritmos',
-        example: 'Inspecionar o valor de senha e da condição senha != 1234 a cada iteração.',
+        example: 'Observar o valor de senha e o resultado de senha != 1234 em cada tentativa.',
         demoType: 'breakpoint'
       },
       clipboard: {
         category: 'Clipboard',
         title: 'Clipboard (Área de Transferência de Blocos)',
-        speech: '"A área de transferência permite copiar e colar blocos ou subárvores do fluxograma, reduzindo erros de digitação repetitiva."',
+        speech: '"Permite copiar e colar blocos ou sequências no fluxograma para agilizar a montagem e reduzir erros."',
         meaning: 'Mecanismo de cópia e inserção de nós no diagrama.',
-        purpose: 'Replicar padrões de blocos (como pares Output/Input) mantendo consistência sintática.',
-        howTo: 'Selecione o bloco ou ramo, copie e cole na posição desejada do fluxo.',
+        purpose: 'Replicar estruturas repetidas, como pares Output/Input.',
+        howTo: 'Selecione o bloco, copie e cole no local pretendido.',
         exampleTag: 'Produtividade no Editor',
-        example: 'Duplicar estruturas de leitura ou saída mantendo a mesma formatação de mensagem.',
+        example: 'Duplicar blocos de leitura mantendo a mesma estrutura.',
         demoType: 'clipboard'
       },
       forward: {
         category: 'Turtle Graphics',
         title: 'Forward (Avanço no Plano Gráfico)',
-        speech: '"Em Turtle Graphics, Forward desloca o cursor na direção atual pelo número de unidades especificado, traçando se a caneta estiver ativa."',
-        meaning: 'Movimento linear ao longo do vetor de orientação atual.',
-        purpose: 'Construir segmentos de reta em figuras geométricas no ambiente gráfico.',
-        howTo: 'Informe a distância numérica (em unidades/píxeis).',
+        speech: '"Em Turtle Graphics, Forward move o cursor na direção atual pela distância indicada."',
+        meaning: 'Movimento linear segundo o ângulo atual.',
+        purpose: 'Desenhar lados de figuras geométricas.',
+        howTo: 'Indique o número de unidades/píxeis a avançar.',
         exampleTag: 'Gráficos de Tartaruga',
-        example: 'Avançar 100 unidades para traçar um lado de um polígono.',
+        example: 'Avançar 45 unidades para traçar um segmento.',
         demoType: 'turtle'
       },
       turn: {
         category: 'Turtle Graphics',
         title: 'Turn (Rotação Angular)',
-        speech: '"O bloco Turn altera o ângulo de orientação da tartaruga sem deslocar a sua posição atual no plano."',
-        meaning: 'Rotação no plano segundo um ângulo (em graus) e sentido.',
-        purpose: 'Definir vértices e ângulos internos de figuras geométricas.',
-        howTo: 'Especifique o sentido e o ângulo em graus (por exemplo, 90 graus para ângulos retos).',
+        speech: '"O bloco Turn roda a orientação da tartaruga no ângulo indicado sem mudar de posição."',
+        meaning: 'Rotação angular no plano gráfico.',
+        purpose: 'Formar ângulos e cantos em desenhos geométricos.',
+        howTo: 'Indique o ângulo em graus (ex.: 90 graus).',
         exampleTag: 'Gráficos de Tartaruga',
-        example: 'Quatro rotações de 90 graus intercaladas com avanços formam um quadrado.',
+        example: 'Rotação de 90 graus para formar vértices retos.',
         demoType: 'turtle'
       },
       clear: {
         category: 'Turtle Graphics',
         title: 'Clear (Limpeza da Área Gráfica)',
-        speech: '"O bloco Clear apaga todos os traços desenhados anteriormente na janela gráfica."',
-        meaning: 'Reinicialização visual do canvas da tartaruga.',
-        purpose: 'Limpar o desenho antes de gerar uma nova figura.',
-        howTo: 'Insira o bloco Clear no ponto pretendido do fluxo.',
+        speech: '"O bloco Clear apaga todos os traços desenhados na janela da tartaruga."',
+        meaning: 'Limpeza visual do plano gráfico.',
+        purpose: 'Começar um novo desenho sem traços anteriores.',
+        howTo: 'Insira Clear no ponto em que pretende limpar a tela.',
         exampleTag: 'Gráficos de Tartaruga',
-        example: 'Limpar a tela antes de iniciar um novo desenho.',
+        example: 'Limpar o ecrã antes de iniciar nova figura.',
         demoType: 'turtle'
       },
       home: {
         category: 'Turtle Graphics',
         title: 'Home (Reposicionamento na Origem)',
-        speech: '"O bloco Home devolve a tartaruga às coordenadas centrais iniciais com a orientação padrão."',
-        meaning: 'Retorno à posição e ângulo iniciais no plano gráfico.',
-        purpose: 'Recentrar o cursor sem cálculo manual de coordenadas.',
-        howTo: 'Insira o bloco Home quando pretender regressar ao centro.',
+        speech: '"O bloco Home devolve a tartaruga ao centro inicial com a orientação padrão."',
+        meaning: 'Retorno às coordenadas iniciais.',
+        purpose: 'Recentrar o cursor rapidamente.',
+        howTo: 'Insira Home quando quiser voltar ao centro.',
         exampleTag: 'Gráficos de Tartaruga',
-        example: 'Regressar ao centro após desenhar um segmento radial.',
+        example: 'Voltar ao centro após desenhar um traço.',
         demoType: 'turtle'
       },
       pen: {
         category: 'Turtle Graphics',
         title: 'Pen (Controlo de Traço e Cor)',
-        speech: '"O bloco Pen controla se o deslocamento deixa rasto (caneta em baixo ou levantada) e define atributos do traço."',
-        meaning: 'Configuração do instrumento de desenho da tartaruga.',
-        purpose: 'Mover o cursor sem riscar ou alterar a apresentação visual do traço.',
-        howTo: 'Selecione o estado ou propriedade da caneta conforme a operação.',
+        speech: '"O bloco Pen controla se o movimento deixa traço (caneta em baixo ou levantada) e a cor."',
+        meaning: 'Configuração do traço gráfico.',
+        purpose: 'Mover sem desenhar ou alterar a cor do traço.',
+        howTo: 'Escolha o estado ou cor pretendida.',
         exampleTag: 'Gráficos de Tartaruga',
-        example: 'Levantar a caneta para reposicionar sem traçar e voltar a baixar para desenhar.',
+        example: 'Alternar cores ou levantar a caneta para reposicionar.',
         demoType: 'turtle'
       },
       open: {
         category: 'Files',
         title: 'Open (Abertura de Ficheiro)',
-        speech: '"Para persistir ou ler dados em ficheiro externo, o algoritmo deve primeiro abrir o ficheiro no modo pretendido (Read ou Write)."',
-        meaning: 'Associação do algoritmo a um ficheiro do sistema operativo.',
-        purpose: 'Estabelecer canal de leitura ou escrita em ficheiro de texto.',
-        howTo: 'Indique o nome/caminho do ficheiro e o modo de acesso (Read ou Write).',
+        speech: '"Antes de ler ou escrever num ficheiro externo, é necessário abri-lo com Open no modo adequado."',
+        meaning: 'Associação do algoritmo a um ficheiro.',
+        purpose: 'Abrir canal em modo Read ou Write.',
+        howTo: 'Indique o nome do ficheiro e o modo.',
         exampleTag: 'Manipulação de Ficheiros',
-        example: 'Abrir "saida.txt" em modo Write antes de escrever registos.',
+        example: 'Abrir "resultados.txt" para escrita.',
         demoType: 'files'
       },
       write: {
         category: 'Files',
         title: 'Write (Escrita em Ficheiro)',
-        speech: '"O bloco Write grava o valor da expressão indicada no ficheiro previamente aberto em modo de escrita."',
-        meaning: 'Saída persistente de dados para ficheiro externo.',
-        purpose: 'Guardar resultados ou relatórios fora da memória volátil.',
-        howTo: 'Especifique a expressão ou variável a gravar após Open.',
+        speech: '"O bloco Write grava dados num ficheiro previamente aberto em modo de escrita."',
+        meaning: 'Gravação de valores em ficheiro.',
+        purpose: 'Guardar saídas num ficheiro de texto.',
+        howTo: 'Indique a variável ou expressão a gravar.',
         exampleTag: 'Manipulação de Ficheiros',
-        example: 'Gravar o total calculado num ficheiro de texto.',
+        example: 'Escrever resultados calculados no ficheiro.',
         demoType: 'files'
       },
       read: {
         category: 'Files',
         title: 'Read (Leitura de Ficheiro)',
-        speech: '"O bloco Read lê um valor de um ficheiro aberto em modo Read e atribui-o a uma variável."',
-        meaning: 'Entrada de dados a partir de ficheiro externo.',
-        purpose: 'Carregar valores armazenados em ficheiro para processamento algorítmico.',
-        howTo: 'Indique a variável que receberá o dado lido.',
+        speech: '"O bloco Read lê um valor de um ficheiro aberto em modo Read e guarda-o numa variável."',
+        meaning: 'Leitura de dados a partir de ficheiro.',
+        purpose: 'Carregar valores armazenados num ficheiro.',
+        howTo: 'Indique a variável que receberá o valor lido.',
         exampleTag: 'Manipulação de Ficheiros',
-        example: 'Ler valores numéricos de um ficheiro para cálculo estatístico.',
+        example: 'Ler valores de entrada a partir de um ficheiro.',
         demoType: 'files'
       },
       close: {
         category: 'Files',
         title: 'Close (Fecho de Ficheiro)',
-        speech: '"O bloco Close encerra o fluxo do ficheiro, assegurando a descarga de buffers e a libertação do recurso."',
-        meaning: 'Finalização controlada do acesso ao ficheiro.',
-        purpose: 'Evitar perda de dados ou bloqueio do ficheiro após operações de E/S.',
-        howTo: 'Execute Close após concluir todas as leituras ou escritas.',
+        speech: '"O bloco Close encerra o ficheiro após o uso para libertar o recurso e garantir a gravação."',
+        meaning: 'Encerramento do fluxo de ficheiro.',
+        purpose: 'Evitar bloqueios ou perda de dados no final da operação.',
+        howTo: 'Chame Close após terminar Read ou Write.',
         exampleTag: 'Manipulação de Ficheiros',
-        example: 'Ciclo completo de ficheiro: Open → Read/Write → Close.',
+        example: 'Sequência completa: Open → Read/Write → Close.',
         demoType: 'files'
       }
     };
@@ -1686,9 +1718,9 @@
         stage.innerHTML = `
           <div class="bg-black border border-slate-700 rounded-lg p-3 mono text-xs space-y-1.5">
             <div class="text-slate-400 text-[11px]">Consola do Flowgorithm:</div>
-            <div id="outLine1" class="text-cyan-300 opacity-0 transition-opacity duration-500">Números divisíveis por 4 até 100:</div>
+            <div id="outLine1" class="text-cyan-300 opacity-0 transition-opacity duration-500">Números dívisíveis por 4, até ao limite do n° 100:</div>
             <div id="outLine2" class="text-white opacity-0 transition-opacity duration-500">0 4 8 12 16 20 ... 96 100</div>
-            <div id="outLine3" class="text-emerald-300 opacity-0 transition-opacity duration-500">Total encontrado: 26 valores.</div>
+            <div id="outLine3" class="text-emerald-300 opacity-0 transition-opacity duration-500">Ao todo foram encontrados 26 números divisiveis por 4.</div>
           </div>`;
         [1, 2, 3].forEach((n, i) => {
           setTimeout(() => {
@@ -1981,8 +2013,32 @@
     }
 
     // =========================================================================
-    // INTERATIVIDADE DA SECÇÃO 2
+    // INTERATIVIDADE DA SECÇÃO 2 (ARRAY SIM + GAVETAS + SUBPROGRAMAS)
     // =========================================================================
+    let simArray = [-2.5, 3, 2, 0, 1];
+
+    function renderArraySim() {
+      const grid = document.getElementById('arraySlotsGrid');
+      if (!grid) return;
+      grid.innerHTML = simArray.map((val, idx) => `
+        <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-center">
+          <div class="text-[10px] mono text-amber-300">v[${idx}]</div>
+          <div class="text-base font-extrabold text-white mono mt-0.5">${val}</div>
+        </div>
+      `).join('');
+      document.getElementById('arraySimStatus').textContent =
+        simArray.map((v, i) => `v[${i}] = ${v}`).join(' | ');
+    }
+
+    function updateArraySlot() {
+      const idx = parseInt(document.getElementById('arrayIndexInput').value, 10);
+      const val = parseFloat(document.getElementById('arrayValInput').value);
+      if (isNaN(idx) || idx < 0 || idx >= simArray.length || isNaN(val)) return;
+      simArray[idx] = val;
+      renderArraySim();
+      speakCustomText(`Posição índice ${idx} atualizada para ${val}.`);
+    }
+
     function openDrawer(index, name) {
       document.querySelectorAll('.drawer-card').forEach(el => el.classList.remove('drawer-open'));
       const card = document.getElementById('drawer-' + index);
@@ -2003,89 +2059,310 @@
     }
 
     // =========================================================================
-    // GERADOR DE DIAGRAMAS DE FLUXOGRAMA PRONTOS (SVG) — CADERNO N.º 2 (1–10)
+    // MOTOR DE FLUXOGRAMAS NO ESTILO FLOWGORITHM (SEM SOBREPOSIÇÃO DE TEXTO)
     // =========================================================================
-    function buildFlowchartSVG(nodes) {
-      const boxW = 360;
-      const boxH = 44;
-      const gapY = 24;
-      const startX = 120;
-      const startY = 18;
-      const totalH = startY + nodes.length * (boxH + gapY) + 34;
+    function wrapLines(text, maxChars = 34) {
+      const words = String(text || '').split(/\s+/).filter(Boolean);
+      const lines = [];
+      let current = '';
+      for (const w of words) {
+        if (!current) {
+          current = w;
+        } else if ((current + ' ' + w).length <= maxChars) {
+          current += ' ' + w;
+        } else {
+          lines.push(current);
+          current = w;
+        }
+      }
+      if (current) lines.push(current);
+      return lines.slice(0, 3);
+    }
 
-      const styleByKind = {
-        terminal: { fill: '#1e293b', stroke: '#38bdf8', text: '#e0f2fe', rx: 20 },
-        declare:  { fill: '#2a0d0e', stroke: '#c93b3b', text: '#ff9494', rx: 4 },
-        assign:   { fill: '#2a0d0e', stroke: '#c93b3b', text: '#ffd0d0', rx: 4 },
-        input:    { fill: '#2a0d0e', stroke: '#f87171', text: '#fecaca', rx: 4 },
-        output:   { fill: '#0b2429', stroke: '#26a6b5', text: '#99f6ff', rx: 4 },
-        loop:     { fill: '#292409', stroke: '#c4b027', text: '#fef08a', rx: 10 },
-        cond:     { fill: '#1b1d24', stroke: '#94a3b8', text: '#f1f5f9', rx: 6 }
-      };
+    function renderFlowgorithmSVG(steps) {
+      const centerX = 310;
+      const boxW = 250;
+      const boxX = centerX - boxW / 2;
+      const gapY = 30;
+      let cursorY = 18;
 
-      let svgParts = [];
-      svgParts.push(`
-        <svg viewBox="0 0 600 ${totalH}" width="600" height="${totalH}" role="img" aria-label="Diagrama de fluxograma estruturado" class="w-full h-auto block mx-auto">
+      const items = steps.map((st, idx) => {
+        const lines = wrapLines(st.text, st.kind === 'cond' || st.kind === 'while' || st.kind === 'for' ? 24 : 29);
+        const boxH = Math.max(40, 14 + lines.length * 15);
+        const item = { ...st, idx, y: cursorY, h: boxH, lines };
+        cursorY += boxH + gapY;
+        return item;
+      });
+
+      const totalH = cursorY + 24;
+      const svgW = 640;
+
+      const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+      let parts = [];
+      parts.push(`
+        <svg viewBox="0 0 ${svgW} ${totalH}" width="${svgW}" height="${totalH}" class="w-full h-auto block mx-auto" role="img" aria-label="Fluxograma no estilo Flowgorithm">
           <defs>
-            <marker id="arrowHead" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-              <path d="M0,0 L0,6 L7,3 z" fill="#94a3b8" />
+            <marker id="fgArrow" markerWidth="8" markerHeight="8" refX="6.5" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L7,3 z" fill="#cbd5e1" />
             </marker>
-            <marker id="loopArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-              <path d="M0,0 L0,6 L7,3 z" fill="#facc15" />
+            <marker id="fgLoopArrow" markerWidth="8" markerHeight="8" refX="6.5" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L7,3 z" fill="#eab308" />
             </marker>
           </defs>
       `);
 
-      nodes.forEach((node, idx) => {
-        const y = startY + idx * (boxH + gapY);
-        const st = styleByKind[node.kind] || styleByKind.assign;
-        const safeLabel = node.label.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-
-        if (idx > 0) {
-          const prevY = startY + (idx - 1) * (boxH + gapY) + boxH;
-          svgParts.push(`<line x1="${startX + boxW / 2}" y1="${prevY}" x2="${startX + boxW / 2}" y2="${y - 4}" stroke="#94a3b8" stroke-width="1.8" marker-end="url(#arrowHead)" />`);
+      items.forEach((it, i) => {
+        if (i < items.length - 1) {
+          const next = items[i + 1];
+          const y1 = it.y + it.h;
+          const y2 = next.y - 4;
+          parts.push(`<line x1="${centerX}" y1="${y1}" x2="${centerX}" y2="${y2}" stroke="#cbd5e1" stroke-width="1.6" marker-end="url(#fgArrow)" />`);
+          if (it.falseLabel) {
+            parts.push(`<text x="${centerX - 10}" y="${y1 + 16}" text-anchor="end" fill="#94a3b8" font-size="11" font-family="Inter, sans-serif">${esc(it.falseLabel)}</text>`);
+          }
         }
 
-        if (node.branchNote) {
-          svgParts.push(`<text x="${startX + boxW + 10}" y="${y + 26}" fill="#cbd5e1" font-size="11" font-family="JetBrains Mono, monospace">${node.branchNote}</text>`);
-        }
+        if (typeof it.loopBackTo === 'number' && items[it.loopBackTo]) {
+          const target = items[it.loopBackTo];
+          const rightRailX = boxX + boxW + 68;
+          const midY = it.y + it.h / 2;
+          const targetTopY = target.y;
 
-        svgParts.push(`
-          <rect x="${startX}" y="${y}" width="${boxW}" height="${boxH}" rx="${st.rx}" fill="${st.fill}" stroke="${st.stroke}" stroke-width="1.8" />
-          <text x="${startX + boxW / 2}" y="${y + 27}" text-anchor="middle" fill="${st.text}" font-size="12" font-family="JetBrains Mono, monospace" font-weight="600">${safeLabel}</text>
-        `);
+          if (it.trueLabel) {
+            parts.push(`<text x="${boxX + boxW + 10}" y="${midY - 6}" fill="#cbd5e1" font-size="11" font-family="Inter, sans-serif">${esc(it.trueLabel)}</text>`);
+          }
 
-        if (typeof node.loopBackTo === 'number') {
-          const targetY = startY + node.loopBackTo * (boxH + gapY) + boxH / 2;
-          const curY = y + boxH / 2;
-          const leftX = 36;
-          svgParts.push(`
-            <path d="M ${startX} ${curY} L ${leftX} ${curY} L ${leftX} ${targetY} L ${startX - 4} ${targetY}" fill="none" stroke="#facc15" stroke-width="1.8" stroke-dasharray="4 3" marker-end="url(#loopArrow)" />
-            <text x="${leftX + 4}" y="${(curY + targetY) / 2 - 4}" fill="#fde047" font-size="10.5" font-family="JetBrains Mono, monospace">Ciclo / Retorno</text>
+          parts.push(`
+            <path d="M ${boxX + boxW} ${midY} L ${rightRailX} ${midY} L ${rightRailX} ${targetTopY - 12} L ${centerX} ${targetTopY - 12} L ${centerX} ${targetTopY - 4}"
+              fill="none" stroke="#eab308" stroke-width="1.5" marker-end="url(#fgLoopArrow)" />
           `);
         }
       });
 
-      svgParts.push(`</svg>`);
-      return svgParts.join('');
+      items.forEach(it => {
+        const x = boxX;
+        const y = it.y;
+        const h = it.h;
+        const lines = it.lines;
+        const kind = it.kind;
+        const midY = y + h / 2;
+
+        if (kind === 'terminal') {
+          parts.push(`<rect x="${centerX - 68}" y="${y}" width="136" height="${h}" rx="${h / 2}" fill="#171920" stroke="#94a3b8" stroke-width="1.6" />`);
+        } else if (kind === 'declare') {
+          parts.push(`
+            <rect x="${x}" y="${y}" width="${boxW}" height="${h}" fill="#2b0b0c" stroke="#c93b3b" stroke-width="1.6" />
+            <line x1="${x}" y1="${y + 8}" x2="${x + boxW}" y2="${y + 8}" stroke="#c93b3b" stroke-width="1.3" />
+            <line x1="${x + 10}" y1="${y}" x2="${x + 10}" y2="${y + h}" stroke="#c93b3b" stroke-width="1.3" />
+          `);
+        } else if (kind === 'assign' || kind === 'call') {
+          const stroke = kind === 'call' ? '#94a3b8' : '#c93b3b';
+          const fill = kind === 'call' ? '#171920' : '#2b0b0c';
+          parts.push(`<rect x="${x}" y="${y}" width="${boxW}" height="${h}" fill="${fill}" stroke="${stroke}" stroke-width="1.6" />`);
+          if (kind === 'call') {
+            parts.push(`
+              <line x1="${x + 10}" y1="${y}" x2="${x + 10}" y2="${y + h}" stroke="#94a3b8" stroke-width="1.3" />
+              <line x1="${x + boxW - 10}" y1="${y}" x2="${x + boxW - 10}" y2="${y + h}" stroke="#94a3b8" stroke-width="1.3" />
+            `);
+          }
+        } else if (kind === 'input' || kind === 'output') {
+          const skew = 11;
+          const fill = kind === 'input' ? '#2b0b0c' : '#092329';
+          const stroke = kind === 'input' ? '#c93b3b' : '#26a6b5';
+          parts.push(`
+            <polygon points="${x + skew},${y} ${x + boxW},${y} ${x + boxW - skew},${y + h} ${x},${y + h}"
+              fill="${fill}" stroke="${stroke}" stroke-width="1.6" />
+          `);
+        } else if (kind === 'while' || kind === 'for' || kind === 'cond') {
+          const hexInset = 18;
+          const fill = kind === 'cond' ? '#171920' : '#292408';
+          const stroke = kind === 'cond' ? '#94a3b8' : '#c4b027';
+          parts.push(`
+            <polygon points="${x + hexInset},${y} ${x + boxW - hexInset},${y} ${x + boxW},${midY} ${x + boxW - hexInset},${y + h} ${x + hexInset},${y + h} ${x},${midY}"
+              fill="${fill}" stroke="${stroke}" stroke-width="1.6" />
+          `);
+        }
+
+        const textColorMap = {
+          terminal: '#f1f5f9',
+          declare: '#ff8a8a',
+          assign: '#ffb3b3',
+          call: '#f8fafc',
+          input: '#ff8a8a',
+          output: '#7ce8f5',
+          while: '#f7e663',
+          for: '#f7e663',
+          cond: '#f8fafc'
+        };
+        const tColor = textColorMap[kind] || '#f8fafc';
+
+        const startTextY = midY - ((lines.length - 1) * 15) / 2 + 4;
+        lines.forEach((ln, idxLine) => {
+          parts.push(`
+            <text x="${centerX}" y="${startTextY + idxLine * 15}" text-anchor="middle" fill="${tColor}"
+              font-size="11.5" font-family="JetBrains Mono, monospace" font-weight="500">${esc(ln)}</text>
+          `);
+        });
+      });
+
+      parts.push(`</svg>`);
+      return parts.join('');
     }
 
+    // =========================================================================
+    // CADERNO N.º 1 (SUPOSTO) — EXERCÍCIOS 1 AO 4
+    // =========================================================================
+    const caderno1Data = [
+      {
+        num: 1,
+        short: 'Ex. 1 • Boas-Vindas',
+        title: 'Exercício 1 — Leitura de Nome e Apresentação na Consola',
+        concept: 'Declare (String) + Input + Output',
+        statement: 'Programa que peça o nome do formando e apresente uma mensagem de boas-vindas à UC 00245.',
+        logic: 'Declara-se uma variável do tipo String para armazenar o texto introduzido pelo utilizador através de Input e apresenta-se a frase concatenada com & no bloco Output.',
+        chart: [
+          { kind: 'terminal', text: 'Main' },
+          { kind: 'declare', text: 'String nome' },
+          { kind: 'output', text: '"Indique o seu nome:"' },
+          { kind: 'input', text: 'nome' },
+          { kind: 'output', text: '"Bem-vindo à UC 00245, " & nome & "!"' },
+          { kind: 'terminal', text: 'End' }
+        ],
+        console: 'Indique o seu nome:\nFilipe\nBem-vindo à UC 00245, Filipe!',
+        pitfall: 'Se declarar nome como Integer e introduzir texto, o Flowgorithm lança erro de tipo em tempo de execução.'
+      },
+      {
+        num: 2,
+        short: 'Ex. 2 • Soma e Média',
+        title: 'Exercício 2 — Soma e Média Aritmética de Dois Números',
+        concept: 'Declare (Real) + Assign + Expressões',
+        statement: 'Programa que leia dois números reais e mostre a respetiva soma e média aritmética.',
+        logic: 'Declaram-se variáveis Real para os dois valores, para a soma e para a média. Calcula-se soma = n1 + n2 e media = soma / 2 antes de enviar os resultados para a consola.',
+        chart: [
+          { kind: 'terminal', text: 'Main' },
+          { kind: 'declare', text: 'Real n1, n2, soma, media' },
+          { kind: 'input', text: 'n1' },
+          { kind: 'input', text: 'n2' },
+          { kind: 'assign', text: 'soma = n1 + n2' },
+          { kind: 'assign', text: 'media = soma / 2' },
+          { kind: 'output', text: '"Soma: " & soma & " | Média: " & media' },
+          { kind: 'terminal', text: 'End' }
+        ],
+        console: 'Indique o 1.º valor:\n10\nIndique o 2.º valor:\n15\nSoma: 25 | Média: 12.5',
+        pitfall: 'Usar Integer em vez de Real truncaria médias decimais em linguagens com divisão inteira.'
+      },
+      {
+        num: 3,
+        short: 'Ex. 3 • Aprovado/Reprovado',
+        title: 'Exercício 3 — Avaliação de Classificação Final (If / Else)',
+        concept: 'Estrutura Condicional If (nota >= 9.5)',
+        statement: 'Programa que lê uma nota de 0 a 20 e indica se o formando obteve "Aprovado" (nota >= 9.5) ou "Reprovado".',
+        logic: 'A estrutura condicional If testa a expressão booleana nota >= 9.5: no ramo True escreve "Aprovado" e no ramo False escreve "Reprovado".',
+        chart: [
+          { kind: 'terminal', text: 'Main' },
+          { kind: 'declare', text: 'Real nota' },
+          { kind: 'input', text: 'nota' },
+          { kind: 'cond', text: 'nota >= 9.5', trueLabel: 'True', falseLabel: 'False' },
+          { kind: 'output', text: '"Aprovado"' },
+          { kind: 'output', text: '"Reprovado"' },
+          { kind: 'terminal', text: 'End' }
+        ],
+        console: 'Indique a nota:\n14\nAprovado',
+        pitfall: 'Usar apenas > 9.5 excluiria exatamente a classificação 9.5 caso se pretenda incluir o limiar.'
+      },
+      {
+        num: 4,
+        short: 'Ex. 4 • Troca Variáveis',
+        title: 'Exercício 4 — Troca de Conteúdo Entre Duas Variáveis com Auxiliar',
+        concept: 'Variável Temporária / Auxiliar',
+        statement: 'Programa que lê dois valores inteiros A e B e troca os respetivos conteúdos utilizando uma variável auxiliar aux.',
+        logic: 'Para não perder o valor inicial de A ao atribuir B a A, guarda-se primeiro aux = A, depois A = B e por fim B = aux.',
+        chart: [
+          { kind: 'terminal', text: 'Main' },
+          { kind: 'declare', text: 'Integer a, b, aux' },
+          { kind: 'input', text: 'a' },
+          { kind: 'input', text: 'b' },
+          { kind: 'assign', text: 'aux = a' },
+          { kind: 'assign', text: 'a = b' },
+          { kind: 'assign', text: 'b = aux' },
+          { kind: 'output', text: '"A: " & a & " | B: " & b' },
+          { kind: 'terminal', text: 'End' }
+        ],
+        console: 'A = 3, B = 9\nApós troca -> A: 9 | B: 3',
+        pitfall: 'Fazer a = b antes de guardar a em aux sobrescreve e apaga o valor original de a.'
+      }
+    ];
+
+    let currentCad1Num = 1;
+
+    function initCaderno1Section() {
+      const grid = document.getElementById('cad1SelectorGrid');
+      if (!grid) return;
+      grid.innerHTML = caderno1Data.map(ex => `
+        <button role="tab" aria-selected="${ex.num === 1}" onclick="selectCad1(${ex.num})" id="cad1-btn-${ex.num}"
+          class="px-2.5 py-2 rounded-xl border border-slate-800 bg-slate-900/90 text-xs font-bold text-slate-300 hover:border-amber-400/50 hover:text-white transition text-center">
+          ${ex.short}
+        </button>
+      `).join('');
+      selectCad1(1, false);
+    }
+
+    function selectCad1(num, shouldSpeak = true) {
+      currentCad1Num = num;
+      const ex = caderno1Data.find(e => e.num === num);
+      if (!ex) return;
+
+      document.querySelectorAll('#cad1SelectorGrid button').forEach(b => {
+        b.setAttribute('aria-selected', 'false');
+        b.className = 'px-2.5 py-2 rounded-xl border border-slate-800 bg-slate-900/90 text-xs font-bold text-slate-300 hover:border-amber-400/50 hover:text-white transition text-center';
+      });
+      const active = document.getElementById('cad1-btn-' + num);
+      if (active) {
+        active.setAttribute('aria-selected', 'true');
+        active.className = 'px-2.5 py-2 rounded-xl border border-amber-400 bg-amber-500/20 text-xs font-extrabold text-amber-200 shadow-lg shadow-amber-950/50 transition text-center';
+      }
+
+      document.getElementById('cad1Badge').textContent = `Caderno N.º 1 • Exercício ${ex.num} de 4`;
+      document.getElementById('cad1Title').textContent = ex.title;
+      document.getElementById('cad1ConceptTag').textContent = ex.concept;
+      document.getElementById('cad1Statement').textContent = ex.statement;
+      document.getElementById('cad1LogicSummary').textContent = ex.logic;
+      document.getElementById('cad1ConsoleOutput').textContent = ex.console;
+      document.getElementById('cad1Pitfall').textContent = ex.pitfall;
+      document.getElementById('cad1FlowchartVisual').innerHTML = renderFlowgorithmSVG(ex.chart);
+
+      if (shouldSpeak && voiceEnabled) {
+        speakText(`Caderno 1, Exercício ${ex.num}: ${ex.title}. ${ex.logic}`);
+      }
+    }
+
+    function speakCurrentCad1() {
+      const ex = caderno1Data.find(e => e.num === currentCad1Num);
+      if (ex) {
+        speakCustomText(`Caderno 1, Exercício ${ex.num}: ${ex.title}. ${ex.logic}`);
+      }
+    }
+
+    // =========================================================================
+    // CADERNO N.º 2 — EXERCÍCIOS 1 AO 10 (COMPLETO + ESTILO FLOWGORITHM)
+    // =========================================================================
     const exercisesData = [
       {
         num: 1,
         short: 'Ex. 1 • Soma +3',
         title: 'Exercício 1 — Soma da Sequência: 1 + 4 + 7 + 10 + 13 + 16 + 19',
         concept: 'For (Step 3) + Acumulador',
-        statement: 'Programa que calcule a soma da seguinte sequência: 1 + 4 + 7 + 10 + 13 + 16 + 19.',
-        logic: 'A progressão aritmética inicia em 1, termina em 19 e apresenta razão constante igual a 3. Utiliza-se um ciclo For de 1 até 19 com passo 3 e uma variável acumuladora soma inicializada a 0.',
-        flowchartNodes: [
-          { kind: 'terminal', label: 'Main' },
-          { kind: 'declare', label: 'Declare Integer n, soma' },
-          { kind: 'assign', label: 'Assign: soma = 0' },
-          { kind: 'loop', label: 'For (n = 1 to 19, Step 3)', branchNote: '→ Next' },
-          { kind: 'assign', label: 'Assign: soma = soma + n', loopBackTo: 3 },
-          { kind: 'output', label: 'Output "Resultado: " & soma', branchNote: '← Done' },
-          { kind: 'terminal', label: 'End' }
+        statement: 'Programa que calcule a soma da sequência: 1 + 4 + 7 + 10 + 13 + 16 + 19.',
+        logic: 'Ciclo For de n = 1 até 19 com incremento (Step) de 3, acumulando cada termo em soma (inicializada a 0). O total obtido é 70.',
+        chart: [
+          { kind: 'terminal', text: 'Main' },
+          { kind: 'declare', text: 'Integer n, soma' },
+          { kind: 'assign', text: 'soma = 0' },
+          { kind: 'for', text: 'For n = 1 to 19 (Step 3)', trueLabel: 'Next', falseLabel: 'Done', loopBackTo: 3 },
+          { kind: 'assign', text: 'soma = soma + n' },
+          { kind: 'output', text: '"Soma: " & soma' },
+          { kind: 'terminal', text: 'End' }
         ],
         console: 'O resultado da soma dos valores 1 + 4 + 7 + 10 + 13 + 16 + 19 dá: 70',
         pitfall: 'Omitir a inicialização soma = 0 faz com que a expressão soma + n opere sobre um valor não inicializado.'
@@ -2095,17 +2372,19 @@
         short: 'Ex. 2 • While 0..20',
         title: 'Exercício 2 — Imprimir Valores de 0 a 20 com Ciclo While',
         concept: 'While + Concatenação em String',
-        statement: 'Programa que imprime os valores de 0 a 20, utilizando um ciclo While.',
-        logic: 'A variável contador inicia a 0 e avança em incrementos de 1 enquanto contador <= 20. A variável aux acumula cada valor seguido de espaço para apresentação numa única linha.',
-        flowchartNodes: [
-          { kind: 'terminal', label: 'Main' },
-          { kind: 'declare', label: 'Declare Integer contador | String aux' },
-          { kind: 'assign', label: 'Assign: contador = 0; aux = ""' },
-          { kind: 'loop', label: 'While (contador <= 20)', branchNote: '→ True' },
-          { kind: 'assign', label: 'Assign: aux = aux & contador & " "' },
-          { kind: 'assign', label: 'Assign: contador = contador + 1', loopBackTo: 3 },
-          { kind: 'output', label: 'Output aux', branchNote: '← False' },
-          { kind: 'terminal', label: 'End' }
+        statement: 'Programa que imprime os valores de 0 a 20 utilizando um ciclo While.',
+        logic: 'Declara-se contador = 0 e aux = "". Enquanto contador <= 20, concatena-se contador em aux e incrementa-se contador em 1.',
+        chart: [
+          { kind: 'terminal', text: 'Main' },
+          { kind: 'declare', text: 'Integer contador' },
+          { kind: 'declare', text: 'String aux' },
+          { kind: 'assign', text: 'contador = 0' },
+          { kind: 'assign', text: 'aux = ""' },
+          { kind: 'while', text: 'contador <= 20', trueLabel: 'True', falseLabel: 'False', loopBackTo: 5 },
+          { kind: 'assign', text: 'aux = aux & contador & " "' },
+          { kind: 'assign', text: 'contador = contador + 1' },
+          { kind: 'output', text: 'aux' },
+          { kind: 'terminal', text: 'End' }
         ],
         console: '0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20',
         pitfall: 'Se contador = contador + 1 faltar dentro do bloco While, a condição contador <= 20 mantém-se verdadeira para sempre (ciclo infinito).'
@@ -2115,17 +2394,21 @@
         short: 'Ex. 3 • Divisíveis 4',
         title: 'Exercício 3 — Números Divisíveis por 4 (0 a 100) + Contagem',
         concept: 'For + If (n mod 4 == 0) + Contador',
-        statement: 'Programa que analise os números de 0 a 100, mostre todos os divisíveis por 4 e indique quantos foram encontrados (26).',
-        logic: 'O ciclo For percorre n de 0 a 100. A condição n mod 4 == 0 verifica se o resto da divisão inteira por 4 é zero; quando verdadeiro, concatena n em aux e incrementa cont.',
-        flowchartNodes: [
-          { kind: 'terminal', label: 'Main' },
-          { kind: 'declare', label: 'Declare Integer n, cont | String aux' },
-          { kind: 'assign', label: 'Assign: cont = 0; aux = ""' },
-          { kind: 'loop', label: 'For (n = 0 to 100, Step 1)', branchNote: '→ Next' },
-          { kind: 'cond', label: 'If (n mod 4 == 0)', branchNote: 'True' },
-          { kind: 'assign', label: 'Assign: aux = aux & n & " "; cont = cont + 1', loopBackTo: 3 },
-          { kind: 'output', label: 'Output aux & " | Total: " & cont', branchNote: '← Done' },
-          { kind: 'terminal', label: 'End' }
+        statement: 'Analise os números de 0 a 100, mostre todos os divisíveis por 4 e indique quantos foram encontrados.',
+        logic: 'O ciclo For percorre n de 0 a 100. Se n mod 4 == 0, guarda n em aux e soma 1 a cont. Entre 0 e 100 existem 26 múltiplos de 4.',
+        chart: [
+          { kind: 'terminal', text: 'Main' },
+          { kind: 'declare', text: 'Integer n, cont' },
+          { kind: 'declare', text: 'String aux' },
+          { kind: 'assign', text: 'cont = 0' },
+          { kind: 'assign', text: 'aux = ""' },
+          { kind: 'for', text: 'For n = 0 to 100 (Step 1)', trueLabel: 'Next', falseLabel: 'Done', loopBackTo: 5 },
+          { kind: 'cond', text: 'n mod 4 == 0', trueLabel: 'True', falseLabel: 'False' },
+          { kind: 'assign', text: 'aux = aux & n & " "' },
+          { kind: 'assign', text: 'cont = cont + 1' },
+          { kind: 'output', text: 'aux' },
+          { kind: 'output', text: '"Encontrados: " & cont' },
+          { kind: 'terminal', text: 'End' }
         ],
         console: 'Números dívisíveis por 4, até ao limite do n° 100:\n0 4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80 84 88 92 96 100\nAo todo foram encontrados 26 números divisiveis por 4.',
         pitfall: 'Como 0 mod 4 == 0 é verdadeiro, o intervalo [0, 100] contém 26 múltiplos de 4 (incluindo o 0).'
@@ -2135,18 +2418,18 @@
         short: 'Ex. 4 • Tabuada',
         title: 'Exercício 4 — Tabuada de um Número Inteiro',
         concept: 'Input + For (1 a 10)',
-        statement: 'Programa que pede um valor inteiro ao utilizador e imprime a respetiva tabuada.',
-        logic: 'Após ler o número inteiro num, um ciclo For com variável i de 1 a 10 calcula e apresenta cada linha num * i.',
-        flowchartNodes: [
-          { kind: 'terminal', label: 'Main' },
-          { kind: 'declare', label: 'Declare Integer num, i' },
-          { kind: 'output', label: 'Output "Indique o número:"' },
-          { kind: 'input', label: 'Input num' },
-          { kind: 'loop', label: 'For (i = 1 to 10, Step 1)', branchNote: '→ Next' },
-          { kind: 'output', label: 'Output num & " x " & i & " = " & (num * i)', loopBackTo: 4 },
-          { kind: 'terminal', label: 'End' }
+        statement: 'Peça um número inteiro ao utilizador e apresente a respetiva tabuada (1 a 10).',
+        logic: 'Lê-se num com Input e executa-se um ciclo For de i = 1 a 10 apresentando num & " x " & i & " = " & (num * i).',
+        chart: [
+          { kind: 'terminal', text: 'Main' },
+          { kind: 'declare', text: 'Integer num, i' },
+          { kind: 'output', text: '"Número para tabuada:"' },
+          { kind: 'input', text: 'num' },
+          { kind: 'for', text: 'For i = 1 to 10 (Step 1)', trueLabel: 'Next', falseLabel: 'Done', loopBackTo: 4 },
+          { kind: 'output', text: 'num & " x " & i & " = " & (num * i)' },
+          { kind: 'terminal', text: 'End' }
         ],
-        console: 'Indique o número para o qual deseja ver a tabuada:\n7\nTabuada dos 7\n7 x 1 = 7\n7 x 2 = 14\n...\n7 x 10 = 70',
+        console: 'Indique o número para a tabuada:\n7\n7 x 1 = 7\n7 x 2 = 14\n...\n7 x 10 = 70',
         pitfall: 'Utilizar o operador aritmético + em vez de & para concatenar texto e variáveis causa erro de tipo na expressão de saída.'
       },
       {
@@ -2154,19 +2437,21 @@
         short: 'Ex. 5 • Quadrado *',
         title: 'Exercício 5 — Quadrado de Asteriscos (*)',
         concept: 'Ciclos For Encadeados',
-        statement: 'Programa que peça um número inteiro ao utilizador e desenhe um quadrado com asteriscos de lado igual ao valor indicado.',
-        logic: 'A estrutura requer iteração bidimensional: o laço externo governa as linhas (lin de 1 a lado) e o laço interno compõe a cadeia linha com lado asteriscos antes de a imprimir.',
-        flowchartNodes: [
-          { kind: 'terminal', label: 'Main' },
-          { kind: 'declare', label: 'Declare Integer lado, lin, col | String linha' },
-          { kind: 'input', label: 'Output "Lado:" → Input lado' },
-          { kind: 'loop', label: 'For (lin = 1 to lado)', branchNote: '→ Next' },
-          { kind: 'assign', label: 'Assign: linha = "" (limpa linha)' },
-          { kind: 'loop', label: 'For (col = 1 to lado): linha = linha & "*"' },
-          { kind: 'output', label: 'Output linha', loopBackTo: 3 },
-          { kind: 'terminal', label: 'End' }
+        statement: 'Peça o tamanho do lado e desenhe um quadrado com asteriscos (*).',
+        logic: 'Usa um ciclo externo para cada linha e um ciclo interno para montar cada linha com lado asteriscos antes de imprimir.',
+        chart: [
+          { kind: 'terminal', text: 'Main' },
+          { kind: 'declare', text: 'Integer lado, lin, col' },
+          { kind: 'declare', text: 'String linha' },
+          { kind: 'input', text: 'lado' },
+          { kind: 'for', text: 'For lin = 1 to lado', trueLabel: 'Next', falseLabel: 'Done', loopBackTo: 4 },
+          { kind: 'assign', text: 'linha = ""' },
+          { kind: 'for', text: 'For col = 1 to lado', trueLabel: 'Next', falseLabel: 'Done', loopBackTo: 6 },
+          { kind: 'assign', text: 'linha = linha & "*"' },
+          { kind: 'output', text: 'linha' },
+          { kind: 'terminal', text: 'End' }
         ],
-        console: 'Indique o tamanho do lado do quadrado:\n3\n***\n***\n***',
+        console: 'Tamanho do lado:\n3\n***\n***\n***',
         pitfall: 'Não repor linha = "" a cada nova linha provoca acumulação indevida de asteriscos de linhas anteriores.'
       },
       {
@@ -2174,101 +2459,109 @@
         short: 'Ex. 6 • Positivos/Média',
         title: 'Exercício 6 — 5 Valores: Positivos, Soma e Média',
         concept: 'Array [5] + Seleção Condicional + Média',
-        statement: 'Pede 5 números (inteiros ou reais) ao utilizador e mostra: quais os positivos inseridos, a soma apenas dos positivos e a respetiva média.',
-        logic: 'Armazenam-se os 5 valores reais num vetor de dimensão 5; numa segunda passagem filtram-se os valores positivos, acumulando a soma e a contagem para calcular a média.',
-        flowchartNodes: [
-          { kind: 'terminal', label: 'Main' },
-          { kind: 'declare', label: 'Declare Real Array v[5] | Real soma, media | Integer i, qtd' },
-          { kind: 'assign', label: 'Assign: soma = 0; qtd = 0' },
-          { kind: 'loop', label: 'For (i = 0 to 4): Input v[i]' },
-          { kind: 'loop', label: 'For (i = 0 to 4)', branchNote: '→ Se v[i] > 0' },
-          { kind: 'assign', label: 'Assign: soma = soma + v[i]; qtd = qtd + 1', loopBackTo: 4 },
-          { kind: 'output', label: 'Output "Soma: " & soma & " | Média: " & (soma / qtd)' },
-          { kind: 'terminal', label: 'End' }
+        statement: 'Peça 5 números e mostre quais são positivos, a soma dos positivos e a respetiva média.',
+        logic: 'Filtram-se os valores > 0 para acumular a soma e contar quantos positivos existem (qtd), calculando depois soma / qtd.',
+        chart: [
+          { kind: 'terminal', text: 'Main' },
+          { kind: 'declare', text: 'Real Array v[5]' },
+          { kind: 'declare', text: 'Real soma, media' },
+          { kind: 'declare', text: 'Integer i, qtd' },
+          { kind: 'assign', text: 'soma = 0; qtd = 0' },
+          { kind: 'for', text: 'For i = 0 to 4', trueLabel: 'Next', falseLabel: 'Done', loopBackTo: 5 },
+          { kind: 'input', text: 'v[i]' },
+          { kind: 'cond', text: 'v[i] > 0', trueLabel: 'True', falseLabel: 'False' },
+          { kind: 'assign', text: 'soma = soma + v[i]; qtd = qtd + 1' },
+          { kind: 'output', text: '"Soma: " & soma & " | Média: " & (soma / qtd)' },
+          { kind: 'terminal', text: 'End' }
         ],
-        console: 'Insira o 1º valor: -2.5 | 2º: 3 | 3º: 2 | 4º: 0 | 5º: 1\nos números positivos somados foram:\n3\n2\n1\nA soma dos valores positivos dá: 6\nA média dos valores positivos dá: 1.5',
+        console: 'Entradas: -2.5, 3, 2, 0, 1\nPositivos: 3, 2, 1\nSoma: 6 | Média: 1.5',
         pitfall: 'Dividir soma pelo total de entradas (5) em vez da quantidade de elementos considerados (qtd) altera o valor da média.'
       },
       {
         num: 7,
         short: 'Ex. 7 • Pares/Ímpares',
-        title: 'Exercício 7 — Contagem de Números Pares e Ímpares (5 Entradas)',
+        title: 'Exercício 7 — Contagem de Pares e Ímpares (5 Números)',
         concept: 'For (1 a 5) + If (num mod 2 == 0)',
-        statement: 'Programa que pede 5 números inteiros ao utilizador e indique quantos deles são pares e quantos são ímpares.',
-        logic: 'Cada inteiro lido é classificado pela paridade (num mod 2 == 0): se verdadeiro incrementa pares; caso contrário, incrementa impares.',
-        flowchartNodes: [
-          { kind: 'terminal', label: 'Main' },
-          { kind: 'declare', label: 'Declare Integer i, num, pares, impares' },
-          { kind: 'assign', label: 'Assign: pares = 0; impares = 0' },
-          { kind: 'loop', label: 'For (i = 1 to 5)', branchNote: '→ Next' },
-          { kind: 'input', label: 'Input num' },
-          { kind: 'cond', label: 'If (num mod 2 == 0) → pares++ / impares++', loopBackTo: 3 },
-          { kind: 'output', label: 'Output "Pares: " & pares & " | Ímpares: " & impares' },
-          { kind: 'terminal', label: 'End' }
+        statement: 'Peça 5 números inteiros e indique quantos são pares e quantos são ímpares.',
+        logic: 'A cada número lido, testa num mod 2 == 0: se True incrementa pares; se False incrementa impares.',
+        chart: [
+          { kind: 'terminal', text: 'Main' },
+          { kind: 'declare', text: 'Integer i, num, pares, impares' },
+          { kind: 'assign', text: 'pares = 0; impares = 0' },
+          { kind: 'for', text: 'For i = 1 to 5', trueLabel: 'Next', falseLabel: 'Done', loopBackTo: 3 },
+          { kind: 'input', text: 'num' },
+          { kind: 'cond', text: 'num mod 2 == 0', trueLabel: 'True', falseLabel: 'False' },
+          { kind: 'assign', text: 'pares = pares + 1' },
+          { kind: 'assign', text: 'impares = impares + 1' },
+          { kind: 'output', text: '"Pares: " & pares & " | Ímpares: " & impares' },
+          { kind: 'terminal', text: 'End' }
         ],
-        console: 'Insira o 1º valor: 3 | 2º: 6 | 3º: 1 | 4º: 2 | 5º: 7\nInseriu 2 valores pares e 3 valores impares.',
+        console: 'Entradas: 3, 6, 1, 2, 7\nInseriu 2 valores pares e 3 valores ímpares.',
         pitfall: 'Esquecer de incrementar impares no ramo alternativo deixa o contador de ímpares sempre a zero.'
       },
       {
         num: 8,
         short: 'Ex. 8 • Soma até 20',
-        title: 'Exercício 8 — Acumulação Condicional até Atingir 20',
+        title: 'Exercício 8 — Pedir Números até a Soma Atingir 20',
         concept: 'While (soma < 20)',
-        statement: 'Programa que pede números ao utilizador (inteiros ou reais) até que a sua soma atinja o total de 20.',
-        logic: 'Como o número de iterações não é fixo à priori, utiliza-se o ciclo While com condição de continuidade soma < 20.',
-        flowchartNodes: [
-          { kind: 'terminal', label: 'Main' },
-          { kind: 'declare', label: 'Declare Real num, soma' },
-          { kind: 'assign', label: 'Assign: soma = 0' },
-          { kind: 'loop', label: 'While (soma < 20)', branchNote: '→ True' },
-          { kind: 'input', label: 'Input num' },
-          { kind: 'assign', label: 'Assign: soma = soma + num', loopBackTo: 3 },
-          { kind: 'output', label: 'Output "Total atingido: " & soma', branchNote: '← False' },
-          { kind: 'terminal', label: 'End' }
+        statement: 'Peça números ao utilizador até que a soma atinja pelo menos 20.',
+        logic: 'Usa-se While (soma < 20): enquanto a soma for inferior a 20, lê um novo valor e soma-o.',
+        chart: [
+          { kind: 'terminal', text: 'Main' },
+          { kind: 'declare', text: 'Real num, soma' },
+          { kind: 'assign', text: 'soma = 0' },
+          { kind: 'while', text: 'soma < 20', trueLabel: 'True', falseLabel: 'False', loopBackTo: 3 },
+          { kind: 'input', text: 'num' },
+          { kind: 'assign', text: 'soma = soma + num' },
+          { kind: 'output', text: '"Total acumulado: " & soma' },
+          { kind: 'terminal', text: 'End' }
         ],
-        console: 'Indique o 1º valor:\n7\nIndique o 2º valor:\n7\nIndique o 3º valor:\n7\nJá atingiu os 20 valores. Ao todo totalizou 21',
+        console: 'Valores: 7, 7, 7\nJá atingiu os 20 valores. Totalizou: 21',
         pitfall: 'Usar soma <= 20 como condição de continuidade faz com que o programa peça mais números mesmo após atingir exatamente 20.'
       },
       {
         num: 9,
         short: 'Ex. 9 • Senha 1234',
-        title: 'Exercício 9 — Validação de Senha (1234) e Prevenção de Loop Infinito',
+        title: 'Exercício 9 — Validação de Senha (1234)',
         concept: 'While (senha != 1234) + Atualização de Variável',
-        statement: 'Pede uma senha de acesso (ex.: 1234). Enquanto estiver incorreta mostra "Senha incorreta, tente novamente.". Quando acertar mostra "Acesso permitido. Obrigada.".',
-        logic: 'Lê-se senha antes do ciclo While. Enquanto senha != 1234 for verdadeiro, apresenta-se a mensagem de erro e lê-se novamente senha no interior do ciclo para que a condição possa tornar-se falsa quando for introduzido 1234.',
-        flowchartNodes: [
-          { kind: 'terminal', label: 'Main' },
-          { kind: 'declare', label: 'Declare Integer senha' },
-          { kind: 'output', label: 'Output "Senha:"' },
-          { kind: 'input', label: 'Input senha (leitura inicial)' },
-          { kind: 'loop', label: 'While (senha != 1234)', branchNote: '→ True' },
-          { kind: 'output', label: 'Output "Senha incorreta, tente novamente."' },
-          { kind: 'input', label: 'Input senha (nova tentativa)', loopBackTo: 4 },
-          { kind: 'output', label: 'Output "Acesso permitido. Obrigada."', branchNote: '← False' },
-          { kind: 'terminal', label: 'End' }
+        statement: 'Peça a senha 1234. Enquanto errar, mostre "Senha incorreta, tente novamente." e peça nova senha; ao acertar, mostre "Acesso permitido. Obrigada.".',
+        logic: 'Lê senha antes do While (senha != 1234). Se True, avisa e lê senha novamente dentro do ciclo para evitar loop infinito.',
+        chart: [
+          { kind: 'terminal', text: 'Main' },
+          { kind: 'declare', text: 'Integer senha' },
+          { kind: 'output', text: '"Insira a sua senha"' },
+          { kind: 'input', text: 'senha' },
+          { kind: 'while', text: 'senha != 1234', trueLabel: 'True', falseLabel: 'False', loopBackTo: 4 },
+          { kind: 'output', text: '"Senha incorreta, tente novamente."' },
+          { kind: 'output', text: '"Senha:"' },
+          { kind: 'input', text: 'senha' },
+          { kind: 'output', text: '"Acesso permitido. Obrigada."' },
+          { kind: 'output', text: '"Volte sempre!"' },
+          { kind: 'terminal', text: 'End' }
         ],
-        console: 'Senha:\n2345\nSenha incorreta, tente novamente.\nSenha:\n1234\nAcesso permitido. Obrigada.',
-        pitfall: 'CAUSA DO LOOP INFINITO: Se não houver um novo Input senha dentro do ramo True do While (senha != 1234), ou se a variável for lida/comparada com tipo incompatível, senha nunca passa a 1234 e o ciclo repete infinitamente.'
+        console: 'Insira a sua senha\n2345\nSenha incorreta, tente novamente.\nSenha:\n1234\nAcesso permitido. Obrigada.\nVolte sempre!',
+        pitfall: 'CAUSA DO LOOP INFINITO: Se não houver um novo Input senha dentro do ramo True do While (senha != 1234), o ciclo repete infinitamente.'
       },
       {
         num: 10,
         short: 'Ex. 10 • Pares > 0',
-        title: 'Exercício 10 — Soma de Inteiros Pares até Sentinela Negativo',
+        title: 'Exercício 10 — Soma de Inteiros Pares até Valor Negativo',
         concept: 'While (num >= 0) + Sentinela',
-        statement: 'Pede números inteiros positivos e vai somando apenas os valores pares. O programa termina quando o utilizador insere um valor negativo.',
-        logic: 'Um valor negativo atua como sentinela de terminação. Lê-se num antes do ciclo; enquanto num >= 0, soma-se se for par e lê-se o próximo num no fim do corpo do laço para evitar processar o sentinela negativo.',
-        flowchartNodes: [
-          { kind: 'terminal', label: 'Main' },
-          { kind: 'declare', label: 'Declare Integer num, soma' },
-          { kind: 'assign', label: 'Assign: soma = 0' },
-          { kind: 'input', label: 'Input num (1.ª leitura)' },
-          { kind: 'loop', label: 'While (num >= 0)', branchNote: '→ True' },
-          { kind: 'cond', label: 'If (num mod 2 == 0) → soma = soma + num' },
-          { kind: 'input', label: 'Input num (próxima leitura)', loopBackTo: 4 },
-          { kind: 'output', label: 'Output "Soma dos pares: " & soma', branchNote: '← False' },
-          { kind: 'terminal', label: 'End' }
+        statement: 'Peça números inteiros positivos e some apenas os pares, terminando quando for inserido um número negativo.',
+        logic: 'Usa-se While (num >= 0). Se num mod 2 == 0, soma a num; no fim do ciclo lê-se o próximo num para testar se é negativo.',
+        chart: [
+          { kind: 'terminal', text: 'Main' },
+          { kind: 'declare', text: 'Integer num, soma' },
+          { kind: 'assign', text: 'soma = 0' },
+          { kind: 'input', text: 'num' },
+          { kind: 'while', text: 'num >= 0', trueLabel: 'True', falseLabel: 'False', loopBackTo: 4 },
+          { kind: 'cond', text: 'num mod 2 == 0', trueLabel: 'True', falseLabel: 'False' },
+          { kind: 'assign', text: 'soma = soma + num' },
+          { kind: 'input', text: 'num' },
+          { kind: 'output', text: '"Soma dos pares: " & soma' },
+          { kind: 'terminal', text: 'End' }
         ],
-        console: 'Indique um número: 2\nIndique um número: 3\nIndique um número: 4\nIndique um número: -1\nA soma dos valores positivos, pares, que indicou deu um total de: 6',
+        console: 'Entradas: 2, 3, 4, -1\nSoma dos pares positivos: 6',
         pitfall: 'Se a leitura do próximo número ficar antes do If sem reavaliar num >= 0, um valor negativo pode entrar no teste de paridade.'
       }
     ];
@@ -2308,7 +2601,7 @@
       document.getElementById('exLogicSummary').textContent = ex.logic;
       document.getElementById('exConsoleOutput').textContent = ex.console;
       document.getElementById('exPitfall').textContent = ex.pitfall;
-      document.getElementById('exFlowchartVisual').innerHTML = buildFlowchartSVG(ex.flowchartNodes);
+      document.getElementById('exFlowchartVisual').innerHTML = renderFlowgorithmSVG(ex.chart);
 
       if (shouldSpeak && voiceEnabled) {
         speakText(`Exercício ${ex.num}: ${ex.title}. ${ex.logic}`);
@@ -2323,7 +2616,7 @@
     }
 
     // =========================================================================
-    // SECÇÃO 4: FUNCTION MANAGER INTERATIVO + CADERNO N.º 3 (FLUXOGRAMAS SVG)
+    // SECÇÃO 4: FUNCTION MANAGER INTERATIVO + CADERNO N.º 3 (FLUXOGRAMAS)
     // =========================================================================
     let fmFunctions = [
       { name: 'MostrarMenu', returnType: 'None', params: '' },
@@ -2494,15 +2787,15 @@
         short: 'Ex. 1 • Círculo',
         title: 'Exercício 1 — Menu e Cálculos do Círculo (Área, Perímetro, Diâmetro)',
         statement: '1. Crie o seguinte programa:\na. Função que mostra o menu (1- Área do círculo, 2- Perímetro do círculo, 3- Diâmetro do círculo).\nb. Função que devolve a área: area = PI * r² (argumento: raio).\nc. Função que devolve o perímetro: perimetro = 2 * PI * r (argumento: raio).\nd. Função que devolve o diâmetro: diametro = 2 * r (argumento: raio).\ne. Pedir raio e opção (1, 2 ou 3) e mostrar o resultado correspondente.',
-        flowchartNodes: [
-          { kind: 'terminal', label: 'Main' },
-          { kind: 'assign', label: 'Call MostrarMenu()' },
-          { kind: 'input', label: 'Input raio; Input opcao' },
-          { kind: 'cond', label: 'If (opcao == 1) → AreaCirculo(raio)' },
-          { kind: 'cond', label: 'Else If (opcao == 2) → PerimetroCirculo(raio)' },
-          { kind: 'assign', label: 'Else → DiametroCirculo(raio)' },
-          { kind: 'output', label: 'Output resultado' },
-          { kind: 'terminal', label: 'End' }
+        chart: [
+          { kind: 'terminal', text: 'Main' },
+          { kind: 'call', text: 'Call MostrarMenu()' },
+          { kind: 'input', text: 'raio' },
+          { kind: 'input', text: 'opcao' },
+          { kind: 'cond', text: 'opcao == 1', trueLabel: 'True', falseLabel: 'False' },
+          { kind: 'assign', text: 'res = AreaCirculo(raio)' },
+          { kind: 'output', text: '"Resultado: " & res' },
+          { kind: 'terminal', text: 'End' }
         ],
         controlsHtml: `
           <div class="grid grid-cols-2 gap-2.5">
@@ -2535,12 +2828,12 @@
         short: 'Ex. 2 • Maior de 2',
         title: 'Exercício 2 — Subprograma que Recebe Dois Valores e Indica o Maior',
         statement: '2. Crie uma função que recebe como argumentos dois valores numéricos e escreva para o ecrã o maior.',
-        flowchartNodes: [
-          { kind: 'terminal', label: 'Subprograma MostrarMaior(n1, n2)' },
-          { kind: 'cond', label: 'If (n1 > n2) → Output n1' },
-          { kind: 'cond', label: 'Else If (n2 > n1) → Output n2' },
-          { kind: 'output', label: 'Else → Output "Valores iguais"' },
-          { kind: 'terminal', label: 'Return / Fim' }
+        chart: [
+          { kind: 'terminal', text: 'MostrarMaior(a, b)' },
+          { kind: 'cond', text: 'a > b', trueLabel: 'True', falseLabel: 'False' },
+          { kind: 'output', text: '"Maior: " & a' },
+          { kind: 'output', text: '"Maior: " & b' },
+          { kind: 'terminal', text: 'End' }
         ],
         controlsHtml: `
           <div class="grid grid-cols-2 gap-2.5">
@@ -2568,13 +2861,13 @@
         short: 'Ex. 3 • Média Lista',
         title: 'Exercício 3 — Função que Recebe Lista e Retorna a Média',
         statement: '3. Crie uma função que receba como parâmetro uma lista com valores numéricos e retorne a média desses valores.',
-        flowchartNodes: [
-          { kind: 'terminal', label: 'Função CalcularMedia(nums)' },
-          { kind: 'assign', label: 'Assign: soma = 0' },
-          { kind: 'loop', label: 'For (i = 0 to tam - 1)' },
-          { kind: 'assign', label: 'Assign: soma = soma + nums[i]', loopBackTo: 2 },
-          { kind: 'assign', label: 'Assign: media = soma / tam' },
-          { kind: 'terminal', label: 'Return media' }
+        chart: [
+          { kind: 'terminal', text: 'MediaLista(lista)' },
+          { kind: 'assign', text: 'soma = 0' },
+          { kind: 'for', text: 'For i = 0 to tam - 1', trueLabel: 'Next', falseLabel: 'Done', loopBackTo: 2 },
+          { kind: 'assign', text: 'soma = soma + lista[i]' },
+          { kind: 'assign', text: 'media = soma / tam' },
+          { kind: 'terminal', text: 'Return media' }
         ],
         controlsHtml: `
           <div>
@@ -2596,13 +2889,13 @@
         short: 'Ex. 4 • Linha *',
         title: 'Exercício 4 — Subprograma que Desenha uma Linha de *',
         statement: '4. Crie uma função que desenha uma linha de * em que o número de * entra como argumento da função.',
-        flowchartNodes: [
-          { kind: 'terminal', label: 'Subprograma LinhaAsteriscos(qtd)' },
-          { kind: 'assign', label: 'Assign: linha = ""' },
-          { kind: 'loop', label: 'For (i = 1 to qtd)' },
-          { kind: 'assign', label: 'Assign: linha = linha & "*"', loopBackTo: 2 },
-          { kind: 'output', label: 'Output linha' },
-          { kind: 'terminal', label: 'Return / Fim' }
+        chart: [
+          { kind: 'terminal', text: 'LinhaAsteriscos(qtd)' },
+          { kind: 'assign', text: 'linha = ""' },
+          { kind: 'for', text: 'For i = 1 to qtd', trueLabel: 'Next', falseLabel: 'Done', loopBackTo: 2 },
+          { kind: 'assign', text: 'linha = linha & "*"' },
+          { kind: 'output', text: 'linha' },
+          { kind: 'terminal', text: 'End' }
         ],
         controlsHtml: `
           <div>
@@ -2622,11 +2915,12 @@
         short: 'Ex. 5 • Procurar Lista',
         title: 'Exercício 5 — Pesquisa em Lista com Retorno Booleano (True/False)',
         statement: '5. Crie uma função que recebe uma lista de valores e um valor a pesquisar nessa lista. Se está devolve True, senão False.\nO programa inicia com uma lista definida, pergunta qual valor procurar e mostra:\n- "O valor está presente na lista" (se True)\n- "O valor não está presente na lista" (se False).',
-        flowchartNodes: [
-          { kind: 'terminal', label: 'Função ExisteNaLista(lista, alvo)' },
-          { kind: 'loop', label: 'For (i = 0 to tam - 1)' },
-          { kind: 'cond', label: 'If (lista[i] == alvo) → Return True', loopBackTo: 1 },
-          { kind: 'terminal', label: 'Return False (se não encontrado)' }
+        chart: [
+          { kind: 'terminal', text: 'ExisteValor(lista, alvo)' },
+          { kind: 'for', text: 'For i = 0 to tam - 1', trueLabel: 'Next', falseLabel: 'Done', loopBackTo: 1 },
+          { kind: 'cond', text: 'lista[i] == alvo', trueLabel: 'True', falseLabel: 'False' },
+          { kind: 'terminal', text: 'Return True' },
+          { kind: 'terminal', text: 'Return False' }
         ],
         controlsHtml: `
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -2655,12 +2949,13 @@
         short: 'Ex. 6 • Dicionário',
         title: 'Exercício 6 — Função com Dicionário (Saudação e/ou Nome)',
         statement: '6. Desenvolva uma função que recebe um dicionário passado como argumento:\n- Saudação + nome → "saudação, nome"\n- Apenas nome → "Olá, nome!"\n- Apenas saudação ou vazio → "Não consegui compreeder o seu nome."\n- Restantes situações → "Não entendi!"',
-        flowchartNodes: [
-          { kind: 'terminal', label: 'Função ProcessarDict(d)' },
-          { kind: 'cond', label: 'If (tem saudacao e nome) → saudacao & ", " & nome' },
-          { kind: 'cond', label: 'Else If (apenas nome) → "Olá, " & nome & "!"' },
-          { kind: 'cond', label: 'Else If (apenas saudacao ou vazio) → msg sem nome' },
-          { kind: 'terminal', label: 'Else → Return "Não entendi!"' }
+        chart: [
+          { kind: 'terminal', text: 'Saudar(dados)' },
+          { kind: 'cond', text: 'tem saudacao e nome', trueLabel: 'True', falseLabel: 'False' },
+          { kind: 'terminal', text: 'Return saudacao & ", " & nome' },
+          { kind: 'cond', text: 'apenas nome', trueLabel: 'True', falseLabel: 'False' },
+          { kind: 'terminal', text: 'Return "Olá, " & nome & "!"' },
+          { kind: 'terminal', text: 'Return mensagem' }
         ],
         controlsHtml: `
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
@@ -2734,12 +3029,12 @@
 
       document.getElementById('ex3Title').textContent = item.title;
       document.getElementById('ex3Statement').textContent = item.statement;
-      document.getElementById('ex3FlowchartVisual').innerHTML = buildFlowchartSVG(item.flowchartNodes);
+      document.getElementById('ex3FlowchartVisual').innerHTML = renderFlowgorithmSVG(item.chart);
       document.getElementById('ex3Controls').innerHTML = item.controlsHtml;
       runEx3Simulation();
 
       if (shouldSpeak && voiceEnabled) {
-        speakText(`${item.title}. ${item.flowchartNodes[0].label}.`);
+        speakText(`${item.title}. ${item.chart[0].text}.`);
       }
     }
 
@@ -2752,13 +3047,26 @@
     function speakCurrentEx3() {
       const item = ex3Data.find(e => e.num === currentEx3Num);
       if (!item) return;
-      const summary = item.flowchartNodes.map(n => n.label).join(', ');
+      const summary = item.chart.map(n => n.text).join(', ');
       speakCustomText(`${item.title}. Estrutura do fluxograma: ${summary}.`);
     }
 
     window.addEventListener('DOMContentLoaded', () => {
       refreshVoiceSelection();
       selectBlock('declare', false);
+      renderArraySim();
+      const fnOverview = document.getElementById('functionsOverviewChart');
+      if (fnOverview) {
+        fnOverview.innerHTML = renderFlowgorithmSVG([
+          { kind: 'terminal', text: 'Main' },
+          { kind: 'declare', text: 'Real raio, area' },
+          { kind: 'input', text: 'raio' },
+          { kind: 'assign', text: 'area = AreaCirculo(raio)' },
+          { kind: 'output', text: '"Área: " & area' },
+          { kind: 'terminal', text: 'End' }
+        ]);
+      }
+      initCaderno1Section();
       initExercisesSection();
       renderFunctionManager();
       initEx3Section();

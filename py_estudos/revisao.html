@@ -1,0 +1,2037 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arquivos Académicos de Algoritmia &amp; Programação — Conselho Jedi de Engenharia de Software</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Merriweather (Académico), Inter (Leitura) e JetBrains Mono (Código) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Merriweather:wght@700;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        academic: {
+                            obsidian: '#060B19',
+                            navy: '#0F172A',
+                            indigo: '#1E3A8A',
+                            slate: '#334155',
+                            paper: '#F8FAFC',
+                            border: '#E2E8F0',
+                            gold: '#D97706',
+                            goldLight: '#F59E0B',
+                            holo: '#0284C7',
+                            holoCyan: '#38BDF8',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        @media print {
+            body {
+                background-color: #FFFFFF !important;
+                color: #000000 !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .question-card, .module-card {
+                break-inside: avoid;
+                border: 1px solid #CBD5E1 !important;
+                box-shadow: none !important;
+                margin-bottom: 1rem !important;
+            }
+            .tab-section {
+                display: block !important;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .jedi-archive-bg {
+            background-color: #060B19;
+            background-image:
+                radial-gradient(circle at 85% 15%, rgba(217, 119, 6, 0.14) 0%, transparent 45%),
+                radial-gradient(circle at 15% 85%, rgba(56, 189, 248, 0.10) 0%, transparent 45%),
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
+        }
+    </style>
+</head>
+<body class="bg-academic-paper text-slate-800 antialiased selection:bg-amber-100 selection:text-amber-950">
+
+    <!-- Notificação / Toast Interativo -->
+    <div id="force-toast" class="fixed bottom-5 right-5 z-50 hidden max-w-sm bg-academic-obsidian text-white border border-amber-400/60 rounded-xl px-4 py-3 shadow-2xl text-xs sm:text-sm items-center gap-3">
+        <span class="w-2.5 h-2.5 rounded-full bg-sky-400 shrink-0 animate-pulse"></span>
+        <span id="force-toast-text" class="flex-1 text-slate-100">Que a Força esteja com você!</span>
+        <button type="button" onclick="hideToast()" class="text-slate-400 hover:text-white font-mono cursor-pointer" title="Fechar aviso">✕</button>
+    </div>
+
+    <!-- Barra Superior Institucional — Arquivos do Templo Jedi -->
+    <div class="bg-academic-obsidian text-white border-b border-amber-500/30">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs font-medium tracking-wider uppercase text-slate-300">
+            <button type="button" onclick="triggerForceBlessing()" class="flex items-center gap-2.5 hover:text-amber-300 transition-colors cursor-pointer text-left" title="Clique para invocar a Força">
+                <!-- Logo Vetorial Rebelde / Ordem Jedi (Starbird) -->
+                <svg class="w-5 h-5 text-amber-400 shrink-0" viewBox="0 0 64 64" fill="currentColor" aria-hidden="true">
+                    <path d="M32 3L25 17L12 13L19 26L5 29L18 36L10 48L24 44L22 58L32 47L42 58L40 44L54 48L46 36L59 29L45 26L52 13L39 17L32 3ZM32 15L36 24L45 22L39 29L46 34L37 35L39 44L32 38L25 44L27 35L18 34L25 29L19 22L28 24L32 15Z"/>
+                </svg>
+                <span>Arquivos do Templo de Coruscant • Que a Força esteja com você</span>
+            </button>
+            <div class="font-mono text-amber-300/90 flex items-center gap-3">
+                <button type="button" onclick="switchMainTab('simulator')" class="hover:underline cursor-pointer">HOLOCRON: ALG-PROG-2026</button>
+                <span class="hidden sm:inline text-slate-600">|</span>
+                <button type="button" onclick="cycleRankPreview()" id="header-current-rank" class="hidden sm:inline text-sky-300 hover:text-amber-300 transition-colors cursor-pointer" title="Clique para inspecionar as patentes Jedi">PATENTE ATUAL: PADAWAN INICIANTE</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cabeçalho Académico Executivo -->
+    <header class="jedi-archive-bg text-white border-b-2 border-amber-500/40 shadow-lg">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+            <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+                <div class="flex items-start gap-4 max-w-3xl">
+                    <!-- Emblema Jedi / Rebelde Destacado -->
+                    <button type="button" onclick="triggerForceBlessing()" class="hidden sm:flex shrink-0 w-14 h-14 rounded-2xl bg-amber-500/15 border border-amber-400/50 items-center justify-center text-amber-400 hover:bg-amber-500/25 hover:scale-105 transition-all cursor-pointer shadow-md" title="Que a Força esteja contigo">
+                        <svg class="w-9 h-9" viewBox="0 0 64 64" fill="currentColor">
+                            <path d="M32 3L25 17L12 13L19 26L5 29L18 36L10 48L24 44L22 58L32 47L42 58L40 44L54 48L46 36L59 29L45 26L52 13L39 17L32 3ZM32 16L35.5 24L44 22.5L38.5 29L45 34L36.5 35L38 43L32 37.5L26 43L27.5 35L19 34L25.5 29L20 22.5L28.5 24L32 16Z"/>
+                        </svg>
+                    </button>
+
+                    <div class="space-y-3">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-400/40 text-amber-300 text-xs font-semibold tracking-wider uppercase">
+                            <span class="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span>
+                            <span>Conselho Jedi de Engenharia de Software • Que a Força esteja com você</span>
+                        </div>
+                        <h1 class="font-serif text-2xl sm:text-3xl lg:text-4xl font-black text-white leading-tight tracking-tight">
+                            Arquivos Académicos de Algoritmia &amp; Programação
+                        </h1>
+                        <p class="text-slate-300 text-sm sm:text-base lg:text-lg leading-relaxed">
+                            Revisão Comentada da Avaliação, Aula Magistral Estruturada, Diagnóstico de Competências e Simulador Infinito de Provas sem Repetição.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Ações Rápidas -->
+                <div class="no-print shrink-0 flex flex-wrap gap-2.5">
+                    <button type="button" onclick="switchMainTab('simulator')" class="inline-flex items-center gap-2 px-4 py-2.5 bg-amber-600 hover:bg-amber-500 text-slate-950 text-sm font-bold rounded-lg shadow-md transition-all cursor-pointer">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        <span>Iniciar Prova Infinita</span>
+                    </button>
+                    <button type="button" onclick="window.print()" class="inline-flex items-center gap-2 px-4 py-2.5 bg-slate-800/90 hover:bg-slate-700 text-slate-100 border border-slate-600 text-sm font-medium rounded-lg transition-colors cursor-pointer">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                        <span>Imprimir / PDF</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Painel de Resumo de Desempenho (Dashboard da Prova Base — Todos Clicáveis) -->
+            <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- Card Nota Global -->
+                <button type="button" onclick="switchMainTab('review'); setFilter('errors');" class="text-left bg-slate-900/90 hover:bg-slate-900 border border-slate-700/80 hover:border-amber-400/50 rounded-xl p-4 sm:p-5 flex flex-col justify-between backdrop-blur-xs transition-all cursor-pointer">
+                    <div class="flex items-center justify-between w-full">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Avaliação Diagnóstica</span>
+                        <span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30">26,25%</span>
+                    </div>
+                    <div class="mt-3 flex items-baseline gap-2">
+                        <span class="font-serif text-3xl font-bold text-white">5,25</span>
+                        <span class="text-xs font-medium text-slate-400">/ 20 valores</span>
+                    </div>
+                    <div class="mt-3 w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                        <div class="bg-amber-500 h-2 rounded-full" style="width: 26.25%"></div>
+                    </div>
+                    <p class="mt-2 text-xs text-slate-400">Clique para ver os <strong class="text-amber-300">17 erros</strong> &rarr;</p>
+                </button>
+
+                <!-- Card Parte Teórica -->
+                <button type="button" onclick="switchMainTab('review'); setFilter('theory');" class="text-left bg-slate-900/90 hover:bg-slate-900 border border-slate-700/80 hover:border-sky-400/50 rounded-xl p-4 sm:p-5 flex flex-col justify-between backdrop-blur-xs transition-all cursor-pointer">
+                    <div class="flex items-center justify-between w-full">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Componente Teórica</span>
+                        <span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-sky-500/20 text-sky-300 border border-sky-500/30">Peso: 50%</span>
+                    </div>
+                    <div class="mt-3 flex items-baseline gap-2">
+                        <span class="font-serif text-3xl font-bold text-white">8</span>
+                        <span class="text-xs font-medium text-slate-400">/ 20 pts (40%)</span>
+                    </div>
+                    <div class="mt-3 w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                        <div class="bg-sky-400 h-2 rounded-full" style="width: 40%"></div>
+                    </div>
+                    <p class="mt-2 text-xs text-slate-400">8 corretas • 12 para revisão &rarr;</p>
+                </button>
+
+                <!-- Card Parte Prática -->
+                <button type="button" onclick="switchMainTab('review'); setFilter('practical');" class="text-left bg-slate-900/90 hover:bg-slate-900 border border-slate-700/80 hover:border-amber-400/50 rounded-xl p-4 sm:p-5 flex flex-col justify-between backdrop-blur-xs transition-all cursor-pointer">
+                    <div class="flex items-center justify-between w-full">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Componente Prática</span>
+                        <span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-sky-500/20 text-sky-300 border border-sky-500/30">Peso: 50%</span>
+                    </div>
+                    <div class="mt-3 flex items-baseline gap-2">
+                        <span class="font-serif text-3xl font-bold text-white">10</span>
+                        <span class="text-xs font-medium text-slate-400">/ 80 pts (12,5%)</span>
+                    </div>
+                    <div class="mt-3 w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                        <div class="bg-amber-500 h-2 rounded-full" style="width: 12.5%"></div>
+                    </div>
+                    <p class="mt-2 text-xs text-slate-400">1 correta • 5 de fluxograma &rarr;</p>
+                </button>
+
+                <!-- Card Patente Jedi Atual -->
+                <div class="bg-gradient-to-br from-slate-900 to-indigo-950 border border-amber-500/40 rounded-xl p-4 sm:p-5 flex flex-col justify-between">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold uppercase tracking-wider text-amber-300">Estatuto na Ordem</span>
+                        <span id="dash-sim-count" class="font-mono text-xs text-sky-300">0 Provas</span>
+                    </div>
+                    <div class="mt-2">
+                        <div id="dash-rank-title" class="font-serif text-base font-bold text-white">Padawan Iniciante</div>
+                        <p id="dash-rank-sub" class="text-xs text-slate-300 mt-0.5 leading-snug">
+                            Conclua o simulador acima de 50% para ascender a Cavaleiro Jedi.
+                        </p>
+                    </div>
+                    <button type="button" onclick="switchMainTab('diagnosis')" class="mt-3 text-left text-xs text-amber-300 hover:text-amber-200 font-semibold border-t border-slate-700/80 pt-2 flex items-center justify-between cursor-pointer">
+                        <span>Ver Diagnóstico &amp; Plano</span>
+                        <span>&rarr;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navegação Principal das 4 Secções (Sticky) -->
+    <nav class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs no-print" aria-label="Navegação Principal dos Arquivos">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex overflow-x-auto py-2.5 gap-2 no-scrollbar">
+                <button type="button" onclick="switchMainTab('review')" id="main-tab-review" class="main-tab-btn shrink-0 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all bg-academic-navy text-amber-300 border border-amber-500/40 shadow-xs cursor-pointer flex items-center gap-2">
+                    <span class="font-mono text-xs opacity-80">I.</span>
+                    <span>Revisão &amp; Correção (26)</span>
+                </button>
+                <button type="button" onclick="switchMainTab('lecture')" id="main-tab-lecture" class="main-tab-btn shrink-0 px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 border border-transparent cursor-pointer flex items-center gap-2">
+                    <span class="font-mono text-xs opacity-80">II.</span>
+                    <span>Aula Magistral &amp; Apontamentos</span>
+                </button>
+                <button type="button" onclick="switchMainTab('simulator')" id="main-tab-simulator" class="main-tab-btn shrink-0 px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 border border-transparent cursor-pointer flex items-center gap-2">
+                    <span class="font-mono text-xs opacity-80">III.</span>
+                    <span>Simulador de Provas Infinitas</span>
+                    <span class="px-1.5 py-0.5 text-[10px] font-mono font-bold rounded bg-amber-500 text-slate-950">JEDI</span>
+                </button>
+                <button type="button" onclick="switchMainTab('diagnosis')" id="main-tab-diagnosis" class="main-tab-btn shrink-0 px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 border border-transparent cursor-pointer flex items-center gap-2">
+                    <span class="font-mono text-xs opacity-80">IV.</span>
+                    <span>Diagnóstico Final &amp; Plano de Estudo</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===================================================================== -->
+    <!-- SECÇÃO 1: REVISÃO & CORREÇÃO COMENTADA DA PROVA REALIZADA (26 QUESTÕES) -->
+    <!-- ===================================================================== -->
+    <main id="section-tab-review" class="tab-section max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-10">
+
+        <!-- Barra de Filtros Internos da Revisão -->
+        <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-xs flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 no-print">
+            <div class="flex flex-wrap items-center gap-1.5" role="tablist" aria-label="Filtrar questões da prova realizada">
+                <button type="button" onclick="setFilter('all')" id="btn-all" class="filter-btn active px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-academic-indigo text-white shadow-xs cursor-pointer">
+                    Todas as Questões (26)
+                </button>
+                <button type="button" onclick="setFilter('errors')" id="btn-errors" class="filter-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer">
+                    Apenas Erros / Revisão Prioritária (17)
+                </button>
+                <button type="button" onclick="setFilter('theory')" id="btn-theory" class="filter-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer">
+                    Parte Teórica (20)
+                </button>
+                <button type="button" onclick="setFilter('practical')" id="btn-practical" class="filter-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer">
+                    Parte Prática — Flowgorithm (6)
+                </button>
+            </div>
+
+            <div class="relative w-full lg:w-72 flex items-center gap-2">
+                <div class="relative flex-1">
+                    <input type="text" id="searchInput" oninput="filterContent()" placeholder="Pesquisar conceito (ex: while, array, return)..." class="w-full pl-9 pr-3 py-1.5 bg-slate-50 border border-slate-300 rounded-lg text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent">
+                    <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </div>
+                <button type="button" onclick="resetSearchAndFilter()" class="px-2.5 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 cursor-pointer" title="Limpar filtro e busca">
+                    Limpar
+                </button>
+            </div>
+        </div>
+
+        <!-- SUBSECÇÃO I.A: PARTE TEÓRICA (20 QUESTÕES) -->
+        <section id="section-theory" class="space-y-6">
+            <div class="border-b-2 border-academic-navy pb-3 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-amber-700">Registo de Arquivo • Parte I</span>
+                    <h2 class="font-serif text-xl sm:text-2xl font-bold text-academic-navy mt-0.5">
+                        Parte Teórica — Fundamentos de Algoritmia
+                    </h2>
+                </div>
+                <span class="text-sm font-medium text-slate-500">20 Questões • 1 ponto cada (Cotação: 8/20)</span>
+            </div>
+
+            <div id="theory-container" class="space-y-5"></div>
+        </section>
+
+        <!-- SUBSECÇÃO I.B: PARTE PRÁTICA — ANÁLISE DO FLUXOGRAMA FLOWGORITHM (6 QUESTÕES) -->
+        <section id="section-practical" class="space-y-6 pt-4">
+            <div class="border-b-2 border-academic-navy pb-3 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-amber-700">Registo de Arquivo • Parte II</span>
+                    <h2 class="font-serif text-xl sm:text-2xl font-bold text-academic-navy mt-0.5">
+                        Parte Prática — Análise de Fluxogramas (Flowgorithm)
+                    </h2>
+                </div>
+                <span class="text-sm font-medium text-slate-500">6 Questões • Total 80 pontos (Cotação: 10/80)</span>
+            </div>
+
+            <!-- Diagrama SVG de Alta Precisão do Fluxograma Flowgorithm da Prova -->
+            <div id="flowchart-reference" class="bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
+                <div class="bg-academic-navy text-white border-b border-amber-500/30 px-5 py-3.5 flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex items-center gap-2.5">
+                        <span class="px-2 py-0.5 rounded bg-amber-500 text-slate-950 font-mono text-xs font-bold">HOLODIAGRAMA 01</span>
+                        <h3 class="text-sm font-bold text-white">Reconstrução Vetorial do Fluxograma Flowgorithm (Questões Práticas 2, 3, 4 e 5)</h3>
+                    </div>
+                    <button type="button" onclick="toggleFlowTraceGuide()" class="text-xs text-sky-300 hover:text-amber-300 font-mono underline cursor-pointer">
+                        Rastrear Fluxo Interativo
+                    </button>
+                </div>
+
+                <div id="flow-trace-guide" class="hidden bg-indigo-950 text-indigo-100 px-5 py-3.5 text-xs sm:text-sm border-b border-indigo-800 space-y-1">
+                    <p class="font-bold text-amber-300">Rastreio Rápido do Holodiagrama 01:</p>
+                    <p>1. <code class="font-mono text-sky-300">Main</code> declara <code class="font-mono">Integer Option</code> e entra no ciclo <code class="font-mono">While True</code>.</p>
+                    <p>2. Se <code class="font-mono">Option = 1</code> ou <code class="font-mono">2</code>, chama <code class="font-mono">ObterValor(Option)</code>; se <code class="font-mono">Option = 1</code> calcula <code class="font-mono">Valor * Valor</code> (Quadrado), senão calcula <code class="font-mono">Valor * Valor * 3.14159</code> (Círculo) e faz <code class="font-mono">Return Real Resultado</code>.</p>
+                </div>
+
+                <div class="p-4 sm:p-6 bg-[#E6F2F5]/60 overflow-x-auto flex justify-center">
+                    <svg viewBox="0 0 880 540" class="w-full max-w-4xl h-auto bg-white border border-slate-300 rounded-lg shadow-inner" role="img" aria-label="Fluxograma Flowgorithm com funções Main e ObterValor">
+                        <defs>
+                            <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 1 L 10 5 L 0 9 z" fill="#334155" />
+                            </marker>
+                        </defs>
+
+                        <!-- ================= LADO ESQUERDO: FUNÇÃO MAIN ================= -->
+                        <rect x="65" y="20" width="90" height="34" rx="17" fill="#E9D5FF" stroke="#9333EA" stroke-width="1.5"/>
+                        <text x="110" y="41" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#1E293B">Main</text>
+                        <line x1="110" y1="54" x2="110" y2="75" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+                        <rect x="60" y="77" width="100" height="36" fill="#FEF9C3" stroke="#CA8A04" stroke-width="1.5"/>
+                        <line x1="60" y1="84" x2="160" y2="84" stroke="#CA8A04" stroke-width="1.2"/>
+                        <line x1="67" y1="77" x2="67" y2="113" stroke="#CA8A04" stroke-width="1.2"/>
+                        <text x="113" y="102" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#1E293B">Integer Option</text>
+                        <line x1="110" y1="113" x2="110" y2="136" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+                        <polygon points="82,138 138,138 152,154 138,170 82,170 68,154" fill="#FDE68A" stroke="#D97706" stroke-width="1.5"/>
+                        <text x="110" y="158" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#1E293B">True</text>
+
+                        <text x="95" y="185" text-anchor="end" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#475569">False</text>
+                        <line x1="110" y1="170" x2="110" y2="478" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+                        <rect x="65" y="480" width="90" height="34" rx="17" fill="#E9D5FF" stroke="#9333EA" stroke-width="1.5"/>
+                        <text x="110" y="501" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#1E293B">End</text>
+
+                        <text x="172" y="147" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#475569">True</text>
+                        <polyline points="152,154 275,154 275,183" fill="none" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+                        <polygon points="200,185 365,185 350,223 185,223" fill="#DCFCE7" stroke="#16A34A" stroke-width="1.5"/>
+                        <text x="275" y="201" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#1E293B">Output "Escolha 1.</text>
+                        <text x="275" y="214" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#1E293B">QUADRADO 2.CIRCULO"</text>
+                        <line x1="275" y1="223" x2="275" y2="243" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+                        <polygon points="230,245 335,245 322,273 217,273" fill="#DBEAFE" stroke="#2563EB" stroke-width="1.5"/>
+                        <text x="276" y="263" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#1E293B">Input Option</text>
+                        <line x1="275" y1="273" x2="275" y2="293" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+                        <polygon points="275,295 365,335 275,375 185,335" fill="#FECDD3" stroke="#E11D48" stroke-width="1.5"/>
+                        <text x="275" y="339" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#1E293B">Option = 1 or Option = 2</text>
+
+                        <text x="172" y="328" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#475569">False</text>
+                        <polyline points="185,335 160,335 160,388" fill="none" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+                        <polygon points="153,390 167,390 175,398 175,412 167,420 153,420 145,412 145,398" fill="#0D9488" stroke="#115E59" stroke-width="1.5"/>
+                        <text x="183" y="409" text-anchor="start" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#334155">Breakpoint</text>
+
+                        <text x="378" y="328" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#475569">True</text>
+                        <polyline points="365,335 390,335 390,388" fill="none" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+                        <polygon points="325,390 470,390 456,420 311,420" fill="#DCFCE7" stroke="#16A34A" stroke-width="1.5"/>
+                        <text x="390" y="409" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#1E293B">Output ObterValor(Option)</text>
+
+                        <circle cx="275" cy="442" r="5" fill="#FECDD3" stroke="#E11D48" stroke-width="1.5"/>
+                        <polyline points="160,420 160,442 268,442" fill="none" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+                        <polyline points="390,420 390,442 282,442" fill="none" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+                        <polyline points="275,447 275,462 125,462 125,172" fill="none" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+                        <!-- ================= LADO DIREITO: FUNÇÃO OBTERVALOR ================= -->
+                        <line x1="495" y1="20" x2="495" y2="520" stroke="#CBD5E1" stroke-width="1" stroke-dasharray="4 4"/>
+
+                        <rect x="615" y="20" width="130" height="40" rx="20" fill="#E9D5FF" stroke="#9333EA" stroke-width="1.5"/>
+                        <text x="680" y="38" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#1E293B">ObterValor</text>
+                        <text x="680" y="51" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="500" fill="#334155">(Integer Option)</text>
+                        <line x1="680" y1="60" x2="680" y2="82" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+                        <rect x="615" y="84" width="130" height="36" fill="#FEF9C3" stroke="#CA8A04" stroke-width="1.5"/>
+                        <line x1="615" y1="91" x2="745" y2="91" stroke="#CA8A04" stroke-width="1.2"/>
+                        <line x1="622" y1="84" x2="622" y2="120" stroke="#CA8A04" stroke-width="1.2"/>
+                        <text x="683" y="109" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#1E293B">Real Valor, Resultado</text>
+                        <line x1="680" y1="120" x2="680" y2="142" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+                        <polygon points="605,144 770,144 755,182 590,182" fill="#DCFCE7" stroke="#16A34A" stroke-width="1.5"/>
+                        <text x="680" y="160" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#1E293B">Output "Informe valor do Lado</text>
+                        <text x="680" y="173" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#1E293B">ou Raio:"</text>
+                        <line x1="680" y1="182" x2="680" y2="202" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+                        <polygon points="635,204 740,204 727,232 622,232" fill="#DBEAFE" stroke="#2563EB" stroke-width="1.5"/>
+                        <text x="681" y="222" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#1E293B">Input Valor</text>
+                        <line x1="680" y1="232" x2="680" y2="252" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+                        <polygon points="680,254 735,284 680,314 625,284" fill="#FECDD3" stroke="#E11D48" stroke-width="1.5"/>
+                        <text x="680" y="288" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#1E293B">Option = 1</text>
+
+                        <text x="608" y="277" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#475569">False</text>
+                        <polyline points="625,284 585,284 585,328" fill="none" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+                        <rect x="520" y="330" width="130" height="40" fill="#FEF9C3" stroke="#CA8A04" stroke-width="1.5"/>
+                        <text x="585" y="347" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#1E293B">Resultado = Valor * Valor *</text>
+                        <text x="585" y="361" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#1E293B">3.14159</text>
+
+                        <text x="752" y="277" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#475569">True</text>
+                        <polyline points="735,284 775,284 775,328" fill="none" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+                        <rect x="710" y="330" width="130" height="34" fill="#FEF9C3" stroke="#CA8A04" stroke-width="1.5"/>
+                        <text x="775" y="351" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#1E293B">Resultado = Valor * Valor</text>
+
+                        <circle cx="680" cy="395" r="5" fill="#FECDD3" stroke="#E11D48" stroke-width="1.5"/>
+                        <polyline points="585,370 585,395 673,395" fill="none" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+                        <polyline points="775,364 775,395 687,395" fill="none" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+                        <line x1="680" y1="400" x2="680" y2="420" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+                        <polygon points="635,422 740,422 727,450 622,450" fill="#DCFCE7" stroke="#16A34A" stroke-width="1.5"/>
+                        <text x="681" y="440" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#1E293B">Output "Area = "</text>
+                        <line x1="680" y1="450" x2="680" y2="472" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+                        <rect x="615" y="474" width="130" height="36" rx="18" fill="#E9D5FF" stroke="#9333EA" stroke-width="1.5"/>
+                        <text x="680" y="496" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#1E293B">Return Real Resultado</text>
+                    </svg>
+                </div>
+
+                <div class="bg-slate-50 border-t border-slate-200 px-5 py-3 flex flex-wrap items-center gap-3 text-xs text-slate-600">
+                    <span class="font-semibold text-slate-800">Simbologia Flowgorithm (clique para filtrar):</span>
+                    <button type="button" onclick="searchAndFocus('variáveis')" class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-amber-100 hover:bg-amber-200 text-amber-950 cursor-pointer"><span class="w-2.5 h-2.5 rounded-xs bg-amber-300 border border-amber-600"></span> Declaração / Atribuição</button>
+                    <button type="button" onclick="searchAndFocus('while')" class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-orange-100 hover:bg-orange-200 text-orange-950 cursor-pointer"><span class="w-2.5 h-2.5 rounded-xs bg-orange-300 border border-orange-600"></span> Hexágono = Ciclo While</button>
+                    <button type="button" onclick="searchAndFocus('losango')" class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-rose-100 hover:bg-rose-200 text-rose-950 cursor-pointer"><span class="w-2.5 h-2.5 rotate-45 bg-rose-300 border border-rose-600"></span> Losango = Decisão If</button>
+                    <button type="button" onclick="searchAndFocus('retornar')" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-purple-100 hover:bg-purple-200 text-purple-950 cursor-pointer"><span class="w-2.5 h-2.5 rounded-full bg-purple-300 border border-purple-600"></span> Terminal / Retorno</button>
+                </div>
+            </div>
+
+            <!-- Container das 6 Questões Práticas -->
+            <div id="practical-container" class="space-y-6"></div>
+        </section>
+    </main>
+
+    <!-- ===================================================================== -->
+    <!-- SECÇÃO 2: AULA MAGISTRAL & APONTAMENTOS EXECUTIVOS                    -->
+    <!-- ===================================================================== -->
+    <main id="section-tab-lecture" class="tab-section hidden max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-8">
+
+        <div class="bg-academic-navy text-white rounded-2xl p-6 sm:p-8 border border-amber-500/40 shadow-md">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div class="space-y-2 max-w-3xl">
+                    <span class="inline-block px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-400/30 font-mono text-xs uppercase tracking-wider">
+                        Cátedra de Algoritmia Estruturada • Que a Força esteja com você
+                    <h2 class="font-serif text-2xl sm:text-3xl font-bold text-white">
+                        Aula Magistral &amp; Apontamentos Executivos
+                    </h2>
+                    <p class="text-sm sm:text-base text-slate-300 leading-relaxed">
+                        Compêndio académico concebido a partir da análise rigorosa da sua avaliação: consolida os fundamentos em que demonstrou domínio e esclarece ponto por ponto todas as lacunas identificadas.
+                    </p>
+                </div>
+                <button type="button" onclick="switchMainTab('simulator')" class="no-print shrink-0 px-4 py-2.5 bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold text-xs sm:text-sm rounded-lg transition-colors cursor-pointer">
+                    Testar Conhecimentos &rarr;
+                </button>
+            </div>
+        </div>
+
+        <div class="space-y-8">
+
+            <!-- MÓDULO I -->
+            <article id="mod-arrays" class="module-card bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
+                <div class="bg-slate-900 text-white px-6 py-4 flex flex-wrap items-center justify-between gap-2 border-b border-amber-500/30">
+                    <div class="flex items-center gap-3">
+                        <span class="px-2.5 py-1 rounded bg-amber-500 text-slate-950 font-mono text-xs font-bold">MÓDULO I</span>
+                        <h3 class="font-serif text-lg sm:text-xl font-bold">Estruturas de Dados: Arrays Indexados vs. Arrays Associativos</h3>
+                    </div>
+                    <button type="button" onclick="switchMainTab('review'); searchAndFocus('array');" class="text-xs font-mono text-amber-300 hover:underline cursor-pointer">Ver Questões Q01 e Q10 &rarr;</button>
+                </div>
+                <div class="p-6 space-y-4 text-sm sm:text-base text-slate-700 leading-relaxed">
+                    <p>
+                        Um <strong>array</strong> (vetor) é uma estrutura de dados composta que permite armazenar múltiplas ocorrências de informação sob um único identificador de variável. O erro mais frequente consiste em confundir o <em>tipo do índice</em> com o <em>tipo do conteúdo armazenado</em>.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                            <h4 class="font-bold text-academic-navy flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-sky-600"></span>
+                                1. Array Indexado (Posicional)
+                            </h4>
+                            <p class="text-sm">
+                                Cada elemento é acedido através de um <strong>índice numérico inteiro</strong> (habitualmente começando em <code class="font-mono text-indigo-800">0</code>). O conteúdo armazenado pode ser de <strong>qualquer tipo de dados</strong> (inteiros, reais, strings ou booleanos).
+                            </p>
+                            <pre class="bg-slate-900 text-slate-100 font-mono text-xs p-3 rounded-lg overflow-x-auto">// Exemplo em Pseudocódigo:
+nomes ← ["Joana", "Carlos", "Ana"]
+// nomes[0] contém "Joana"
+// nomes[1] contém "Carlos"</pre>
+                        </div>
+                        <div class="p-4 rounded-xl bg-amber-50/50 border border-amber-200 space-y-2">
+                            <h4 class="font-bold text-academic-navy flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-amber-600"></span>
+                                2. Array Associativo (Chave-Valor / Mapa)
+                            </h4>
+                            <p class="text-sm">
+                                Em vez de posições numéricas (<code class="font-mono">0, 1, 2</code>), utiliza <strong>chaves textuais (Strings)</strong> descritivas para indexar cada valor guardado na memória.
+                            </p>
+                            <pre class="bg-slate-900 text-slate-100 font-mono text-xs p-3 rounded-lg overflow-x-auto">// Exemplo em Pseudocódigo (Q10):
+nomes["professora"] ← "Joana"
+nomes["aluno"]      ← "Filipe"
+// A chave é textual: "professora"</pre>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- MÓDULO II -->
+            <article id="mod-variables" class="module-card bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
+                <div class="bg-slate-900 text-white px-6 py-4 flex flex-wrap items-center justify-between gap-2 border-b border-amber-500/30">
+                    <div class="flex items-center gap-3">
+                        <span class="px-2.5 py-1 rounded bg-amber-500 text-slate-950 font-mono text-xs font-bold">MÓDULO II</span>
+                        <h3 class="font-serif text-lg sm:text-xl font-bold">Variáveis Especiais: Contadores, Acumuladores e Iteradores</h3>
+                    </div>
+                    <button type="button" onclick="switchMainTab('review'); searchAndFocus('contador');" class="text-xs font-mono text-emerald-300 hover:underline cursor-pointer">Ver Q02, Q15 e Q16 &rarr;</button>
+                </div>
+                <div class="p-6 space-y-4 text-sm sm:text-base text-slate-700 leading-relaxed">
+                    <p>
+                        Demonstrou excelente domínio sobre a função do <strong>acumulador</strong> (Q15) e do <strong>iterador</strong> (Q16). Contudo, na Q02 houve confusão na expressão algébrica do <strong>contador</strong>. A tabela seguinte sintetiza as três funções:
+                    </p>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full text-xs sm:text-sm border border-slate-300 rounded-lg overflow-hidden">
+                            <thead class="bg-academic-navy text-white">
+                                <tr>
+                                    <th class="px-4 py-3 text-left">Papel da Variável</th>
+                                    <th class="px-4 py-3 text-left">Definição Académica</th>
+                                    <th class="px-4 py-3 text-left">Sintaxe Canónica</th>
+                                    <th class="px-4 py-3 text-left">Armadilha a Evitar</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200 bg-white">
+                                <tr>
+                                    <td class="px-4 py-3 font-bold text-academic-navy">Contador</td>
+                                    <td class="px-4 py-3">Regista o número de ocorrências de um evento somando/subtraindo uma <strong>constante fixa</strong>.</td>
+                                    <td class="px-4 py-3 font-mono text-indigo-900 font-semibold">cont ← cont + 1</td>
+                                    <td class="px-4 py-3 text-rose-700"><code class="font-mono">cont * 2</code> não é contador (é progressão geométrica).</td>
+                                </tr>
+                                <tr class="bg-slate-50/70">
+                                    <td class="px-4 py-3 font-bold text-academic-navy">Acumulador</td>
+                                    <td class="px-4 py-3">Totaliza valores <strong>variáveis</strong> lidos ou calculados ao longo das iterações de um ciclo.</td>
+                                    <td class="px-4 py-3 font-mono text-indigo-900 font-semibold">soma ← soma + valor</td>
+                                    <td class="px-4 py-3 text-slate-600">Deve ser sempre inicializado a <code class="font-mono">0</code> antes do ciclo.</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-bold text-academic-navy">Iterador</td>
+                                    <td class="px-4 py-3">Variável de controlo que governa a progressão e paragem de um ciclo <code class="font-mono">for</code>.</td>
+                                    <td class="px-4 py-3 font-mono text-indigo-900 font-semibold">Para i ← 1 até 10</td>
+                                    <td class="px-4 py-3 text-slate-600">Não deve ser alterado manualmente dentro do ciclo <code class="font-mono">for</code>.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </article>
+
+            <!-- MÓDULO III -->
+            <article id="mod-control" class="module-card bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
+                <div class="bg-slate-900 text-white px-6 py-4 flex flex-wrap items-center justify-between gap-2 border-b border-amber-500/30">
+                    <div class="flex items-center gap-3">
+                        <span class="px-2.5 py-1 rounded bg-amber-500 text-slate-950 font-mono text-xs font-bold">MÓDULO III</span>
+                        <h3 class="font-serif text-lg sm:text-xl font-bold">Estruturas de Controlo: Ciclos vs. Decisões &amp; Validação</h3>
+                    </div>
+                    <button type="button" onclick="switchMainTab('review'); searchAndFocus('while');" class="text-xs font-mono text-emerald-300 hover:underline cursor-pointer">Ver Questões de Ciclos &rarr;</button>
+                </div>
+                <div class="p-6 space-y-4 text-sm sm:text-base text-slate-700 leading-relaxed">
+                    <p>
+                        Os seus melhores resultados na prova ocorreram aqui: domina a diferença entre <code class="font-mono bg-slate-100 px-1 rounded">for</code> (repetições conhecidas) e <code class="font-mono bg-slate-100 px-1 rounded">while</code> (repetições condicionadas), bem como a conversão entre ambos (Q12) e a repetição do pedido na validação de inputs (Q14). Fixe apenas estas 3 regras críticas:
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                            <span class="text-xs font-mono font-bold uppercase text-indigo-800">Regra 1 • Definição</span>
+                            <h4 class="font-bold text-academic-navy">Ciclo vs. Decisão</h4>
+                            <p class="text-sm">
+                                <strong>Ciclos</strong> (<code class="font-mono">for</code>, <code class="font-mono">while</code>) repetem blocos enquanto uma condição for verdadeira (Q06). <strong>Decisões</strong> (<code class="font-mono">if</code>) apenas escolhem um caminho uma única vez (Prática 5).
+                            </p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                            <span class="text-xs font-mono font-bold uppercase text-indigo-800">Regra 2 • Anatomia do For</span>
+                            <h4 class="font-bold text-academic-navy">Elementos do Ciclo For</h4>
+                            <p class="text-sm">
+                                Um ciclo <code class="font-mono">for</code> exige <strong>inicialização</strong>, <strong>condição de paragem</strong> e <strong>incremento</strong>. Não exige arrays (Q05) — pode contar simples números inteiros.
+                            </p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                            <span class="text-xs font-mono font-bold uppercase text-indigo-800">Regra 3 • Robustez</span>
+                            <h4 class="font-bold text-academic-navy">Finalidade da Validação</h4>
+                            <p class="text-sm">
+                                Validar o <em>input</em> do utilizador serve para <strong>evitar erros durante a execução</strong> (ex: impedir divisões por zero ou quantidades negativas), e não para tornar o programa mais rápido (Q18).
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- MÓDULO IV -->
+            <article id="mod-operators" class="module-card bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
+                <div class="bg-slate-900 text-white px-6 py-4 flex flex-wrap items-center justify-between gap-2 border-b border-amber-500/30">
+                    <div class="flex items-center gap-3">
+                        <span class="px-2.5 py-1 rounded bg-amber-500 text-slate-950 font-mono text-xs font-bold">MÓDULO IV</span>
+                        <h3 class="font-serif text-lg sm:text-xl font-bold">Operadores Relacionais e Álgebra Booleana (Lógicos)</h3>
+                    </div>
+                    <button type="button" onclick="switchMainTab('review'); searchAndFocus('AND');" class="text-xs font-mono text-amber-300 hover:underline cursor-pointer">Ver Q07, Q09 e Q20 &rarr;</button>
+                </div>
+                <div class="p-6 space-y-4 text-sm sm:text-base text-slate-700 leading-relaxed">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="space-y-2.5">
+                            <h4 class="font-bold text-academic-navy">1. Operadores Relacionais vs. Atribuição (Q09)</h4>
+                            <ul class="space-y-2 text-sm">
+                                <li class="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+                                    <code class="font-mono font-bold text-indigo-900">x ← 10</code> — <strong>Atribuição:</strong> guarda o valor 10 na variável <code class="font-mono">x</code>.
+                                </li>
+                                <li class="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+                                    <code class="font-mono font-bold text-indigo-900">x == 10</code> — <strong>Igualdade:</strong> verifica se <code class="font-mono">x</code> é igual a 10 (<code class="font-mono">TRUE</code>/<code class="font-mono">FALSE</code>).
+                                </li>
+                                <li class="p-2.5 rounded-lg bg-amber-50 border border-amber-300">
+                                    <code class="font-mono font-bold text-amber-950">x != 10</code> — <strong>Desigualdade:</strong> compara se dois valores são <strong>diferentes</strong>.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="space-y-2.5">
+                            <h4 class="font-bold text-academic-navy">2. Tabela de Verdade: AND vs. OR (Q07 e Q20)</h4>
+                            <table class="min-w-full text-xs font-mono border border-slate-300 rounded-lg overflow-hidden">
+                                <thead class="bg-slate-800 text-white">
+                                    <tr>
+                                        <th class="px-3 py-2 text-left">Condição A</th>
+                                        <th class="px-3 py-2 text-left">Condição B</th>
+                                        <th class="px-3 py-2 text-left text-amber-300">A AND B (E)</th>
+                                        <th class="px-3 py-2 text-left text-sky-300">A OR B (OU)</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200 bg-white">
+                                    <tr class="bg-emerald-50/70">
+                                        <td class="px-3 py-2 font-bold">TRUE</td>
+                                        <td class="px-3 py-2 font-bold">TRUE</td>
+                                        <td class="px-3 py-2 font-bold text-emerald-800">TRUE</td>
+                                        <td class="px-3 py-2 font-bold text-emerald-800">TRUE</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-3 py-2">TRUE</td>
+                                        <td class="px-3 py-2">FALSE</td>
+                                        <td class="px-3 py-2 text-rose-700">FALSE</td>
+                                        <td class="px-3 py-2 text-emerald-800">TRUE</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-3 py-2">FALSE</td>
+                                        <td class="px-3 py-2">TRUE</td>
+                                        <td class="px-3 py-2 text-rose-700">FALSE</td>
+                                        <td class="px-3 py-2 text-emerald-800">TRUE</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-3 py-2">FALSE</td>
+                                        <td class="px-3 py-2">FALSE</td>
+                                        <td class="px-3 py-2 text-rose-700">FALSE</td>
+                                        <td class="px-3 py-2 text-rose-700">FALSE</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p class="text-xs text-slate-600">
+                                <strong>Aplicação na Q20 (<code class="font-mono">x = 7</code>):</strong> <code class="font-mono">(7 &gt; 5)</code> é <code class="font-mono">TRUE</code> e <code class="font-mono">(7 &lt; 10)</code> é <code class="font-mono">TRUE</code>. Logo, <code class="font-mono">TRUE AND TRUE = TRUE</code>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- MÓDULO V -->
+            <article id="mod-subprograms" class="module-card bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
+                <div class="bg-slate-900 text-white px-6 py-4 flex flex-wrap items-center justify-between gap-2 border-b border-amber-500/30">
+                    <div class="flex items-center gap-3">
+                        <span class="px-2.5 py-1 rounded bg-amber-500 text-slate-950 font-mono text-xs font-bold">MÓDULO V</span>
+                        <h3 class="font-serif text-lg sm:text-xl font-bold">Modularização: Funções vs. Procedimentos</h3>
+                    </div>
+                    <button type="button" onclick="switchMainTab('review'); searchAndFocus('retornar');" class="text-xs font-mono text-amber-300 hover:underline cursor-pointer">Ver Q11 e Q17 &rarr;</button>
+                </div>
+                <div class="p-6 space-y-4 text-sm sm:text-base text-slate-700 leading-relaxed">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="p-4 rounded-xl bg-indigo-50/60 border border-indigo-200 space-y-2">
+                            <h4 class="font-bold text-indigo-950">Função (Function) — Devolve Resultado</h4>
+                            <p class="text-sm">
+                                Subprograma que recebe parâmetros, efetua um processamento e <strong>devolve obrigatoriamente um valor</strong> ao chamador usando a palavra-chave <code class="font-mono font-bold text-indigo-900">retornar</code> (<code class="font-mono">Return</code>).
+                            </p>
+                            <pre class="bg-slate-900 text-slate-100 font-mono text-xs p-3 rounded-lg overflow-x-auto">função CalcularQuadrado(Real Lado): Real
+   Real Area
+   Area ← Lado * Lado
+   retornar Area   // Devolve o valor!
+fim_função</pre>
+                        </div>
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                            <h4 class="font-bold text-academic-navy">Procedimento (Procedure / Void) — Não Devolve Valor</h4>
+                            <p class="text-sm">
+                                Subprograma que executa uma tarefa (como imprimir um cabeçalho ou menu) e termina <strong>sem retornar qualquer resultado</strong>.
+                            </p>
+                            <pre class="bg-slate-900 text-slate-100 font-mono text-xs p-3 rounded-lg overflow-x-auto">procedimento MostrarMenu()
+   escrever("1. Quadrado | 2. Círculo")
+   // Não possui instrução 'retornar'
+fim_procedimento</pre>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- MÓDULO VI -->
+            <article id="mod-flowgorithm" class="module-card bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
+                <div class="bg-slate-900 text-white px-6 py-4 flex flex-wrap items-center justify-between gap-2 border-b border-amber-500/30">
+                    <div class="flex items-center gap-3">
+                        <span class="px-2.5 py-1 rounded bg-amber-500 text-slate-950 font-mono text-xs font-bold">MÓDULO VI</span>
+                        <h3 class="font-serif text-lg sm:text-xl font-bold">Leitura de Fluxogramas Flowgorithm &amp; Teste de Mesa</h3>
+                    </div>
+                    <button type="button" onclick="switchMainTab('review'); setFilter('practical');" class="text-xs font-mono text-amber-300 hover:underline cursor-pointer">Ver Práticas 1 a 6 &rarr;</button>
+                </div>
+                <div class="p-6 space-y-4 text-sm sm:text-base text-slate-700 leading-relaxed">
+                    <p>
+                        Para dominar a componente prática (que vale <strong>50% da nota final</strong>), aplique sistematicamente este protocolo de 3 passos perante qualquer fluxograma:
+                    </p>
+                    <ol class="list-decimal list-inside space-y-2 text-sm bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <li><strong>Identificar Declarações (Retângulos com dupla linha):</strong> Conte cada nome de variável separado por vírgula e observe a palavra-chave à esquerda (<code class="font-mono text-indigo-800">Integer</code> = inteiro, <code class="font-mono text-indigo-800">Real</code> = decimal, <code class="font-mono text-indigo-800">String</code> = texto, <code class="font-mono text-indigo-800">Boolean</code> = lógico).</li>
+                        <li><strong>Distinguir Formas Geométricas:</strong> <em>Losango</em> = Decisão (<code class="font-mono">If</code>); <em>Hexágono</em> = Ciclo (<code class="font-mono">For</code> / <code class="font-mono">While</code>); <em>Paralelogramo Azul</em> = Leitura (<code class="font-mono">Input</code>); <em>Paralelogramo Verde</em> = Escrita (<code class="font-mono">Output</code>).</li>
+                        <li><strong>Construir a Tabela de Rastreio (Teste de Mesa):</strong> Simule cada volta do ciclo anotando o valor atual das variáveis e verificando se a condição de impressão é <code class="font-mono">True</code> ou <code class="font-mono">False</code> antes de escrever o resultado final.</li>
+                    </ol>
+                </div>
+            </article>
+
+        </div>
+    </main>
+
+    <!-- ===================================================================== -->
+    <!-- SECÇÃO 3: SIMULADOR DE PROVAS INFINITAS (SEM REPETIÇÃO & RANK JEDI)   -->
+    <!-- ===================================================================== -->
+    <main id="section-tab-simulator" class="tab-section hidden max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-8">
+
+        <div class="jedi-archive-bg text-white rounded-2xl p-6 sm:p-8 border-2 border-amber-500/40 shadow-lg">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                <div class="space-y-2 max-w-3xl">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/15 border border-sky-400/40 text-sky-300 text-xs font-mono uppercase tracking-wider">
+                        <span>Protocolo de Avaliação Contínua • Banco Sem Repetição</span>
+                    </div>
+                    <h2 class="font-serif text-2xl sm:text-3xl font-bold text-white">
+                        Câmara de Provas do Conselho — Exame #<span id="sim-exam-number">1</span>
+                    </h2>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Cada prova contém <strong>10 questões inéditas</strong> (6 Teóricas + 4 Práticas de Fluxograma/Lógica). O sistema regista todas as questões já respondidas para <strong>nunca repetir perguntas</strong>. Se ficar abaixo da média (<strong class="text-rose-300">&lt; 50%</strong>), o treino continua obrigatoriamente até atingir a aprovação.
+                    </p>
+                </div>
+
+                <div class="bg-slate-900/90 border border-slate-700 rounded-xl p-4 shrink-0 min-w-[230px] space-y-2 text-xs">
+                    <div class="font-bold uppercase tracking-wider text-amber-300 border-b border-slate-700 pb-1.5">
+                        Telemetria do Holocron
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">Questões Respondidas:</span>
+                        <span id="sim-seen-count" class="font-mono font-bold text-sky-300">0</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">Provas Concluídas:</span>
+                        <span id="sim-total-exams" class="font-mono font-bold text-white">0</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">Média Mínima Exigida:</span>
+                        <span class="font-mono font-bold text-emerald-400">50% (10 val.)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="sim-result-panel" class="hidden rounded-2xl border-2 p-6 sm:p-8 shadow-lg transition-all"></div>
+
+        <form id="sim-exam-form" onsubmit="gradeSimulatedExam(event)" class="space-y-6">
+            <div class="flex flex-wrap items-center justify-between gap-2 bg-white border border-slate-200 rounded-xl px-5 py-3 shadow-xs">
+                <span class="text-xs sm:text-sm font-semibold text-slate-700">
+                    Progresso desta Prova: <strong id="sim-progress-text" class="text-academic-navy font-mono">0 / 10</strong> respondidas
+                </span>
+                <div class="flex items-center gap-3">
+                    <button type="button" onclick="autoFillDemoAnswers()" class="text-xs font-semibold text-indigo-700 hover:underline cursor-pointer">
+                        Preencher Seleções Rápidas
+                    </button>
+                    <span class="text-xs font-mono text-indigo-800 font-semibold">Cotação: 10% por questão</span>
+                </div>
+            </div>
+
+            <div id="sim-questions-list" class="space-y-6"></div>
+
+            <div id="sim-submit-container" class="bg-white border border-slate-200 rounded-xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xs">
+                <p class="text-sm text-slate-600">
+                    Revise todas as alternativas selecionadas antes de submeter ao Conselho Jedi.
+                </p>
+                <button type="submit" class="w-full sm:w-auto px-6 py-3 bg-academic-navy hover:bg-slate-800 text-amber-300 border border-amber-500/40 font-bold text-sm rounded-lg shadow-sm transition-all cursor-pointer">
+                    Submeter Prova para Avaliação
+                </button>
+            </div>
+        </form>
+
+        <section class="bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
+            <div class="bg-slate-900 text-white px-6 py-4 flex flex-wrap items-center justify-between gap-2 border-b border-amber-500/30">
+                <div class="flex items-center gap-2.5">
+                    <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    <h3 class="font-serif text-lg font-bold">Histórico Oficial de Notas &amp; Ascensão Jedi</h3>
+                </div>
+                <button type="button" onclick="clearExamHistory()" class="text-xs text-slate-400 hover:text-rose-300 underline cursor-pointer">
+                    Limpar Histórico
+                </button>
+            </div>
+            <div class="p-6">
+                <div id="sim-history-container" class="overflow-x-auto">
+                    <p class="text-sm text-slate-500 italic">Ainda não realizou nenhuma prova no simulador. Submeta a Prova #1 acima para registar a sua primeira nota.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ===================================================================== -->
+    <!-- SECÇÃO 4: DIAGNÓSTICO FINAL — ONDE ERROU & PLANO DE ESTUDOS           -->
+    <!-- ===================================================================== -->
+    <main id="section-tab-diagnosis" class="tab-section hidden max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-8">
+
+        <div class="bg-academic-navy text-white rounded-2xl p-6 sm:p-8 border border-amber-500/40 shadow-md">
+            <span class="inline-block px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-400/30 font-mono text-xs uppercase tracking-wider mb-2">
+                Relatório Analítico do Conselho • Diagnóstico de Competências
+            </span>
+            <h2 class="font-serif text-2xl sm:text-3xl font-bold text-white">
+                Diagnóstico Final: Onde Errou &amp; Plano de Estudos Prioritário
+            </h2>
+            <p class="text-sm sm:text-base text-slate-300 mt-2 max-w-3xl leading-relaxed">
+                Análise quantitativa e qualitativa das <strong>17 questões falhadas</strong> na avaliação diagnóstica (12 teóricas e 5 práticas), ordenada pelo impacto direto na sua nota final.
+            </p>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-xs space-y-5">
+            <h3 class="font-serif text-lg font-bold text-academic-navy border-b border-slate-200 pb-3">
+                Mapa de Domínio por Área Temática (Clique para ir à revisão)
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 text-sm">
+                <button type="button" onclick="switchMainTab('review'); searchAndFocus('ciclo');" class="text-left p-3 rounded-lg hover:bg-slate-50 transition-colors space-y-1.5 cursor-pointer">
+                    <div class="flex justify-between font-semibold">
+                        <span class="text-academic-navy">1. Ciclos (For vs. While) &amp; Acumuladores</span>
+                        <span class="text-emerald-700 font-mono">71% (5/7 acertos)</span>
+                    </div>
+                    <div class="w-full bg-slate-200 rounded-full h-2.5">
+                        <div class="bg-emerald-600 h-2.5 rounded-full" style="width: 71%"></div>
+                    </div>
+                    <p class="text-xs text-slate-500">Ponto forte! Acertou Q03, Q04, Q12, Q15, Q16. Rever apenas Q05 e Q06.</p>
+                </button>
+
+                <button type="button" onclick="switchMainTab('review'); searchAndFocus('if');" class="text-left p-3 rounded-lg hover:bg-slate-50 transition-colors space-y-1.5 cursor-pointer">
+                    <div class="flex justify-between font-semibold">
+                        <span class="text-academic-navy">2. Estrutura Sequencial, Decisão (If) &amp; Validação</span>
+                        <span class="text-sky-700 font-mono">75% (3/4 acertos)</span>
+                    </div>
+                    <div class="w-full bg-slate-200 rounded-full h-2.5">
+                        <div class="bg-sky-600 h-2.5 rounded-full" style="width: 75%"></div>
+                    </div>
+                    <p class="text-xs text-slate-500">Acertou Q08, Q13, Q14. Rever apenas a finalidade da validação na Q18.</p>
+                </button>
+
+                <button type="button" onclick="switchMainTab('review'); setFilter('practical');" class="text-left p-3 rounded-lg hover:bg-slate-50 transition-colors space-y-1.5 cursor-pointer">
+                    <div class="flex justify-between font-semibold">
+                        <span class="text-academic-navy">3. Leitura de Fluxogramas &amp; Teste de Mesa</span>
+                        <span class="text-rose-700 font-mono">17% (1/6 acertos)</span>
+                    </div>
+                    <div class="w-full bg-slate-200 rounded-full h-2.5">
+                        <div class="bg-rose-600 h-2.5 rounded-full" style="width: 17%"></div>
+                    </div>
+                    <p class="text-xs text-slate-500"><strong>Prioridade Máxima (vale 50% da prova):</strong> Perdeu 70 pontos nas Práticas 1, 2, 4, 5 e 6.</p>
+                </button>
+
+                <button type="button" onclick="switchMainTab('review'); searchAndFocus('operador');" class="text-left p-3 rounded-lg hover:bg-slate-50 transition-colors space-y-1.5 cursor-pointer">
+                    <div class="flex justify-between font-semibold">
+                        <span class="text-academic-navy">4. Operadores Lógicos, Arrays &amp; Funções</span>
+                        <span class="text-amber-700 font-mono">0% (0/7 acertos)</span>
+                    </div>
+                    <div class="w-full bg-slate-200 rounded-full h-2.5">
+                        <div class="bg-amber-500 h-2.5 rounded-full" style="width: 4%"></div>
+                    </div>
+                    <p class="text-xs text-slate-500"><strong>Prioridade Alta:</strong> Rever Q01, Q02, Q07, Q09, Q10, Q11, Q17 e Q20.</p>
+                </button>
+            </div>
+        </div>
+
+        <div class="space-y-4">
+            <h3 class="font-serif text-xl font-bold text-academic-navy">
+                Roteiro Executivo: O Que Estudar por Ordem de Impacto na Nota
+            </h3>
+
+            <div class="bg-white border-l-4 border-l-rose-600 border border-slate-200 rounded-xl p-5 sm:p-6 shadow-xs space-y-3">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <span class="px-2.5 py-0.5 rounded bg-rose-100 text-rose-900 font-mono text-xs font-bold uppercase">Prioridade 1 • Impacto: 70 Pontos na Prática</span>
+                    <button type="button" onclick="switchMainTab('lecture')" class="text-xs font-bold text-indigo-800 hover:underline cursor-pointer">Abrir Módulo VI na Aula &rarr;</button>
+                </div>
+                <h4 class="font-serif text-lg font-bold text-academic-navy">Dominar a Leitura de Fluxogramas (Flowgorithm) e o Teste de Mesa</h4>
+                <p class="text-sm text-slate-700 leading-relaxed">
+                    <strong>Onde errou:</strong> Na Prática 1 respondeu <em>"Valor de Q inválido"</em> sem seguir o ramo verdadeiro (<code class="font-mono">Q=5</code> &rarr; <code class="font-mono">44,0</code>); na Prática 2 escreveu instruções em vez de contar as <strong>3 variáveis</strong>; na Prática 4 não identificou o tipo primitivo <strong>Real</strong>; na Prática 5 confundiu <code class="font-mono">if</code> com um ciclo; e na Prática 6 não executou o rastreio passo a passo (<code class="font-mono">A = 2 A = 3 A = 5</code>).
+                </p>
+                <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs text-slate-800 font-medium">
+                    <strong>Ação concreta:</strong> Antes de responder a qualquer pergunta de fluxograma, liste numa folha de rascunho: (1) Quantas variáveis existem e qual o tipo (<code class="font-mono">Integer</code>/<code class="font-mono">Real</code>); (2) Quais são os losangos (<code class="font-mono">if</code>) e quais são os hexágonos (<code class="font-mono">for</code>/<code class="font-mono">while</code>); (3) Faça a tabela de valores linha a linha.
+                </div>
+            </div>
+
+            <div class="bg-white border-l-4 border-l-amber-500 border border-slate-200 rounded-xl p-5 sm:p-6 shadow-xs space-y-3">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <span class="px-2.5 py-0.5 rounded bg-amber-100 text-amber-900 font-mono text-xs font-bold uppercase">Prioridade 2 • Impacto: 5 Pontos na Teórica</span>
+                    <button type="button" onclick="switchMainTab('lecture')" class="text-xs font-bold text-indigo-800 hover:underline cursor-pointer">Abrir Módulos IV e V na Aula &rarr;</button>
+                </div>
+                <h4 class="font-serif text-lg font-bold text-academic-navy">Operadores Lógicos/Relacionais e Subprogramas (Funções)</h4>
+                <p class="text-sm text-slate-700 leading-relaxed">
+                    <strong>Onde errou:</strong> Trocou <code class="font-mono">AND</code> por <code class="font-mono">OR</code> na Q07; confundiu <code class="font-mono">!=</code> (diferente de) com atribuição na Q09; avaliou <code class="font-mono">(7 &gt; 5) AND (7 &lt; 10)</code> como falso na Q20; confundiu <strong>Função</strong> com <em>Procedimento</em> na Q11; e assinalou <em>função</em> em vez de <code class="font-mono">retornar</code> na Q17.
+                </p>
+                <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs text-slate-800 font-medium">
+                    <strong>Ação concreta:</strong> Memorize as 4 equivalências diretas: <code class="font-mono">!=</code> = diferente | <code class="font-mono">AND</code> = ambas verdadeiras | <strong>Função</strong> = devolve resultado | <code class="font-mono">retornar</code> = palavra-chave que devolve o valor.
+                </div>
+            </div>
+
+            <div class="bg-white border-l-4 border-l-sky-600 border border-slate-200 rounded-xl p-5 sm:p-6 shadow-xs space-y-3">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <span class="px-2.5 py-0.5 rounded bg-sky-100 text-sky-900 font-mono text-xs font-bold uppercase">Prioridade 3 • Impacto: 6 Pontos na Teórica</span>
+                    <button type="button" onclick="switchMainTab('simulator')" class="text-xs font-bold text-indigo-800 hover:underline cursor-pointer">Praticar no Simulador &rarr;</button>
+                </div>
+                <h4 class="font-serif text-lg font-bold text-academic-navy">Arrays Associativos, Contadores Lineares e Definições de Ciclos</h4>
+                <p class="text-sm text-slate-700 leading-relaxed">
+                    <strong>Onde errou:</strong> Limitou arrays indexados a números (Q01); usou multiplicação num contador (Q02); assinalou condição de paragem como desnecessária no <code class="font-mono">for</code> (Q05); confundiu <code class="font-mono">while</code> com <code class="font-mono">for</code> na definição (Q06); escolheu array indexado em vez de associativo (Q10); e confundiu a finalidade da validação de input (Q18).
+                </p>
+                <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs text-slate-800 font-medium">
+                    <strong>Ação concreta:</strong> Realize provas no <strong>Simulador Infinito</strong> até alcançar o estatuto de <em>Mestre Jedi (&ge; 70%)</em> ou <em>Grão-Mestre Yoda (100%)</em>.
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Rodapé Académico -->
+    <footer class="bg-academic-obsidian text-slate-400 border-t border-amber-500/30 mt-12 py-6">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
+            <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-amber-400 shrink-0" viewBox="0 0 64 64" fill="currentColor">
+                    <path d="M32 3L25 17L12 13L19 26L5 29L18 36L10 48L24 44L22 58L32 47L42 58L40 44L54 48L46 36L59 29L45 26L52 13L39 17L32 3Z"/>
+                </svg>
+                <span>Arquivos Académicos de Algoritmia &amp; Programação • Conselho Jedi de Engenharia de Software</span>
+            </div>
+            <button type="button" onclick="triggerForceBlessing()" class="font-mono text-amber-400/90 hover:text-amber-300 cursor-pointer">
+                "Que a Força esteja com você." — Arquivos de Coruscant
+            </button>
+        </div>
+    </footer>
+
+    <!-- ===================================================================== -->
+    <!-- LÓGICA JAVASCRIPT: REVISÃO + SIMULADOR INFINITO SEM REPETIÇÃO + RANKS -->
+    <!-- ===================================================================== -->
+    <script>
+        const theoryQuestions = [
+            {
+                num: 1,
+                question: "Que tipo de dados podem ser armazenados num array indexado?",
+                userAnswer: "Apenas números.",
+                correctAnswer: "Dados de qualquer tipo.",
+                isCorrect: false,
+                explanation: "Em pseudocódigo e linguagens de programação em geral, um array indexado é uma estrutura capaz de armazenar elementos de qualquer tipo primitivo ou composto (inteiros, reais, strings, booleanos). O índice é numérico (0, 1, 2...), mas o conteúdo guardado em cada posição não se limita a números."
+            },
+            {
+                num: 2,
+                question: "Qual das seguintes opções representa corretamente um contador?",
+                userAnswer: "contador ← contador * 2",
+                correctAnswer: "contador ← contador + 1",
+                isCorrect: false,
+                explanation: "Um contador incrementa (ou decrementa) o seu valor por uma constante fixa (geralmente +1 ou -1) a cada iteração. Multiplicar por 2 (contador ← contador * 2) gera uma progressão geométrica (acumulador multiplicativo), e não uma contagem linear de ocorrências."
+            },
+            {
+                num: 3,
+                question: "Quando se usa um ciclo enquanto (while) em vez de um para (for)?",
+                userAnswer: "Quando o número de repetições depende de uma condição.",
+                correctAnswer: "Quando o número de repetições depende de uma condição.",
+                isCorrect: true,
+                explanation: "O ciclo while avalia uma condição lógica antes de cada execução, sendo ideal quando não sabemos antecipadamente quantas voltas o ciclo dará (por exemplo, ler dados até o utilizador introduzir um valor válido)."
+            },
+            {
+                num: 4,
+                question: "Numa estrutura de repetição, qual a principal diferença entre o ciclo para (for) e o ciclo enquanto (while)?",
+                userAnswer: "'for' é utilizado para repetições conhecidas, 'while' para um número de repetições desconhecidas.",
+                correctAnswer: "'for' é utilizado para repetições conhecidas, 'while' para um número de repetições desconhecidas.",
+                isCorrect: true,
+                explanation: "O ciclo 'for' possui inicialização, limite e incremento integrados para intervalos definidos à partida; o ciclo 'while' depende de eventos ou condições dinâmicas cujo número de iterações não é fixo."
+            },
+            {
+                num: 5,
+                question: "Qual dos seguintes elementos não é necessário num ciclo para (for) típico?",
+                userAnswer: "Condição de paragem.",
+                correctAnswer: "Declaração do array.",
+                isCorrect: false,
+                explanation: "Um ciclo 'for' precisa obrigatoriamente de três componentes estruturais: inicialização do contador, condição de paragem e incremento/passo. Ele pode iterar sobre intervalos numéricos simples (ex: de 1 até 10) sem precisar de nenhum array declarado."
+            },
+            {
+                num: 6,
+                question: "Qual das seguintes estruturas de controlo é utilizada para repetir instruções enquanto uma condição for verdadeira?",
+                userAnswer: "para (for)",
+                correctAnswer: "enquanto (while)",
+                isCorrect: false,
+                explanation: "A própria definição do enunciado descreve literalmente o funcionamento do ciclo 'enquanto' (while): repete o bloco de instruções enquanto a expressão booleana testada no início permanecer verdadeira."
+            },
+            {
+                num: 7,
+                question: "Qual é o operador lógico usado para verificar a veracidade de uma expressão se tivermos duas condições?",
+                userAnswer: "OR",
+                correctAnswer: "AND",
+                isCorrect: false,
+                explanation: "O operador AND (conjunção lógica) exige que ambas as condições sejam verdadeiras simultaneamente para validar a expressão composta como verdadeira. O operador OR (disjunção) valida a expressão mesmo que apenas uma das condições seja verdadeira."
+            },
+            {
+                num: 8,
+                question: "Para que serve a estrutura 'if' num algoritmo?",
+                userAnswer: "Tomar decisões com base em condições.",
+                correctAnswer: "Tomar decisões com base em condições.",
+                isCorrect: true,
+                explanation: "A estrutura condicional 'se' (if) permite bifurcar o fluxo de execução do algoritmo consoante o resultado booleano (Verdadeiro ou Falso) de um teste lógico."
+            },
+            {
+                num: 9,
+                question: "O que faz o operador != numa expressão?",
+                userAnswer: "Atribui um valor a uma variável.",
+                correctAnswer: "Compara se dois valores são diferentes.",
+                isCorrect: false,
+                explanation: "O operador '!=' é um operador relacional de desigualdade ('diferente de'). Em pseudocódigo, a atribuição de valores a uma variável é representada pela seta '←' (ou pelo sinal '=' em várias linguagens)."
+            },
+            {
+                num: 10,
+                question: "Qual das seguintes opções representa um array associativo em pseudocódigo?",
+                userAnswer: "nomes ← [\"Joana\", \"Carlos\"]",
+                correctAnswer: "nomes[\"professora\"] ← \"Joana\"",
+                isCorrect: false,
+                explanation: "Um array associativo (dicionário ou mapa) utiliza chaves textuais (strings) como índice em vez de posições numéricas inteiras (0, 1, 2...). A opção escolhida (nomes ← [\"Joana\", \"Carlos\"]) representa um array indexado numericamente tradicional."
+            },
+            {
+                num: 11,
+                question: "Na programação, que outro nome se dá a um subprograma que recebe um ou vários parâmetros e devolve um resultado?",
+                userAnswer: "Procedimento.",
+                correctAnswer: "Função.",
+                isCorrect: false,
+                explanation: "Um Procedimento (void) executa um conjunto de instruções mas não devolve nenhum valor; uma Função recebe parâmetros, processa-os e devolve obrigatoriamente um resultado através da instrução 'return'."
+            },
+            {
+                num: 12,
+                question: "O que é necessário para transformar um ciclo para (for) num ciclo enquanto (while)?",
+                userAnswer: "Separar a inicialização, condição e incremento.",
+                correctAnswer: "Separar a inicialização, condição e incremento.",
+                isCorrect: true,
+                explanation: "No ciclo 'for', estes três elementos ficam concentrados no cabeçalho; ao converter para 'while', a inicialização passa para antes do ciclo, a condição permanece no cabeçalho e o incremento é colocado no final do corpo do ciclo."
+            },
+            {
+                num: 13,
+                question: "Qual das seguintes estruturas representa uma sequência de instruções sem desvios nem repetições?",
+                userAnswer: "Estrutura sequencial.",
+                correctAnswer: "Estrutura sequencial.",
+                isCorrect: true,
+                explanation: "A estrutura sequencial corresponde à execução linear do algoritmo, instrução após instrução, exatamente pela ordem em que foram escritas, de cima para baixo."
+            },
+            {
+                num: 14,
+                question: "Num algoritmo, com validação de entrada de dados (input), o que se deve fazer se o dado introduzido não for válido?",
+                userAnswer: "Repete o pedido de dados.",
+                correctAnswer: "Repete o pedido de dados.",
+                isCorrect: true,
+                explanation: "Utiliza-se um ciclo de validação (como while ou do...while) para alertar o utilizador e solicitar novamente a introdução do valor até que este pertença ao domínio válido."
+            },
+            {
+                num: 15,
+                question: "O que faz um acumulador?",
+                userAnswer: "Soma ou acumula valores ao longo do tempo.",
+                correctAnswer: "Soma ou acumula valores ao longo do tempo.",
+                isCorrect: true,
+                explanation: "Ao contrário do contador (que incrementa sempre uma constante fixa como +1), o acumulador soma valores variáveis ao longo das iterações (por exemplo: soma ← soma + nota)."
+            },
+            {
+                num: 16,
+                question: "Qual é a principal função de um iterador num ciclo para (for)?",
+                userAnswer: "Controlar o número de repetições do ciclo.",
+                correctAnswer: "Controlar o número de repetições do ciclo.",
+                isCorrect: true,
+                explanation: "A variável iteradora (tipicamente designada por i ou j) acompanha a progressão desde o valor inicial até ao critério de paragem, garantindo que o ciclo executa o número exato de vezes previsto."
+            },
+            {
+                num: 17,
+                question: "Que palavra-chave é utilizada para devolver um valor de um subprograma em pseudocódigo?",
+                userAnswer: "função",
+                correctAnswer: "retornar",
+                isCorrect: false,
+                explanation: "A palavra-chave 'função' serve apenas para declarar o cabeçalho do subprograma. A instrução interna que encerra a execução da função e envia o resultado calculado de volta ao programa principal é 'retornar' (return)."
+            },
+            {
+                num: 18,
+                question: "Qual é a finalidade de validar o input (entrada de dados) do utilizador?",
+                userAnswer: "Garantir que o programa termina mais rapidamente.",
+                correctAnswer: "Evitar erros durante a execução.",
+                isCorrect: false,
+                explanation: "A validação de entradas protege o algoritmo contra dados inconsistentes ou fora do domínio esperado (ex: idades negativas ou divisores iguais a zero), prevenindo falhas em tempo de execução (runtime errors) e resultados matematicamente incorretos."
+            },
+            {
+                num: 19,
+                question: "Qual é a representação gráfica comum para uma decisão num fluxograma?",
+                userAnswer: "Losango",
+                correctAnswer: "Losango",
+                isCorrect: true,
+                explanation: "Na simbologia normalizada de fluxogramas (ISO 5807) e no ambiente Flowgorithm, o losango representa estruturas condicionais de decisão (if/else) com duas saídas possíveis: True e False."
+            },
+            {
+                num: 20,
+                question: "O que devolve a expressão lógica: (x > 5) AND (x < 10) se x = 7?",
+                userAnswer: "FALSE",
+                correctAnswer: "TRUE",
+                isCorrect: false,
+                explanation: "Substituindo a variável x pelo valor 7: a primeira condição (7 > 5) é verdadeira (TRUE) e a segunda condição (7 < 10) também é verdadeira (TRUE). De acordo com a tabela de verdade da conjunção lógica (AND), TRUE AND TRUE resulta em TRUE."
+            }
+        ];
+
+        const practicalQuestions = [
+            {
+                num: 1,
+                points: "20 pontos",
+                title: "Cálculo da Média Aritmética com Validação de Quantidade (Q)",
+                question: "Caso o valor indicado para variável Q seja 5, e os valores indicados para a variável V sejam 42, 44, 50, 44, 40, por esta ordem, qual o resultado impresso no final da execução do algoritmo?",
+                userAnswer: "Valor de Q inválido",
+                correctAnswer: "44,0",
+                isCorrect: false,
+                explanation: `
+                    <p class="mb-2">A mensagem <em>"Valor de Q inválido"</em> só seria impressa se <code class="font-mono bg-slate-100 px-1 rounded">Q &lt;= 0</code>. Como <strong>Q = 5</strong> é uma quantidade válida de elementos, o algoritmo entra no ciclo para ler os 5 valores de <code class="font-mono bg-slate-100 px-1 rounded">V</code> e acumular a sua soma:</p>
+                    <div class="bg-slate-900 text-slate-100 font-mono text-xs sm:text-sm p-3.5 rounded-lg my-2.5 overflow-x-auto">
+                        <div>Soma = 42 + 44 + 50 + 44 + 40 = <span class="text-emerald-400 font-bold">220</span></div>
+                        <div class="mt-1">Média = Soma / Q = 220 / 5 = <span class="text-amber-300 font-bold">44,0</span></div>
+                    </div>
+                    <p>Como a variável da média é do tipo <code class="font-mono bg-slate-100 px-1 rounded">Real</code>, o resultado é formatado com casa decimal: <strong>44,0</strong>.</p>
+                `
+            },
+            {
+                num: 2,
+                points: "10 pontos",
+                title: "Identificação e Contagem de Variáveis no Fluxograma",
+                question: "Quantas variáveis são indicadas no fluxograma? (Referente ao Holodiagrama 01 — Main e ObterValor)",
+                userAnswer: "Declarar(integer Option) Atribuir( Resultado = Valor*Valor)",
+                correctAnswer: "3 (Três)",
+                isCorrect: false,
+                explanation: `
+                    <p class="mb-2">A questão solicita apenas a <strong>quantidade numérica</strong> de variáveis declaradas no fluxograma (identificadas pelos retângulos amarelos com linha dupla superior e esquerda). Observando ambas as funções:</p>
+                    <ul class="list-disc list-inside space-y-1 ml-1 text-slate-700">
+                        <li><strong>Variável 1:</strong> <code class="font-mono bg-slate-100 px-1 rounded">Option</code> — declarada como <code class="font-mono">Integer Option</code> no <code class="font-mono">Main</code> (e recebida como parâmetro em <code class="font-mono">ObterValor</code>).</li>
+                        <li><strong>Variável 2:</strong> <code class="font-mono bg-slate-100 px-1 rounded">Valor</code> — declarada em <code class="font-mono">Real Valor, Resultado</code>.</li>
+                        <li><strong>Variável 3:</strong> <code class="font-mono bg-slate-100 px-1 rounded">Resultado</code> — declarada na mesma instrução <code class="font-mono">Real Valor, Resultado</code>.</li>
+                    </ul>
+                    <p class="mt-2 font-medium text-academic-navy">Total de variáveis distintas no fluxograma: <strong>3 (Três)</strong>.</p>
+                `
+            },
+            {
+                num: 3,
+                points: "10 pontos",
+                title: "Identificação de Variáveis do Tipo Inteiro",
+                question: "Qual o/os nomes das variáveis inteiras? (Referente ao Holodiagrama 01)",
+                userAnswer: "Option",
+                correctAnswer: "Option",
+                isCorrect: true,
+                explanation: `
+                    <p><strong>Excelente resposta!</strong> No bloco de declaração inicial do programa principal (<code class="font-mono bg-slate-100 px-1 rounded">Integer Option</code>) e na assinatura da função auxiliar (<code class="font-mono bg-slate-100 px-1 rounded">ObterValor(Integer Option)</code>), <code class="font-mono font-bold text-emerald-800">Option</code> é a única variável declarada com o tipo primitivo inteiro (<code class="font-mono">Integer</code>).</p>
+                `
+            },
+            {
+                num: 4,
+                points: "10 pontos",
+                title: "Tipos de Dados Primitivos no Flowgorithm",
+                question: "Qual o tipo de dados primitivos a que pertence a variável \"Resultado\"? (Referente ao Holodiagrama 01)",
+                userAnswer: "n entendi essa",
+                correctAnswer: "Real",
+                isCorrect: false,
+                explanation: `
+                    <p class="mb-2"><strong>Desmistificando o conceito:</strong> "Tipos de dados primitivos" é apenas o nome técnico para os tipos básicos de variáveis que o computador sabe guardar (Inteiro, Real, Texto/String e Booleano).</p>
+                    <p class="mb-2">Para responder, basta olhar para o bloco amarelo de declaração logo no topo da função <code class="font-mono bg-slate-100 px-1 rounded">ObterValor</code>:</p>
+                    <div class="bg-amber-50 border border-amber-300 font-mono text-xs sm:text-sm px-3 py-2 rounded-md text-amber-950 font-semibold inline-block my-1">
+                        Real Valor, Resultado
+                    </div>
+                    <p class="mt-2">Como a área do círculo multiplica o raio ao quadrado por <code class="font-mono">3.14159</code> (um número decimal), a variável <code class="font-mono">Resultado</code> pertence ao tipo primitivo <strong>Real</strong>.</p>
+                `
+            },
+            {
+                num: 5,
+                points: "10 pontos",
+                title: "Distinção entre Estruturas de Repetição (Ciclos) e Estruturas de Decisão",
+                question: "Qual o(s) ciclo(s) utilizado(s) no fluxograma? (Referente ao Holodiagrama 01)",
+                userAnswer: "Enquanto... (while...) e se... (if....)",
+                correctAnswer: "Enquanto... (while...)",
+                isCorrect: false,
+                explanation: `
+                    <p class="mb-2"><strong>Atenção à armadilha clássica de enunciado:</strong> A pergunta questiona exclusivamente quais são os <strong>ciclos</strong> (estruturas de repetição) presentes no diagrama.</p>
+                    <ul class="list-disc list-inside space-y-1 ml-1 text-slate-700">
+                        <li>O bloco losango rosa (<code class="font-mono bg-slate-100 px-1 rounded">Option = 1 or Option = 2</code> e <code class="font-mono bg-slate-100 px-1 rounded">Option = 1</code>) representa a estrutura <code class="font-mono">se... (if...)</code>, que é uma <strong>estrutura condicional / de decisão</strong>, e <em>não</em> um ciclo.</li>
+                        <li>A única estrutura que forma um laço de repetição (identificada pelo hexágono laranja <code class="font-mono bg-amber-100 px-1 rounded">True</code> no <code class="font-mono">Main</code>) é o ciclo <strong>Enquanto... (while...)</strong>.</li>
+                    </ul>
+                `
+            },
+            {
+                num: 6,
+                points: "20 pontos",
+                title: "Rastreio de Execução e Teste de Mesa (Trace Table)",
+                question: "Assinala a opção que indica os valores que serão impressos resultantes do algoritmo da imagem",
+                userAnswer: "Não sei",
+                correctAnswer: "A = 2 A = 3 A = 5",
+                isCorrect: false,
+                explanation: `
+                    <p class="mb-2">Em questões de rastreio de algoritmos com ciclos e condições internas (<code class="font-mono bg-slate-100 px-1 rounded">if</code> dentro de <code class="font-mono bg-slate-100 px-1 rounded">while</code>/<code class="font-mono bg-slate-100 px-1 rounded">for</code>), construímos o <strong>Teste de Mesa</strong> acompanhando a variável <code class="font-mono">A</code> a cada passo:</p>
+                    <div class="overflow-x-auto my-3">
+                        <table class="min-w-full text-xs sm:text-sm border border-slate-300 rounded-lg overflow-hidden">
+                            <thead class="bg-slate-800 text-white font-mono">
+                                <tr>
+                                    <th class="px-3 py-2 text-left">Iteração</th>
+                                    <th class="px-3 py-2 text-left">Valor de A</th>
+                                    <th class="px-3 py-2 text-left">Condição Interna</th>
+                                    <th class="px-3 py-2 text-left">Saída (Output)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200 font-mono bg-white">
+                                <tr class="bg-emerald-50/70"><td class="px-3 py-2">Passo 1</td><td class="px-3 py-2 font-bold">A = 2</td><td class="px-3 py-2 text-emerald-700">Verdadeiro</td><td class="px-3 py-2 font-bold text-emerald-900">A = 2</td></tr>
+                                <tr class="bg-emerald-50/70"><td class="px-3 py-2">Passo 2</td><td class="px-3 py-2 font-bold">A = 3</td><td class="px-3 py-2 text-emerald-700">Verdadeiro</td><td class="px-3 py-2 font-bold text-emerald-900">A = 3</td></tr>
+                                <tr class="bg-slate-50 text-slate-500"><td class="px-3 py-2">Passo 3</td><td class="px-3 py-2">A = 4</td><td class="px-3 py-2 text-rose-600">Falso (ignorado)</td><td class="px-3 py-2 italic">— (Nada impresso)</td></tr>
+                                <tr class="bg-emerald-50/70"><td class="px-3 py-2">Passo 4</td><td class="px-3 py-2 font-bold">A = 5</td><td class="px-3 py-2 text-emerald-700">Verdadeiro</td><td class="px-3 py-2 font-bold text-emerald-900">A = 5</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>Como <code class="font-mono bg-slate-100 px-1 rounded">A = 4</code> falha o teste condicional interno antes do bloco <code class="font-mono">Output</code>, o resultado final impresso é: <strong>A = 2 A = 3 A = 5</strong>.</p>
+                `
+            }
+        ];
+
+        const starWarsRanksCatalog = [
+            {
+                min: 100,
+                rankTitle: "Grão-Mestre da Ordem (Mestre Yoda)",
+                shortTitle: "GRÃO-MESTRE YODA",
+                quote: "“Dominaste os fluxos da Força e da Lógica com perfeição absoluta. Que a Força esteja com você, Mestre!”",
+                svg: `<svg class="w-16 h-16 text-emerald-600" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <circle cx="32" cy="32" r="28" class="fill-emerald-100 stroke-emerald-600"/>
+                        <path d="M32 10L36 26L52 24L39 34L44 50L32 40L20 50L25 34L12 24L28 26L32 10Z" class="fill-amber-400 stroke-amber-700"/>
+                        <circle cx="32" cy="32" r="6" class="fill-emerald-700"/>
+                      </svg>`
+            },
+            {
+                min: 90,
+                rankTitle: "Membro do Alto Conselho (Mace Windu)",
+                shortTitle: "CONSELHEIRO MACE WINDU",
+                quote: "“Rigor tático exemplar. O teu domínio sobre estruturas de controlo e modularização coloca-te no topo da Academia.”",
+                svg: `<svg class="w-16 h-16 text-purple-700" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <circle cx="32" cy="32" r="28" class="fill-purple-100 stroke-purple-700"/>
+                        <polygon points="32,12 48,32 32,52 16,32" class="fill-purple-600/20 stroke-purple-800"/>
+                        <line x1="32" y1="8" x2="32" y2="56" class="stroke-purple-700" stroke-width="3"/>
+                      </svg>`
+            },
+            {
+                min: 70,
+                rankTitle: "Mestre Jedi (Obi-Wan Kenobi)",
+                shortTitle: "MESTRE OBI-WAN KENOBI",
+                quote: "“Que a Força esteja com você! Superaste a média com distinção e demonstraste clareza na leitura de fluxogramas.”",
+                svg: `<svg class="w-16 h-16 text-sky-700" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <circle cx="32" cy="32" r="28" class="fill-sky-100 stroke-sky-700"/>
+                        <path d="M20 44L32 14L44 44M24 35H40" stroke-linecap="round" stroke-linejoin="round" class="stroke-sky-800" stroke-width="3"/>
+                      </svg>`
+            },
+            {
+                min: 50,
+                rankTitle: "Cavaleiro Jedi (Cal Kestis)",
+                shortTitle: "CAVALEIRO CAL KESTIS",
+                quote: "“Atingiste a média exigida pelo Conselho! Já não és um aprendiz: reconstruíste os teus fundamentos e superaste a prova.”",
+                svg: `<svg class="w-16 h-16 text-indigo-700" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <circle cx="32" cy="32" r="28" class="fill-indigo-100 stroke-indigo-700"/>
+                        <path d="M32 14V50M22 24L32 14L42 24" stroke-linecap="round" stroke-linejoin="round" class="stroke-indigo-800" stroke-width="3"/>
+                      </svg>`
+            },
+            {
+                min: 30,
+                rankTitle: "Padawan em Treino (Ezra Bridger)",
+                shortTitle: "PADAWAN EZRA BRIDGER",
+                quote: "“Ainda estás abaixo da média de 50%. Foca nos operadores lógicos e no teste de mesa. Que a Força esteja com você!”",
+                svg: `<svg class="w-16 h-16 text-amber-700" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <circle cx="32" cy="32" r="28" class="fill-amber-100 stroke-amber-700"/>
+                        <circle cx="32" cy="32" r="14" class="stroke-amber-800" stroke-dasharray="4 4"/>
+                        <path d="M32 22V34L40 38" stroke-linecap="round" stroke-linejoin="round" class="stroke-amber-900" stroke-width="3"/>
+                      </svg>`
+            },
+            {
+                min: 0,
+                rankTitle: "Recruta Trapalhão (Jar Jar Binks)",
+                shortTitle: "RECRUTA JAR JAR BINKS",
+                quote: "“Mesa acha que houve muita confusão nos fluxogramas! Consulta a Aula Magistral antes de avançar para a próxima prova.”",
+                svg: `<svg class="w-16 h-16 text-rose-700" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <circle cx="32" cy="32" r="28" class="fill-rose-100 stroke-rose-700"/>
+                        <path d="M22 22L42 42M42 22L22 42" stroke-linecap="round" stroke-linejoin="round" class="stroke-rose-800" stroke-width="3"/>
+                      </svg>`
+            }
+        ];
+
+        function getStarWarsRank(scorePct) {
+            return starWarsRanksCatalog.find(r => scorePct >= r.min) || starWarsRanksCatalog[starWarsRanksCatalog.length - 1];
+        }
+
+        let rankPreviewIndex = 0;
+        function cycleRankPreview() {
+            const rank = starWarsRanksCatalog[rankPreviewIndex % starWarsRanksCatalog.length];
+            rankPreviewIndex++;
+            showToast(`${rank.rankTitle} (${rank.min}%+): ${rank.quote}`);
+        }
+
+        function triggerForceBlessing() {
+            showToast("Que a Força esteja com você! — Conselho Jedi de Engenharia de Software");
+        }
+
+        let toastTimer = null;
+        function showToast(msg) {
+            const toast = document.getElementById("force-toast");
+            document.getElementById("force-toast-text").textContent = msg;
+            toast.classList.remove("hidden");
+            toast.classList.add("flex");
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(hideToast, 4500);
+        }
+
+        function hideToast() {
+            const toast = document.getElementById("force-toast");
+            toast.classList.add("hidden");
+            toast.classList.remove("flex");
+        }
+
+        function toggleFlowTraceGuide() {
+            document.getElementById("flow-trace-guide").classList.toggle("hidden");
+        }
+
+        function searchAndFocus(term) {
+            const input = document.getElementById("searchInput");
+            if (input) {
+                input.value = term;
+                filterContent();
+            }
+        }
+
+        function resetSearchAndFilter() {
+            document.getElementById("searchInput").value = "";
+            setFilter("all");
+        }
+
+        // =====================================================================
+        // MOTOR DE PROVAS INFINITAS SEM REPETIÇÃO
+        // =====================================================================
+        const STORAGE_SEEN_KEY = "jedi_algoritmia_seen_signatures_v1";
+        const STORAGE_HISTORY_KEY = "jedi_algoritmia_exam_history_v1";
+
+        let seenSignatures = new Set(JSON.parse(localStorage.getItem(STORAGE_SEEN_KEY) || "[]"));
+        let examHistory = JSON.parse(localStorage.getItem(STORAGE_HISTORY_KEY) || "[]");
+        let activeExamQuestions = [];
+
+        const curatedTheoryPool = [
+            { sig: "th_01", q: "Que tipo de dados podem ser armazenados num array indexado?", opts: ["Dados de qualquer tipo.", "Apenas números inteiros.", "Apenas valores booleanos.", "Apenas caracteres."], ans: 0, exp: "Um array indexado pode armazenar dados de qualquer tipo (números, texto, booleanos); apenas o índice da posição é numérico." },
+            { sig: "th_02", q: "Qual das seguintes instruções representa corretamente um contador crescente?", opts: ["contador ← contador + 1", "contador ← contador * 2", "contador ← 100", "contador ← contador + nota"], ans: 0, exp: "Um contador soma ou subtrai uma constante fixa (+1 ou -1) a cada repetição." },
+            { sig: "th_03", q: "Qual das seguintes expressões representa um acumulador?", opts: ["soma ← soma + valor", "soma ← soma + 1", "soma ← 0", "soma ← valor * 0"], ans: 0, exp: "Um acumulador soma valores variáveis (como 'valor' ou 'nota') ao longo das iterações de um ciclo." },
+            { sig: "th_04", q: "Quando se deve utilizar um ciclo 'enquanto' (while) em vez de um ciclo 'para' (for)?", opts: ["Quando o número de repetições depende de uma condição.", "Quando se sabe exatamente que vai repetir 10 vezes.", "Quando se pretende declarar um array.", "Apenas quando não existem variáveis."], ans: 0, exp: "O ciclo 'while' testa uma condição dinâmica antes de cada repetição, sendo indicado para repetições desconhecidas à partida." },
+            { sig: "th_05", q: "Qual dos seguintes elementos NÃO é necessário num ciclo 'para' (for) típico?", opts: ["Declaração de um array.", "Inicialização da variável de controlo.", "Condição de paragem.", "Incremento ou passo."], ans: 0, exp: "Um ciclo 'for' precisa de inicialização, condição de paragem e passo/incremento, mas não requer qualquer array declarado." },
+            { sig: "th_06", q: "Qual estrutura de controlo repete um bloco de instruções enquanto uma condição booleana for verdadeira?", opts: ["enquanto (while)", "se (if)", "caso (switch)", "procedimento"], ans: 0, exp: "O ciclo 'enquanto' (while) repete o bloco enquanto a condição permanecer verdadeira." },
+            { sig: "th_07", q: "Qual operador lógico devolve VERDADEIRO apenas quando ambas as condições são verdadeiras?", opts: ["AND", "OR", "NOT", "XOR"], ans: 0, exp: "A conjunção lógica AND exige que todas as condições ligadas sejam verdadeiras." },
+            { sig: "th_08", q: "Qual operador lógico devolve VERDADEIRO se pelo menos uma das condições for verdadeira?", opts: ["OR", "AND", "NOT", "=="], ans: 0, exp: "A disjunção lógica OR basta ter uma condição verdadeira para validar toda a expressão." },
+            { sig: "th_09", q: "O que faz o operador relacional != numa expressão algorítmica?", opts: ["Compara se dois valores são diferentes.", "Atribui um valor a uma variável.", "Compara se dois valores são iguais.", "Calcula o resto da divisão."], ans: 0, exp: "O operador '!=' verifica se dois operandos são diferentes entre si." },
+            { sig: "th_10", q: "Qual das seguintes opções representa um array associativo em pseudocódigo?", opts: ["aluno[\"curso\"] ← \"Engenharia\"", "aluno ← [\"Ana\", \"Rui\"]", "aluno[0] ← \"Engenharia\"", "aluno ← \"Engenharia\""], ans: 0, exp: "Arrays associativos utilizam chaves textuais (strings) como índice em vez de posições numéricas inteiras." },
+            { sig: "th_11", q: "Como se denomina um subprograma que recebe parâmetros, processa-os e devolve um resultado?", opts: ["Função.", "Procedimento.", "Iterador.", "Constante."], ans: 0, exp: "Uma Função devolve obrigatoriamente um resultado; um Procedimento executa ações sem devolver valor." },
+            { sig: "th_12", q: "Que palavra-chave é utilizada dentro de uma função para devolver o resultado ao programa principal?", opts: ["retornar", "função", "procedimento", "escrever"], ans: 0, exp: "A instrução 'retornar' (return) devolve o valor calculado pela função." },
+            { sig: "th_13", q: "Qual é a principal finalidade de validar o input (entrada de dados) do utilizador?", opts: ["Evitar erros durante a execução e dados inválidos.", "Fazer o programa terminar mais depressa.", "Eliminar a necessidade de ciclos.", "Reduzir o tamanho do código fonte."], ans: 0, exp: "Validar inputs previne erros de execução (como divisões por zero) e garante a integridade dos cálculos." },
+            { sig: "th_14", q: "Num algoritmo com validação de input, o que deve acontecer se o dado introduzido for inválido?", opts: ["Repete o pedido de dados até ser válido.", "Guarda o valor inválido e continua.", "Ignora o cálculo e apaga as variáveis.", "Converte o texto em booleano."], ans: 0, exp: "Um ciclo de validação mantém o utilizador a introduzir dados até que um valor aceite seja fornecido." },
+            { sig: "th_15", q: "Qual é o símbolo gráfico utilizado no Flowgorithm para representar uma decisão (if)?", opts: ["Losango", "Retângulo", "Paralelogramo", "Círculo"], ans: 0, exp: "O losango representa decisões condicionais com saídas True e False." },
+            { sig: "th_16", q: "Qual é o símbolo gráfico utilizado no Flowgorithm para representar um ciclo (For / While)?", opts: ["Hexágono", "Losango", "Octógono", "Elipse"], ans: 0, exp: "No Flowgorithm, os ciclos For, While e Do-While são representados por hexágonos alongados." },
+            { sig: "th_17", q: "Qual é o tipo de dados primitivo no Flowgorithm indicado para guardar números com casas decimais?", opts: ["Real", "Integer", "String", "Boolean"], ans: 0, exp: "Números decimais pertencem ao tipo primitivo Real; números inteiros pertencem a Integer." },
+            { sig: "th_18", q: "O que é necessário para transformar um ciclo 'para' (for) num ciclo 'enquanto' (while)?", opts: ["Separar a inicialização, a condição e o incremento.", "Substituir o ciclo por uma decisão 'if'.", "Remover a variável iteradora.", "Usar um array associativo."], ans: 0, exp: "No 'while', a inicialização fica antes do ciclo, a condição no cabeçalho e o incremento no final do bloco interno." },
+            { sig: "th_19", q: "Qual estrutura representa uma execução linear de instruções sem desvios nem repetições?", opts: ["Estrutura sequencial.", "Estrutura condicional.", "Estrutura iterativa.", "Subprograma recursivo."], ans: 0, exp: "Na estrutura sequencial as instruções executam-se uma após a outra pela ordem escrita." },
+            { sig: "th_20", q: "Qual é a principal função de um iterador num ciclo 'para' (for)?", opts: ["Controlar o número de repetições do ciclo.", "Validar se o utilizador escreveu texto.", "Armazenar o resultado da média.", "Substituir a instrução return."], ans: 0, exp: "O iterador acompanha a contagem desde o início até ao limite de paragem do ciclo." },
+            { sig: "th_21", q: "Qual a diferença fundamental entre um Procedimento e uma Função?", opts: ["O procedimento não devolve valor; a função devolve um valor.", "O procedimento usa ciclos; a função não pode usar ciclos.", "A função não aceita parâmetros; o procedimento aceita.", "Não existe qualquer diferença."], ans: 0, exp: "Funções retornam um valor com 'retornar' (return); procedimentos apenas executam ações sem retorno." },
+            { sig: "th_22", q: "Qual o índice do primeiro elemento num array indexado tradicional na maioria das linguagens?", opts: ["0", "1", "-1", "A"], ans: 0, exp: "A indexação começa tradicionalmente na posição 0." },
+            { sig: "th_23", q: "Qual o resultado da operação lógica: NOT (TRUE AND FALSE)?", opts: ["TRUE", "FALSE", "0", "NULL"], ans: 0, exp: "TRUE AND FALSE resulta em FALSE. Aplicando a negação NOT (FALSE), obtemos TRUE." },
+            { sig: "th_24", q: "No Flowgorithm, que forma geométrica representa uma instrução de entrada (Input) ou saída (Output)?", opts: ["Paralelogramo", "Losango", "Retângulo", "Hexágono"], ans: 0, exp: "As operações de Input (azul) e Output (verde) utilizam paralelogramos inclinados." },
+            { sig: "th_25", q: "O que significa inicializar um acumulador antes de entrar num ciclo?", opts: ["Atribuir-lhe o valor neutro (ex: soma ← 0).", "Multiplicá-lo por 10.", "Apagá-lo da memória.", "Transformá-lo numa String."], ans: 0, exp: "Para somar corretamente, o acumulador deve começar em 0 (elemento neutro da adição)." },
+            { sig: "th_26", q: "Qual operador lógico inverte o valor de verdade de uma expressão booleana?", opts: ["NOT", "AND", "OR", "!="], ans: 0, exp: "O operador unário NOT transforma TRUE em FALSE e vice-versa." },
+            { sig: "th_27", q: "Qual tipo de dados primitivo armazena apenas os valores Verdadeiro (True) ou Falso (False)?", opts: ["Boolean", "Integer", "Real", "String"], ans: 0, exp: "O tipo Boolean representa valores lógicos binários (True / False)." },
+            { sig: "th_28", q: "O que acontece se a condição de um ciclo 'enquanto' (while) nunca se tornar falsa?", opts: ["Ocorre um ciclo infinito.", "O programa ignora o ciclo.", "O compilador transforma-o num 'if'.", "A variável passa a ser Real."], ans: 0, exp: "Sem atualização da variável de condição, o ciclo 'while' executa indefinidamente (ciclo infinito)." },
+            { sig: "th_29", q: "Em pseudocódigo, qual símbolo representa a atribuição de um valor a uma variável?", opts: ["←", "==", "!=", "&&"], ans: 0, exp: "A seta para a esquerda '←' indica atribuição de valor (ex: x ← 5)." },
+            { sig: "th_30", q: "Qual a vantagem principal de dividir um algoritmo em funções e procedimentos?", opts: ["Reutilização de código, legibilidade e facilidade de manutenção.", "Aumentar o consumo de memória RAM.", "Evitar o uso de variáveis locais.", "Impedir a leitura de dados."], ans: 0, exp: "A modularização permite isolar tarefas, evitar repetição de código e facilitar testes." }
+        ];
+
+        function generateUniqueParametricQuestion(category, attemptGuard = 0) {
+            const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+
+            if (category === "logic") {
+                const x = rand(4, 15);
+                const low = rand(1, 10);
+                const high = rand(8, 20);
+                const useAnd = Math.random() > 0.4;
+                const op = useAnd ? "AND" : "OR";
+                const c1 = x > low;
+                const c2 = x < high;
+                const res = useAnd ? (c1 && c2) : (c1 || c2);
+                const sig = `dyn_logic_${x}_${low}_${high}_${op}`;
+                if (seenSignatures.has(sig) && attemptGuard < 25) return generateUniqueParametricQuestion(category, attemptGuard + 1);
+
+                return {
+                    sig,
+                    isPractical: true,
+                    badge: "Lógica & Álgebra Booleana",
+                    q: `O que devolve a expressão lógica: (x > ${low}) ${op} (x < ${high}) sabendo que x = ${x}?`,
+                    opts: [res ? "TRUE" : "FALSE", res ? "FALSE" : "TRUE", "ERROR", "0"],
+                    ans: 0,
+                    exp: `Substituindo x = ${x}: (${x} > ${low}) é ${c1 ? 'TRUE' : 'FALSE'} e (${x} < ${high}) é ${c2 ? 'TRUE' : 'FALSE'}. Aplicando ${op}, o resultado é ${res ? 'TRUE' : 'FALSE'}.`
+                };
+            }
+
+            if (category === "trace") {
+                const start = rand(1, 4);
+                const end = start + rand(3, 4);
+                const skip = rand(start + 1, end - 1);
+                const printed = [];
+                const all = [];
+                for (let i = start; i <= end; i++) {
+                    all.push(`A = ${i}`);
+                    if (i !== skip) printed.push(`A = ${i}`);
+                }
+                const sig = `dyn_trace_${start}_${end}_${skip}`;
+                if (seenSignatures.has(sig) && attemptGuard < 25) return generateUniqueParametricQuestion(category, attemptGuard + 1);
+
+                return {
+                    sig,
+                    isPractical: true,
+                    badge: "Teste de Mesa (Flowgorithm)",
+                    code: `Integer A\nFor A = ${start} to ${end}\n   If (A != ${skip}) Then\n      Output "A = " & A`,
+                    q: "Assinala a opção que indica exatamente os valores impressos resultantes da execução deste fluxograma:",
+                    opts: [
+                        printed.join(" "),
+                        all.join(" "),
+                        `A = ${skip}`,
+                        printed.slice(0, 2).join(" ")
+                    ],
+                    ans: 0,
+                    exp: `O ciclo percorre A de ${start} até ${end}. Quando A = ${skip}, a condição (A != ${skip}) é Falsa e nada é impresso. Nos restantes passos imprime: ${printed.join(" ")}.`
+                };
+            }
+
+            if (category === "average") {
+                const q = rand(3, 5);
+                const vals = [];
+                let sum = 0;
+                for (let i = 0; i < q; i++) {
+                    const v = rand(10, 45) * 2;
+                    vals.push(v);
+                    sum += v;
+                }
+                const media = (sum / q).toFixed(1).replace(".", ",");
+                const wrongA = ((sum + 10) / q).toFixed(1).replace(".", ",");
+                const wrongB = ((sum - 6) / q).toFixed(1).replace(".", ",");
+                const sig = `dyn_avg_${q}_${vals.join("_")}`;
+                if (seenSignatures.has(sig) && attemptGuard < 25) return generateUniqueParametricQuestion(category, attemptGuard + 1);
+
+                return {
+                    sig,
+                    isPractical: true,
+                    badge: "Fluxograma Acumulador & Média",
+                    code: `Integer Q, I; Real V, Soma, Media\nInput Q\nIf (Q > 0)\n   Soma = 0\n   For I = 1 to Q\n      Input V\n      Soma = Soma + V\n   Media = Soma / Q\n   Output Media\nElse\n   Output "Valor de Q inválido"`,
+                    q: `Caso o valor de Q seja ${q} e os valores introduzidos para V sejam ${vals.join(", ")}, por esta ordem, qual o resultado impresso no final?`,
+                    opts: [media, "Valor de Q inválido", wrongA, wrongB],
+                    ans: 0,
+                    exp: `Como Q = ${q} (> 0), entra no ramo True. Soma = ${vals.join(" + ")} = ${sum}. Media = ${sum} / ${q} = ${media}.`
+                };
+            }
+
+            const templates = [
+                {
+                    sig: `dyn_anat_vars_${rand(100, 999)}`,
+                    badge: "Anatomia Flowgorithm",
+                    code: "Integer Idade, Ano\nReal Salario, Imposto, Liquido\nString Nome",
+                    q: "Quantas variáveis são declaradas no bloco acima e qual o tipo primitivo da variável 'Liquido'?",
+                    opts: ["6 variáveis; tipo primitivo Real.", "3 variáveis; tipo primitivo Integer.", "6 variáveis; tipo primitivo String.", "5 variáveis; tipo primitivo Real."],
+                    ans: 0,
+                    exp: "Contando todas as variáveis separadas por vírgula: Idade, Ano (2) + Salario, Imposto, Liquido (3) + Nome (1) = 6 variáveis. 'Liquido' é do tipo Real."
+                },
+                {
+                    sig: `dyn_anat_func_${rand(100, 999)}`,
+                    badge: "Subprogramas Flowgorithm",
+                    code: "Function CalcularPerimetro (Real Lado) Returns Real\n   Real P\n   P = Lado * 4\nReturn Real P",
+                    q: "Analisando o subprograma Flowgorithm acima, como se classifica e que instrução devolve o resultado?",
+                    opts: ["Função; devolve o valor através de Return.", "Procedimento; não devolve qualquer valor.", "Ciclo While; repete 4 vezes.", "Array associativo; devolve Integer."],
+                    ans: 0,
+                    exp: "Como possui tipo de retorno ('Returns Real') e termina com 'Return Real P', trata-se de uma Função."
+                },
+                {
+                    sig: `dyn_anat_loop_${rand(100, 999)}`,
+                    badge: "Estruturas no Fluxograma",
+                    code: "While (Nota < 0 or Nota > 20)\n   Output \"Nota inválida\"\n   Input Nota\nEnd While\nIf (Nota >= 10)\n   Output \"Aprovado\"",
+                    q: "Quais são exclusivamente os CICLOS utilizados no algoritmo acima?",
+                    opts: ["Apenas Enquanto (While).", "Enquanto (While) e Se (If).", "Apenas Se (If).", "Para (For) e Enquanto (While)."],
+                    ans: 0,
+                    exp: "'If' é uma estrutura de decisão, não um ciclo. O único ciclo (estrutura de repetição) presente é o 'While'."
+                }
+            ];
+            return { ...templates[rand(0, templates.length - 1)], isPractical: true };
+        }
+
+        function shuffleArray(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function generateNewInfiniteExam() {
+            let unseenTheory = curatedTheoryPool.filter(item => !seenSignatures.has(item.sig));
+            if (unseenTheory.length < 6) {
+                curatedTheoryPool.forEach(item => seenSignatures.delete(item.sig));
+                unseenTheory = [...curatedTheoryPool];
+            }
+
+            const chosenTheory = shuffleArray(unseenTheory).slice(0, 6).map(item => ({
+                sig: item.sig,
+                isPractical: false,
+                badge: "Fundamentos Teóricos",
+                q: item.q,
+                opts: item.opts,
+                ans: item.ans,
+                exp: item.exp
+            }));
+
+            const chosenPractical = [
+                generateUniqueParametricQuestion("average"),
+                generateUniqueParametricQuestion("trace"),
+                generateUniqueParametricQuestion("logic"),
+                generateUniqueParametricQuestion("flow_anatomy")
+            ];
+
+            const combined = [...chosenTheory, ...chosenPractical].map((q, index) => {
+                const correctText = q.opts[q.ans];
+                const shuffledOpts = shuffleArray(q.opts);
+                return {
+                    index,
+                    sig: q.sig,
+                    isPractical: q.isPractical,
+                    badge: q.badge,
+                    code: q.code || null,
+                    q: q.q,
+                    opts: shuffledOpts,
+                    correctIdx: shuffledOpts.indexOf(correctText),
+                    exp: q.exp
+                };
+            });
+
+            activeExamQuestions = combined;
+
+            document.getElementById("sim-exam-number").textContent = examHistory.length + 1;
+            document.getElementById("sim-progress-text").textContent = "0 / 10";
+            document.getElementById("sim-result-panel").classList.add("hidden");
+            document.getElementById("sim-submit-container").classList.remove("hidden");
+
+            const listContainer = document.getElementById("sim-questions-list");
+            listContainer.innerHTML = activeExamQuestions.map(item => {
+                const badgeStyle = item.isPractical
+                    ? "bg-indigo-900 text-amber-300 border border-amber-500/40"
+                    : "bg-academic-navy text-white";
+
+                const codeHtml = item.code
+                    ? `<pre class="bg-slate-900 text-slate-100 font-mono text-xs sm:text-sm p-3.5 rounded-lg my-3 overflow-x-auto leading-relaxed">${item.code}</pre>`
+                    : "";
+
+                const optionsHtml = item.opts.map((optText, oIdx) => `
+                    <label id="sim_lbl_${item.index}_${oIdx}" class="flex items-start gap-3 p-3.5 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition-all">
+                        <input type="radio" name="sim_q_${item.index}" value="${oIdx}" required onchange="updateSimProgress()" class="mt-0.5 w-4 h-4 text-indigo-800 border-slate-300 focus:ring-indigo-700">
+                        <span class="text-sm text-slate-800 font-medium">${optText}</span>
+                    </label>
+                `).join("");
+
+                return `
+                    <div class="bg-white border border-slate-200 rounded-xl p-5 sm:p-6 shadow-xs space-y-3">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <span class="px-2.5 py-1 rounded-md font-mono text-xs font-bold ${badgeStyle}">
+                                QUESTÃO ${String(item.index + 1).padStart(2, '0')} • ${item.badge}
+                            </span>
+                            <span class="text-xs font-mono text-slate-400">10% da Nota</span>
+                        </div>
+                        <h3 class="text-base sm:text-lg font-bold text-academic-navy leading-snug">
+                            ${item.q}
+                        </h3>
+                        ${codeHtml}
+                        <div class="space-y-2 pt-1">
+                            ${optionsHtml}
+                        </div>
+                        <div id="sim_exp_${item.index}" class="hidden mt-3 pt-3 border-t border-slate-100 text-sm"></div>
+                    </div>
+                `;
+            }).join("");
+        }
+
+        function autoFillDemoAnswers() {
+            activeExamQuestions.forEach(q => {
+                const randOpt = Math.floor(Math.random() * q.opts.length);
+                const radio = document.querySelector(`input[name="sim_q_${q.index}"][value="${randOpt}"]`);
+                if (radio && !radio.disabled) {
+                    radio.checked = true;
+                }
+            });
+            updateSimProgress();
+            showToast("Seleções preenchidas! Clique em 'Submeter Prova para Avaliação'.");
+        }
+
+        function updateSimProgress() {
+            let answered = 0;
+            activeExamQuestions.forEach(q => {
+                if (document.querySelector(`input[name="sim_q_${q.index}"]:checked`)) {
+                    answered++;
+                }
+            });
+            document.getElementById("sim-progress-text").textContent = `${answered} / 10`;
+        }
+
+        function gradeSimulatedExam(event) {
+            event.preventDefault();
+
+            let correctCount = 0;
+            activeExamQuestions.forEach(q => {
+                seenSignatures.add(q.sig);
+
+                const selected = document.querySelector(`input[name="sim_q_${q.index}"]:checked`);
+                const chosenIdx = selected ? parseInt(selected.value, 10) : -1;
+                const isCorrect = chosenIdx === q.correctIdx;
+
+                if (isCorrect) correctCount++;
+
+                q.opts.forEach((_, oIdx) => {
+                    const radio = document.querySelector(`input[name="sim_q_${q.index}"][value="${oIdx}"]`);
+                    const lbl = document.getElementById(`sim_lbl_${q.index}_${oIdx}`);
+                    if (radio) radio.disabled = true;
+
+                    if (oIdx === q.correctIdx) {
+                        lbl.classList.remove("border-slate-200", "hover:bg-slate-50");
+                        lbl.classList.add("bg-emerald-50", "border-emerald-500", "text-emerald-950");
+                    } else if (oIdx === chosenIdx && !isCorrect) {
+                        lbl.classList.remove("border-slate-200", "hover:bg-slate-50");
+                        lbl.classList.add("bg-rose-50", "border-rose-500", "text-rose-950");
+                    }
+                });
+
+                const expEl = document.getElementById(`sim_exp_${q.index}`);
+                expEl.classList.remove("hidden");
+                expEl.innerHTML = isCorrect
+                    ? `<div class="p-3 rounded-lg bg-emerald-50/80 border border-emerald-200 text-emerald-950"><strong>Correto (+10%):</strong> ${q.exp}</div>`
+                    : `<div class="p-3 rounded-lg bg-amber-50 border border-amber-300 text-amber-950"><strong>Incorreto:</strong> ${q.exp}</div>`;
+            });
+
+            localStorage.setItem(STORAGE_SEEN_KEY, JSON.stringify([...seenSignatures]));
+
+            const scorePct = correctCount * 10;
+            const grade20 = ((scorePct / 100) * 20).toFixed(1).replace(".", ",");
+            const passed = scorePct >= 50;
+            const isMax = scorePct === 100;
+            const rankInfo = getStarWarsRank(scorePct);
+
+            const now = new Date();
+            const timestamp = now.toLocaleDateString("pt-PT") + " " + now.toLocaleTimeString("pt-PT", { hour: "2-digit", minute: "2-digit" });
+            examHistory.unshift({
+                attempt: examHistory.length + 1,
+                date: timestamp,
+                scorePct,
+                grade20,
+                rankTitle: rankInfo.rankTitle,
+                shortTitle: rankInfo.shortTitle,
+                passed
+            });
+            localStorage.setItem(STORAGE_HISTORY_KEY, JSON.stringify(examHistory));
+
+            updateHeaderAndHistoryUI();
+            document.getElementById("sim-submit-container").classList.add("hidden");
+
+            const resultPanel = document.getElementById("sim-result-panel");
+            resultPanel.classList.remove("hidden");
+
+            if (isMax) {
+                resultPanel.className = "rounded-2xl border-2 border-amber-500 bg-gradient-to-br from-emerald-50 via-white to-amber-50 p-6 sm:p-8 shadow-xl space-y-5";
+                resultPanel.innerHTML = `
+                    <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
+                        <div class="shrink-0">${rankInfo.svg}</div>
+                        <div class="space-y-2 flex-1">
+                            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500 text-slate-950 text-xs font-black uppercase tracking-wider">
+                                Nota Máxima Atingida • 100% (20,0 Valores)
+                            </div>
+                            <h3 class="font-serif text-2xl sm:text-3xl font-black text-academic-navy">
+                                ${rankInfo.rankTitle}
+                            </h3>
+                            <p class="text-sm sm:text-base text-slate-700 italic font-medium">
+                                ${rankInfo.quote}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="pt-4 border-t border-amber-200 flex flex-wrap items-center justify-between gap-3">
+                        <span class="text-xs font-semibold text-emerald-900">
+                            O ciclo de provas foi concluído com distinção máxima. Deseja encerrar ou realizar um novo desafio?
+                        </span>
+                        <div class="flex flex-wrap gap-2.5">
+                            <button type="button" onclick="concludeWithHonor()" class="px-5 py-2.5 bg-emerald-800 hover:bg-emerald-900 text-white font-bold text-xs sm:text-sm rounded-lg shadow-xs cursor-pointer">
+                                Concluir Estudos com Honra
+                            </button>
+                            <button type="button" onclick="generateNewInfiniteExam(); window.scrollTo({top: 0, behavior: 'smooth'});" class="px-5 py-2.5 bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold text-xs sm:text-sm rounded-lg shadow-xs cursor-pointer">
+                                Desafiar Novamente (Nova Prova Inédita)
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } else if (passed) {
+                resultPanel.className = "rounded-2xl border-2 border-emerald-500 bg-emerald-50/90 p-6 sm:p-8 shadow-lg space-y-5";
+                resultPanel.innerHTML = `
+                    <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
+                        <div class="shrink-0">${rankInfo.svg}</div>
+                        <div class="space-y-2 flex-1">
+                            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-700 text-white text-xs font-bold uppercase tracking-wider">
+                                Aprovado • Acima da Média (${scorePct}% / ${grade20} val.)
+                            </div>
+                            <h3 class="font-serif text-2xl font-black text-emerald-950">
+                                Nova Patente: ${rankInfo.rankTitle}
+                            </h3>
+                            <p class="text-sm text-emerald-900 italic">
+                                ${rankInfo.quote}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="pt-4 border-t border-emerald-200 flex flex-wrap items-center justify-between gap-3">
+                        <span class="text-xs font-semibold text-emerald-900">
+                            Superou a média de 50%! O treino obrigatório está concluído, mas pode continuar voluntariamente.
+                        </span>
+                        <div class="flex flex-wrap gap-2.5">
+                            <button type="button" onclick="concludeWithHonor()" class="px-4 py-2.5 bg-emerald-800 hover:bg-emerald-900 text-white font-bold text-xs sm:text-sm rounded-lg cursor-pointer">
+                                Concluir &amp; Ver Diagnóstico
+                            </button>
+                            <button type="button" onclick="generateNewInfiniteExam(); window.scrollTo({top: 0, behavior: 'smooth'});" class="px-4 py-2.5 bg-white hover:bg-emerald-100 text-emerald-950 border border-emerald-400 font-bold text-xs sm:text-sm rounded-lg cursor-pointer">
+                                Fazer Nova Prova (Buscar 100%)
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                resultPanel.className = "rounded-2xl border-2 border-rose-500 bg-rose-50/95 p-6 sm:p-8 shadow-lg space-y-5";
+                resultPanel.innerHTML = `
+                    <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
+                        <div class="shrink-0">${rankInfo.svg}</div>
+                        <div class="space-y-2 flex-1">
+                            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-700 text-white text-xs font-bold uppercase tracking-wider">
+                                Abaixo da Média (${scorePct}% / ${grade20} val.) • Recuperação Ativa
+                            </div>
+                            <h3 class="font-serif text-2xl font-black text-rose-950">
+                                Estatuto Atual: ${rankInfo.rankTitle}
+                            </h3>
+                            <p class="text-sm text-rose-900 italic">
+                                ${rankInfo.quote}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="pt-4 border-t border-rose-200 flex flex-wrap items-center justify-between gap-3">
+                        <span class="text-xs font-semibold text-rose-950">
+                            A média mínima exigida é <strong>50%</strong>. Reveja as explicações abaixo e avance para a próxima prova inédita!
+                        </span>
+                        <div class="flex flex-wrap gap-2.5">
+                            <button type="button" onclick="switchMainTab('lecture')" class="px-4 py-2.5 bg-white hover:bg-rose-100 text-rose-900 border border-rose-300 font-semibold text-xs sm:text-sm rounded-lg cursor-pointer">
+                                Rever Apontamentos
+                            </button>
+                            <button type="button" onclick="generateNewInfiniteExam(); window.scrollTo({top: 0, behavior: 'smooth'});" class="px-5 py-2.5 bg-rose-700 hover:bg-rose-800 text-white font-bold text-xs sm:text-sm rounded-lg shadow-sm cursor-pointer">
+                                Continuar Treino — Nova Prova Sem Repetição &rarr;
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            resultPanel.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+
+        function concludeWithHonor() {
+            switchMainTab("diagnosis");
+        }
+
+        function clearExamHistory() {
+            examHistory = [];
+            seenSignatures.clear();
+            localStorage.removeItem(STORAGE_HISTORY_KEY);
+            localStorage.removeItem(STORAGE_SEEN_KEY);
+            updateHeaderAndHistoryUI();
+            generateNewInfiniteExam();
+            showToast("Histórico e banco de assinaturas limpos. Nova prova #1 gerada!");
+        }
+
+        function updateHeaderAndHistoryUI() {
+            document.getElementById("sim-seen-count").textContent = seenSignatures.size;
+            document.getElementById("sim-total-exams").textContent = examHistory.length;
+            document.getElementById("dash-sim-count").textContent = `${examHistory.length} Prova(s)`;
+
+            if (examHistory.length > 0) {
+                const best = examHistory.reduce((prev, curr) => (curr.scorePct > prev.scorePct ? curr : prev), examHistory[0]);
+                document.getElementById("header-current-rank").textContent = `PATENTE ATUAL: ${best.shortTitle}`;
+                document.getElementById("dash-rank-title").textContent = best.rankTitle;
+                document.getElementById("dash-rank-sub").textContent = `Melhor desempenho registado: ${best.scorePct}% (${best.grade20} val.).`;
+            } else {
+                document.getElementById("header-current-rank").textContent = "PATENTE ATUAL: PADAWAN INICIANTE";
+                document.getElementById("dash-rank-title").textContent = "Padawan Iniciante";
+                document.getElementById("dash-rank-sub").textContent = "Conclua o simulador acima de 50% para ascender a Cavaleiro Jedi.";
+            }
+
+            const histContainer = document.getElementById("sim-history-container");
+            if (examHistory.length === 0) {
+                histContainer.innerHTML = `<p class="text-sm text-slate-500 italic">Ainda não realizou nenhuma prova no simulador. Submeta a Prova #1 acima para registar a sua primeira nota.</p>`;
+                return;
+            }
+
+            histContainer.innerHTML = `
+                <table class="min-w-full text-xs sm:text-sm border border-slate-200 rounded-lg overflow-hidden">
+                    <thead class="bg-slate-100 text-slate-700 font-bold uppercase text-xs">
+                        <tr>
+                            <th class="px-4 py-2.5 text-left">Tentativa</th>
+                            <th class="px-4 py-2.5 text-left">Data / Hora</th>
+                            <th class="px-4 py-2.5 text-left">Nota (%)</th>
+                            <th class="px-4 py-2.5 text-left">Escala /20</th>
+                            <th class="px-4 py-2.5 text-left">Personagem / Patente Jedi</th>
+                            <th class="px-4 py-2.5 text-left">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 bg-white">
+                        ${examHistory.map(row => `
+                            <tr>
+                                <td class="px-4 py-2.5 font-mono font-bold text-academic-navy">#${row.attempt}</td>
+                                <td class="px-4 py-2.5 text-slate-500 font-mono text-xs">${row.date}</td>
+                                <td class="px-4 py-2.5 font-mono font-bold ${row.passed ? 'text-emerald-700' : 'text-rose-700'}">${row.scorePct}%</td>
+                                <td class="px-4 py-2.5 font-mono">${row.grade20} val.</td>
+                                <td class="px-4 py-2.5 font-semibold text-academic-navy">${row.rankTitle}</td>
+                                <td class="px-4 py-2.5">
+                                    ${row.passed
+                                        ? '<span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">Aprovado</span>'
+                                        : '<span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-rose-100 text-rose-800">Em Recuperação</span>'}
+                                </td>
+                            </tr>
+                        `).join("")}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        // =====================================================================
+        // RENDERIZAÇÃO DA SECÇÃO 1 (REVISÃO) & NAVEGAÇÃO ENTRE ABAS
+        // =====================================================================
+        let currentFilter = 'all';
+
+        function renderTheory() {
+            const container = document.getElementById('theory-container');
+            container.innerHTML = theoryQuestions.map(q => {
+                const statusBadge = q.isCorrect
+                    ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+                         <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                         Correta (1/1)
+                       </span>`
+                    : `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-900 border border-amber-300">
+                         <svg class="w-3.5 h-3.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                         Incorreta — Revisar (0/1)
+                       </span>`;
+
+                const answerComparison = q.isCorrect
+                    ? `<div class="p-3.5 rounded-lg bg-emerald-50/70 border border-emerald-200 text-sm">
+                         <span class="block text-xs font-bold uppercase tracking-wider text-emerald-800 mb-1">Sua Resposta (Correta)</span>
+                         <span class="font-medium text-emerald-950">${q.correctAnswer}</span>
+                       </div>`
+                    : `<div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                         <div class="p-3.5 rounded-lg bg-rose-50/70 border border-rose-200">
+                             <span class="block text-xs font-bold uppercase tracking-wider text-rose-800 mb-1">Sua Resposta Assinalada</span>
+                             <span class="font-medium text-rose-950">${q.userAnswer}</span>
+                         </div>
+                         <div class="p-3.5 rounded-lg bg-emerald-50/80 border border-emerald-300">
+                             <span class="block text-xs font-bold uppercase tracking-wider text-emerald-800 mb-1">Gabarito / Resposta Correta</span>
+                             <span class="font-semibold text-emerald-950">${q.correctAnswer}</span>
+                         </div>
+                       </div>`;
+
+                return `
+                    <article class="question-card bg-white border ${q.isCorrect ? 'border-slate-200' : 'border-l-4 border-l-amber-500 border-slate-200'} rounded-xl p-5 sm:p-6 shadow-xs transition-all"
+                             data-type="theory"
+                             data-correct="${q.isCorrect}"
+                             data-search="${(q.question + ' ' + q.correctAnswer + ' ' + q.explanation).toLowerCase()}">
+                        <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+                            <div class="flex items-center gap-2.5">
+                                <span class="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-academic-navy text-amber-300 font-mono text-xs font-bold">Q${String(q.num).padStart(2, '0')}</span>
+                                <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Questão Teórica</span>
+                            </div>
+                            ${statusBadge}
+                        </div>
+                        <h3 class="text-base sm:text-lg font-bold text-academic-navy leading-snug mb-4">${q.question}</h3>
+                        ${answerComparison}
+                        <div id="exp_th_${q.num}" class="mt-4 pt-3.5 border-t border-slate-100">
+                            <div class="flex items-start gap-2.5 text-sm text-slate-700 leading-relaxed">
+                                <button type="button" onclick="toggleExpBox('exp_body_th_${q.num}')" class="shrink-0 mt-0.5 px-2 py-0.5 rounded bg-indigo-50 hover:bg-indigo-100 text-indigo-900 font-semibold text-xs border border-indigo-200 cursor-pointer">Fundamentação</button>
+                                <p id="exp_body_th_${q.num}">${q.explanation}</p>
+                            </div>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+        }
+
+        function renderPractical() {
+            const container = document.getElementById('practical-container');
+            container.innerHTML = practicalQuestions.map(q => {
+                const statusBadge = q.isCorrect
+                    ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+                         <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                         Correta (10/10)
+                       </span>`
+                    : `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-900 border border-amber-300">
+                         <svg class="w-3.5 h-3.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                         Incorreta — Revisar (0/${q.points.split(' ')[0]})
+                       </span>`;
+
+                const answerComparison = q.isCorrect
+                    ? `<div class="p-3.5 rounded-lg bg-emerald-50/70 border border-emerald-200 text-sm">
+                         <span class="block text-xs font-bold uppercase tracking-wider text-emerald-800 mb-1">Sua Resposta (Correta)</span>
+                         <span class="font-mono font-semibold text-emerald-950">${q.correctAnswer}</span>
+                       </div>`
+                    : `<div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                         <div class="p-3.5 rounded-lg bg-rose-50/70 border border-rose-200">
+                             <span class="block text-xs font-bold uppercase tracking-wider text-rose-800 mb-1">Sua Resposta Submetida</span>
+                             <span class="font-mono text-xs sm:text-sm text-rose-950 break-words">${q.userAnswer}</span>
+                         </div>
+                         <div class="p-3.5 rounded-lg bg-emerald-50/80 border border-emerald-300">
+                             <span class="block text-xs font-bold uppercase tracking-wider text-emerald-800 mb-1">Solução Esperada</span>
+                             <span class="font-mono font-bold text-emerald-950">${q.correctAnswer}</span>
+                         </div>
+                       </div>`;
+
+                return `
+                    <article class="question-card bg-white border ${q.isCorrect ? 'border-slate-200' : 'border-l-4 border-l-indigo-800 border-slate-200'} rounded-xl p-5 sm:p-6 shadow-xs transition-all"
+                             data-type="practical"
+                             data-correct="${q.isCorrect}"
+                             data-search="${(q.title + ' ' + q.question + ' ' + q.correctAnswer).toLowerCase()}">
+                        <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+                            <div class="flex items-center gap-2.5">
+                                <span class="inline-flex items-center justify-center px-2.5 h-7 rounded-lg bg-indigo-900 text-amber-300 font-mono text-xs font-bold">PRÁTICA ${q.num}</span>
+                                <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">${q.points} • ${q.title}</span>
+                            </div>
+                            ${statusBadge}
+                        </div>
+                        <h3 class="text-base sm:text-lg font-bold text-academic-navy leading-snug mb-4">${q.question}</h3>
+                        ${answerComparison}
+                        <div class="mt-4 pt-4 border-t border-slate-100">
+                            <button type="button" onclick="toggleExpBox('exp_body_pr_${q.num}')" class="text-xs font-bold uppercase tracking-wider text-indigo-900 hover:text-indigo-700 mb-2 flex items-center gap-1.5 cursor-pointer">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <span>Resolução Passo a Passo (Clique para recolher/expandir)</span>
+                            </button>
+                            <div id="exp_body_pr_${q.num}" class="text-sm text-slate-700 leading-relaxed">${q.explanation}</div>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+        }
+
+        function toggleExpBox(id) {
+            const el = document.getElementById(id);
+            if (el) el.classList.toggle("hidden");
+        }
+
+        function setFilter(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('bg-academic-indigo', 'text-white', 'shadow-xs', 'font-semibold');
+                btn.classList.add('bg-slate-100', 'text-slate-700', 'font-medium');
+            });
+
+            const activeBtn = document.getElementById(`btn-${filter}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-slate-100', 'text-slate-700', 'font-medium');
+                activeBtn.classList.add('bg-academic-indigo', 'text-white', 'shadow-xs', 'font-semibold');
+            }
+            filterContent();
+        }
+
+        function filterContent() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.question-card');
+            let visibleTheory = 0;
+            let visiblePractical = 0;
+
+            cards.forEach(card => {
+                const type = card.getAttribute('data-type');
+                const isCorrect = card.getAttribute('data-correct') === 'true';
+                const searchableText = card.getAttribute('data-search');
+
+                let matchesTab = true;
+                if (currentFilter === 'errors' && isCorrect) matchesTab = false;
+                if (currentFilter === 'theory' && type !== 'theory') matchesTab = false;
+                if (currentFilter === 'practical' && type !== 'practical') matchesTab = false;
+
+                const matchesSearch = !query || searchableText.includes(query);
+
+                if (matchesTab && matchesSearch) {
+                    card.style.display = 'block';
+                    if (type === 'theory') visibleTheory++;
+                    if (type === 'practical') visiblePractical++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            document.getElementById('section-theory').style.display = visibleTheory > 0 ? 'block' : 'none';
+            document.getElementById('section-practical').style.display = visiblePractical > 0 ? 'block' : 'none';
+        }
+
+        function switchMainTab(tabName) {
+            document.querySelectorAll('.tab-section').forEach(sec => sec.classList.add('hidden'));
+            const targetSec = document.getElementById(`section-tab-${tabName}`);
+            if (targetSec) targetSec.classList.remove('hidden');
+
+            document.querySelectorAll('.main-tab-btn').forEach(btn => {
+                btn.className = "main-tab-btn shrink-0 px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 border border-transparent cursor-pointer flex items-center gap-2";
+            });
+
+            const activeBtn = document.getElementById(`main-tab-${tabName}`);
+            if (activeBtn) {
+                activeBtn.className = "main-tab-btn shrink-0 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all bg-academic-navy text-amber-300 border border-amber-500/40 shadow-xs cursor-pointer flex items-center gap-2";
+            }
+
+            if (tabName === 'simulator' && activeExamQuestions.length === 0) {
+                generateNewInfiniteExam();
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTheory();
+            renderPractical();
+            updateHeaderAndHistoryUI();
+            generateNewInfiniteExam();
+        });
+    </script>
+</body>
+</html>
