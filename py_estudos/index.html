@@ -61,6 +61,11 @@
 
         html {
             scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            overflow-x: hidden;
         }
 
         .jedi-archive-bg {
@@ -72,28 +77,78 @@
                 linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
             background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
         }
+
+        /* Ajustes específicos para ecrãs móveis sem alterar o layout base */
+        @media (max-width: 640px) {
+            pre {
+                font-size: 11px !important;
+                padding: 0.75rem !important;
+            }
+            .question-card, .module-card {
+                border-radius: 0.75rem;
+            }
+        }
     </style>
 </head>
-<body class="bg-academic-paper text-slate-800 antialiased selection:bg-amber-100 selection:text-amber-950">
+<body class="bg-academic-paper text-slate-800 antialiased selection:bg-amber-100 selection:text-amber-950 pb-20 sm:pb-8">
 
-    <!-- Notificação / Toast Interativo -->
-    <div id="force-toast" class="fixed bottom-5 right-5 z-50 hidden max-w-sm bg-academic-obsidian text-white border border-amber-400/60 rounded-xl px-4 py-3 shadow-2xl text-xs sm:text-sm items-center gap-3">
+    <!-- Notificação / Toast Interativo (Responsivo para Mobile) -->
+    <div id="force-toast" class="fixed bottom-16 sm:bottom-5 right-3 left-3 sm:left-auto z-50 hidden max-w-sm bg-academic-obsidian text-white border border-amber-400/60 rounded-xl px-3.5 py-2.5 sm:px-4 sm:py-3 shadow-2xl text-xs sm:text-sm items-center gap-2.5 sm:gap-3">
         <span class="w-2.5 h-2.5 rounded-full bg-sky-400 shrink-0 animate-pulse"></span>
-        <span id="force-toast-text" class="flex-1 text-slate-100">Que a Força esteja com você!</span>
-        <button type="button" onclick="hideToast()" class="text-slate-400 hover:text-white font-mono cursor-pointer" title="Fechar aviso">✕</button>
+        <span id="force-toast-text" class="flex-1 text-slate-100 leading-snug">Que a Força esteja com você!</span>
+        <button type="button" onclick="hideToast()" class="text-slate-400 hover:text-white font-mono cursor-pointer p-1" title="Fechar aviso">✕</button>
+    </div>
+
+    <!-- Assistente IA Holocron (Botão + Painel Interativo Responsivo) -->
+    <div class="fixed bottom-3 left-3 right-3 sm:bottom-5 sm:left-5 sm:right-auto z-50 no-print">
+        <button type="button" onclick="toggleHolocronAI()" id="holocron-ai-toggle" class="inline-flex items-center gap-2 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full bg-academic-obsidian hover:bg-slate-900 text-amber-300 border border-amber-400/60 shadow-2xl text-xs sm:text-sm font-bold transition-all cursor-pointer">
+            <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
+            <span>IA Holocron</span>
+        </button>
+
+        <div id="holocron-ai-panel" class="hidden mt-2.5 w-full sm:w-[92vw] max-w-md bg-white border-2 border-academic-navy rounded-2xl shadow-2xl overflow-hidden text-slate-800">
+            <div class="bg-academic-navy text-white px-4 py-3 flex items-center justify-between border-b border-amber-500/40">
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span>
+                    <span class="font-serif text-xs sm:text-sm font-bold text-amber-300">IA Holocron — Tutor de Algoritmia</span>
+                </div>
+                <button type="button" onclick="toggleHolocronAI()" class="text-slate-300 hover:text-white font-mono text-xs cursor-pointer p-1" title="Fechar IA">✕</button>
+            </div>
+
+            <div class="p-2.5 sm:p-3 bg-slate-50 border-b border-slate-200 flex flex-wrap gap-1.5 text-[11px]">
+                <button type="button" onclick="askHolocronPreset('Qual a diferença entre array indexado e associativo?')" class="px-2 py-1 rounded bg-white hover:bg-indigo-50 border border-slate-300 text-slate-700 font-medium cursor-pointer">Arrays</button>
+                <button type="button" onclick="askHolocronPreset('Qual a diferença entre contador, acumulador e iterador?')" class="px-2 py-1 rounded bg-white hover:bg-indigo-50 border border-slate-300 text-slate-700 font-medium cursor-pointer">Contador vs Acumulador</button>
+                <button type="button" onclick="askHolocronPreset('Como funciona o ciclo while vs for e o teste de mesa?')" class="px-2 py-1 rounded bg-white hover:bg-indigo-50 border border-slate-300 text-slate-700 font-medium cursor-pointer">Ciclos &amp; Teste de Mesa</button>
+                <button type="button" onclick="askHolocronPreset('Como funcionam operadores AND, OR, != e funções com retornar?')" class="px-2 py-1 rounded bg-white hover:bg-indigo-50 border border-slate-300 text-slate-700 font-medium cursor-pointer">Operadores &amp; Funções</button>
+                <button type="button" onclick="askHolocronPreset('Easter egg Mandaloriano e Luke Skywalker')" class="px-2 py-1 rounded bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-950 font-semibold cursor-pointer">Easter Eggs SW</button>
+            </div>
+
+            <div id="holocron-ai-messages" class="p-3.5 sm:p-4 max-h-64 sm:max-h-72 overflow-y-auto space-y-3 text-xs sm:text-sm leading-relaxed bg-white">
+                <div class="p-3 rounded-xl bg-slate-100 text-slate-800 border border-slate-200">
+                    Olá! Sou a <strong>IA Holocron</strong>. Pergunta-me qualquer coisa sobre algoritmia, fluxogramas Flowgorithm, variáveis, ciclos, arrays, operadores ou sobre as questões desta prova.
+                </div>
+            </div>
+
+            <form onsubmit="handleHolocronSubmit(event)" class="p-2.5 sm:p-3 bg-slate-50 border-t border-slate-200 flex items-center gap-2">
+                <input type="text" id="holocron-ai-input" placeholder="Ex: por que errei a Q02 ou Luke / Mando..." class="flex-1 min-w-0 px-3 py-2 bg-white border border-slate-300 rounded-lg text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600">
+                <button type="submit" class="px-3 sm:px-3.5 py-2 bg-academic-navy hover:bg-slate-800 text-amber-300 font-bold text-xs sm:text-sm rounded-lg cursor-pointer shrink-0">
+                    Perguntar
+                </button>
+            </form>
+        </div>
     </div>
 
     <!-- Barra Superior Institucional — Arquivos do Templo Jedi -->
     <div class="bg-academic-obsidian text-white border-b border-amber-500/30">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs font-medium tracking-wider uppercase text-slate-300">
-            <button type="button" onclick="triggerForceBlessing()" class="flex items-center gap-2.5 hover:text-amber-300 transition-colors cursor-pointer text-left" title="Clique para invocar a Força">
+        <div class="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5 flex flex-wrap items-center justify-between gap-2 text-[11px] sm:text-xs font-medium tracking-wider uppercase text-slate-300">
+            <button type="button" onclick="triggerForceBlessing()" class="flex items-center gap-2 sm:gap-2.5 hover:text-amber-300 transition-colors cursor-pointer text-left" title="Clique para invocar a Força">
                 <!-- Logo Vetorial Rebelde / Ordem Jedi (Starbird) -->
-                <svg class="w-5 h-5 text-amber-400 shrink-0" viewBox="0 0 64 64" fill="currentColor" aria-hidden="true">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5 text-amber-400 shrink-0" viewBox="0 0 64 64" fill="currentColor" aria-hidden="true">
                     <path d="M32 3L25 17L12 13L19 26L5 29L18 36L10 48L24 44L22 58L32 47L42 58L40 44L54 48L46 36L59 29L45 26L52 13L39 17L32 3ZM32 15L36 24L45 22L39 29L46 34L37 35L39 44L32 38L25 44L27 35L18 34L25 29L19 22L28 24L32 15Z"/>
                 </svg>
-                <span>Arquivos do Templo de Coruscant • Que a Força esteja com você</span>
+                <span class="truncate">Arquivos do Templo de Coruscant • Que a Força esteja com você</span>
             </button>
-            <div class="font-mono text-amber-300/90 flex items-center gap-3">
+            <div class="font-mono text-amber-300/90 flex items-center gap-2 sm:gap-3 flex-wrap">
                 <button type="button" onclick="switchMainTab('simulator')" class="hover:underline cursor-pointer">HOLOCRON: ALG-PROG-2026</button>
                 <span class="hidden sm:inline text-slate-600">|</span>
                 <button type="button" onclick="cycleRankPreview()" id="header-current-rank" class="hidden sm:inline text-sky-300 hover:text-amber-300 transition-colors cursor-pointer" title="Clique para inspecionar as patentes Jedi">PATENTE ATUAL: PADAWAN INICIANTE</button>
@@ -103,53 +158,57 @@
 
     <!-- Cabeçalho Académico Executivo -->
     <header class="jedi-archive-bg text-white border-b-2 border-amber-500/40 shadow-lg">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
-            <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+            <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5 sm:gap-6">
                 <div class="flex items-start gap-4 max-w-3xl">
-                    <!-- Emblema Jedi / Rebelde Destacado -->
-                    <button type="button" onclick="triggerForceBlessing()" class="hidden sm:flex shrink-0 w-14 h-14 rounded-2xl bg-amber-500/15 border border-amber-400/50 items-center justify-center text-amber-400 hover:bg-amber-500/25 hover:scale-105 transition-all cursor-pointer shadow-md" title="Que a Força esteja contigo">
+                    <!-- Emblema Jedi / Rebelde Destacado (Easter Egg de Sabre & Força) -->
+                    <button type="button" onclick="triggerLightsaberEasterEgg()" class="hidden sm:flex shrink-0 w-14 h-14 rounded-2xl bg-amber-500/15 border border-amber-400/50 items-center justify-center text-amber-400 hover:bg-amber-500/25 hover:scale-105 transition-all cursor-pointer shadow-md" title="Ativar Easter Egg Jedi">
                         <svg class="w-9 h-9" viewBox="0 0 64 64" fill="currentColor">
                             <path d="M32 3L25 17L12 13L19 26L5 29L18 36L10 48L24 44L22 58L32 47L42 58L40 44L54 48L46 36L59 29L45 26L52 13L39 17L32 3ZM32 16L35.5 24L44 22.5L38.5 29L45 34L36.5 35L38 43L32 37.5L26 43L27.5 35L19 34L25.5 29L20 22.5L28.5 24L32 16Z"/>
                         </svg>
                     </button>
 
-                    <div class="space-y-3">
-                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-400/40 text-amber-300 text-xs font-semibold tracking-wider uppercase">
+                    <div class="space-y-2.5 sm:space-y-3">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-400/40 text-amber-300 text-[11px] sm:text-xs font-semibold tracking-wider uppercase">
                             <span class="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span>
                             <span>Conselho Jedi de Engenharia de Software • Que a Força esteja com você</span>
                         </div>
-                        <h1 class="font-serif text-2xl sm:text-3xl lg:text-4xl font-black text-white leading-tight tracking-tight">
+                        <h1 class="font-serif text-xl sm:text-3xl lg:text-4xl font-black text-white leading-tight tracking-tight">
                             Arquivos Académicos de Algoritmia &amp; Programação
                         </h1>
-                        <p class="text-slate-300 text-sm sm:text-base lg:text-lg leading-relaxed">
+                        <p class="text-slate-300 text-xs sm:text-base lg:text-lg leading-relaxed">
                             Revisão Comentada da Avaliação, Aula Magistral Estruturada, Diagnóstico de Competências e Simulador Infinito de Provas sem Repetição.
                         </p>
                     </div>
                 </div>
 
                 <!-- Ações Rápidas -->
-                <div class="no-print shrink-0 flex flex-wrap gap-2.5">
-                    <button type="button" onclick="switchMainTab('simulator')" class="inline-flex items-center gap-2 px-4 py-2.5 bg-amber-600 hover:bg-amber-500 text-slate-950 text-sm font-bold rounded-lg shadow-md transition-all cursor-pointer">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                <div class="no-print shrink-0 flex flex-wrap gap-2 sm:gap-2.5">
+                    <button type="button" onclick="switchMainTab('simulator')" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-3.5 py-2.5 sm:px-4 bg-amber-600 hover:bg-amber-500 text-slate-950 text-xs sm:text-sm font-bold rounded-lg shadow-md transition-all cursor-pointer">
+                        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                         <span>Iniciar Prova Infinita</span>
                     </button>
-                    <button type="button" onclick="window.print()" class="inline-flex items-center gap-2 px-4 py-2.5 bg-slate-800/90 hover:bg-slate-700 text-slate-100 border border-slate-600 text-sm font-medium rounded-lg transition-colors cursor-pointer">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                    <button type="button" onclick="triggerMandalorianEasterEgg()" class="inline-flex items-center justify-center gap-1.5 px-3 py-2.5 bg-indigo-950/90 hover:bg-indigo-900 text-sky-300 border border-sky-400/40 text-xs sm:text-sm font-semibold rounded-lg transition-colors cursor-pointer" title="Easter Egg do Mandaloriano & Grogu">
+                        <span>✦</span>
+                        <span>Mando / Grogu</span>
+                    </button>
+                    <button type="button" onclick="window.print()" class="inline-flex items-center justify-center gap-2 px-3.5 py-2.5 sm:px-4 bg-slate-800/90 hover:bg-slate-700 text-slate-100 border border-slate-600 text-xs sm:text-sm font-medium rounded-lg transition-colors cursor-pointer">
+                        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
                         <span>Imprimir / PDF</span>
                     </button>
                 </div>
             </div>
 
             <!-- Painel de Resumo de Desempenho (Dashboard da Prova Base — Todos Clicáveis) -->
-            <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
                 <!-- Card Nota Global -->
                 <button type="button" onclick="switchMainTab('review'); setFilter('errors');" class="text-left bg-slate-900/90 hover:bg-slate-900 border border-slate-700/80 hover:border-amber-400/50 rounded-xl p-4 sm:p-5 flex flex-col justify-between backdrop-blur-xs transition-all cursor-pointer">
-                    <div class="flex items-center justify-between w-full">
+                    <div class="flex items-center justify-between w-full gap-2">
                         <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Avaliação Diagnóstica</span>
                         <span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30">26,25%</span>
                     </div>
                     <div class="mt-3 flex items-baseline gap-2">
-                        <span class="font-serif text-3xl font-bold text-white">5,25</span>
+                        <span class="font-serif text-2xl sm:text-3xl font-bold text-white">5,25</span>
                         <span class="text-xs font-medium text-slate-400">/ 20 valores</span>
                     </div>
                     <div class="mt-3 w-full bg-slate-800 rounded-full h-2 overflow-hidden">
@@ -160,12 +219,12 @@
 
                 <!-- Card Parte Teórica -->
                 <button type="button" onclick="switchMainTab('review'); setFilter('theory');" class="text-left bg-slate-900/90 hover:bg-slate-900 border border-slate-700/80 hover:border-sky-400/50 rounded-xl p-4 sm:p-5 flex flex-col justify-between backdrop-blur-xs transition-all cursor-pointer">
-                    <div class="flex items-center justify-between w-full">
+                    <div class="flex items-center justify-between w-full gap-2">
                         <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Componente Teórica</span>
                         <span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-sky-500/20 text-sky-300 border border-sky-500/30">Peso: 50%</span>
                     </div>
                     <div class="mt-3 flex items-baseline gap-2">
-                        <span class="font-serif text-3xl font-bold text-white">8</span>
+                        <span class="font-serif text-2xl sm:text-3xl font-bold text-white">8</span>
                         <span class="text-xs font-medium text-slate-400">/ 20 pts (40%)</span>
                     </div>
                     <div class="mt-3 w-full bg-slate-800 rounded-full h-2 overflow-hidden">
@@ -176,12 +235,12 @@
 
                 <!-- Card Parte Prática -->
                 <button type="button" onclick="switchMainTab('review'); setFilter('practical');" class="text-left bg-slate-900/90 hover:bg-slate-900 border border-slate-700/80 hover:border-amber-400/50 rounded-xl p-4 sm:p-5 flex flex-col justify-between backdrop-blur-xs transition-all cursor-pointer">
-                    <div class="flex items-center justify-between w-full">
+                    <div class="flex items-center justify-between w-full gap-2">
                         <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Componente Prática</span>
                         <span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-sky-500/20 text-sky-300 border border-sky-500/30">Peso: 50%</span>
                     </div>
                     <div class="mt-3 flex items-baseline gap-2">
-                        <span class="font-serif text-3xl font-bold text-white">10</span>
+                        <span class="font-serif text-2xl sm:text-3xl font-bold text-white">10</span>
                         <span class="text-xs font-medium text-slate-400">/ 80 pts (12,5%)</span>
                     </div>
                     <div class="mt-3 w-full bg-slate-800 rounded-full h-2 overflow-hidden">
@@ -192,7 +251,7 @@
 
                 <!-- Card Patente Jedi Atual -->
                 <div class="bg-gradient-to-br from-slate-900 to-indigo-950 border border-amber-500/40 rounded-xl p-4 sm:p-5 flex flex-col justify-between">
-                    <div class="flex items-center justify-between">
+                    <div class="flex items-center justify-between gap-2">
                         <span class="text-xs font-bold uppercase tracking-wider text-amber-300">Estatuto na Ordem</span>
                         <span id="dash-sim-count" class="font-mono text-xs text-sky-300">0 Provas</span>
                     </div>
@@ -213,22 +272,22 @@
 
     <!-- Navegação Principal das 4 Secções (Sticky) -->
     <nav class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs no-print" aria-label="Navegação Principal dos Arquivos">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8">
             <div class="flex overflow-x-auto py-2.5 gap-2 no-scrollbar">
-                <button type="button" onclick="switchMainTab('review')" id="main-tab-review" class="main-tab-btn shrink-0 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all bg-academic-navy text-amber-300 border border-amber-500/40 shadow-xs cursor-pointer flex items-center gap-2">
+                <button type="button" onclick="switchMainTab('review')" id="main-tab-review" class="main-tab-btn shrink-0 px-3.5 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all bg-academic-navy text-amber-300 border border-amber-500/40 shadow-xs cursor-pointer flex items-center gap-2">
                     <span class="font-mono text-xs opacity-80">I.</span>
                     <span>Revisão &amp; Correção (26)</span>
                 </button>
-                <button type="button" onclick="switchMainTab('lecture')" id="main-tab-lecture" class="main-tab-btn shrink-0 px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 border border-transparent cursor-pointer flex items-center gap-2">
+                <button type="button" onclick="switchMainTab('lecture')" id="main-tab-lecture" class="main-tab-btn shrink-0 px-3.5 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 border border-transparent cursor-pointer flex items-center gap-2">
                     <span class="font-mono text-xs opacity-80">II.</span>
-                    <span>Aula Magistral &amp; Apontamentos</span>
+                    <span>Aula Magistral, Resumo &amp; Apontamentos</span>
                 </button>
-                <button type="button" onclick="switchMainTab('simulator')" id="main-tab-simulator" class="main-tab-btn shrink-0 px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 border border-transparent cursor-pointer flex items-center gap-2">
+                <button type="button" onclick="switchMainTab('simulator')" id="main-tab-simulator" class="main-tab-btn shrink-0 px-3.5 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 border border-transparent cursor-pointer flex items-center gap-2">
                     <span class="font-mono text-xs opacity-80">III.</span>
                     <span>Simulador de Provas Infinitas</span>
                     <span class="px-1.5 py-0.5 text-[10px] font-mono font-bold rounded bg-amber-500 text-slate-950">JEDI</span>
                 </button>
-                <button type="button" onclick="switchMainTab('diagnosis')" id="main-tab-diagnosis" class="main-tab-btn shrink-0 px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 border border-transparent cursor-pointer flex items-center gap-2">
+                <button type="button" onclick="switchMainTab('diagnosis')" id="main-tab-diagnosis" class="main-tab-btn shrink-0 px-3.5 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 border border-transparent cursor-pointer flex items-center gap-2">
                     <span class="font-mono text-xs opacity-80">IV.</span>
                     <span>Diagnóstico Final &amp; Plano de Estudo</span>
                 </button>
@@ -239,82 +298,99 @@
     <!-- ===================================================================== -->
     <!-- SECÇÃO 1: REVISÃO & CORREÇÃO COMENTADA DA PROVA REALIZADA (26 QUESTÕES) -->
     <!-- ===================================================================== -->
-    <main id="section-tab-review" class="tab-section max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-10">
+    <main id="section-tab-review" class="tab-section max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-8 sm:space-y-10">
 
         <!-- Barra de Filtros Internos da Revisão -->
-        <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-xs flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 no-print">
+        <div class="bg-white border border-slate-200 rounded-xl p-3.5 sm:p-4 shadow-xs flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 no-print">
             <div class="flex flex-wrap items-center gap-1.5" role="tablist" aria-label="Filtrar questões da prova realizada">
-                <button type="button" onclick="setFilter('all')" id="btn-all" class="filter-btn active px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-academic-indigo text-white shadow-xs cursor-pointer">
+                <button type="button" onclick="setFilter('all')" id="btn-all" class="filter-btn active px-2.5 sm:px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-academic-indigo text-white shadow-xs cursor-pointer">
                     Todas as Questões (26)
                 </button>
-                <button type="button" onclick="setFilter('errors')" id="btn-errors" class="filter-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer">
+                <button type="button" onclick="setFilter('correct')" id="btn-correct" class="filter-btn px-2.5 sm:px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer">
+                    Apenas Acertos (9)
+                </button>
+                <button type="button" onclick="setFilter('errors')" id="btn-errors" class="filter-btn px-2.5 sm:px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer">
                     Apenas Erros / Revisão Prioritária (17)
                 </button>
-                <button type="button" onclick="setFilter('theory')" id="btn-theory" class="filter-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer">
+                <button type="button" onclick="setFilter('theory')" id="btn-theory" class="filter-btn px-2.5 sm:px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer">
                     Parte Teórica (20)
                 </button>
-                <button type="button" onclick="setFilter('practical')" id="btn-practical" class="filter-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer">
+                <button type="button" onclick="setFilter('practical')" id="btn-practical" class="filter-btn px-2.5 sm:px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer">
                     Parte Prática — Flowgorithm (6)
                 </button>
             </div>
 
             <div class="relative w-full lg:w-72 flex items-center gap-2">
                 <div class="relative flex-1">
-                    <input type="text" id="searchInput" oninput="filterContent()" placeholder="Pesquisar conceito (ex: while, array, return)..." class="w-full pl-9 pr-3 py-1.5 bg-slate-50 border border-slate-300 rounded-lg text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent">
+                    <input type="text" id="searchInput" oninput="filterContent()" placeholder="Pesquisar conceito (ex: while, array, return)..." class="w-full pl-9 pr-3 py-1.5 bg-slate-50 border border-slate-300 rounded-lg text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent">
                     <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                 </div>
-                <button type="button" onclick="resetSearchAndFilter()" class="px-2.5 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 cursor-pointer" title="Limpar filtro e busca">
+                <button type="button" onclick="resetSearchAndFilter()" class="px-2.5 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 cursor-pointer shrink-0" title="Limpar filtro e busca">
                     Limpar
                 </button>
             </div>
         </div>
 
-        <!-- SUBSECÇÃO I.A: PARTE TEÓRICA (20 QUESTÕES) -->
+        <!-- SUBSECÇÃO I.A: PARTE TEÓRICA (20 QUESTÕES — SEPARADAS EM ACERTOS E ERROS) -->
         <section id="section-theory" class="space-y-6">
             <div class="border-b-2 border-academic-navy pb-3 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
                 <div>
                     <span class="text-xs font-bold uppercase tracking-widest text-amber-700">Registo de Arquivo • Parte I</span>
-                    <h2 class="font-serif text-xl sm:text-2xl font-bold text-academic-navy mt-0.5">
+                    <h2 class="font-serif text-lg sm:text-2xl font-bold text-academic-navy mt-0.5">
                         Parte Teórica — Fundamentos de Algoritmia
                     </h2>
                 </div>
-                <span class="text-sm font-medium text-slate-500">20 Questões • 1 ponto cada (Cotação: 8/20)</span>
+                <span class="text-xs sm:text-sm font-medium text-slate-500">20 Questões • 1 ponto cada (Cotação: 8/20)</span>
             </div>
 
-            <div id="theory-container" class="space-y-5"></div>
+            <div id="theory-correct-group" class="space-y-4">
+                <div class="flex items-center justify-between px-4 py-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-950 text-xs sm:text-sm font-bold">
+                    <span>Respostas Corretas na Parte Teórica (8 Questões)</span>
+                    <span class="font-mono text-xs bg-emerald-200/80 px-2 py-0.5 rounded">ACERTOS</span>
+                </div>
+                <div id="theory-correct-container" class="space-y-4 sm:space-y-5"></div>
+            </div>
+
+            <div id="theory-errors-group" class="space-y-4 pt-2">
+                <div class="flex items-center justify-between px-4 py-2 rounded-lg bg-amber-50 border border-amber-300 text-amber-950 text-xs sm:text-sm font-bold">
+                    <span>Respostas Incorretas / Revisão Prioritária na Parte Teórica (12 Questões)</span>
+                    <span class="font-mono text-xs bg-amber-200/80 px-2 py-0.5 rounded">ERROS</span>
+                </div>
+                <div id="theory-errors-container" class="space-y-4 sm:space-y-5"></div>
+            </div>
         </section>
 
-        <!-- SUBSECÇÃO I.B: PARTE PRÁTICA — ANÁLISE DO FLUXOGRAMA FLOWGORITHM (6 QUESTÕES) -->
+        <!-- SUBSECÇÃO I.B: PARTE PRÁTICA — ANÁLISE DO FLUXOGRAMA FLOWGORITHM (6 QUESTÕES — SEPARADAS EM ACERTOS E ERROS) -->
         <section id="section-practical" class="space-y-6 pt-4">
             <div class="border-b-2 border-academic-navy pb-3 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
                 <div>
                     <span class="text-xs font-bold uppercase tracking-widest text-amber-700">Registo de Arquivo • Parte II</span>
-                    <h2 class="font-serif text-xl sm:text-2xl font-bold text-academic-navy mt-0.5">
+                    <h2 class="font-serif text-lg sm:text-2xl font-bold text-academic-navy mt-0.5">
                         Parte Prática — Análise de Fluxogramas (Flowgorithm)
                     </h2>
                 </div>
-                <span class="text-sm font-medium text-slate-500">6 Questões • Total 80 pontos (Cotação: 10/80)</span>
+                <span class="text-xs sm:text-sm font-medium text-slate-500">6 Questões • Total 80 pontos (Cotação: 10/80)</span>
             </div>
 
             <!-- Diagrama SVG de Alta Precisão do Fluxograma Flowgorithm da Prova -->
             <div id="flowchart-reference" class="bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
-                <div class="bg-academic-navy text-white border-b border-amber-500/30 px-5 py-3.5 flex flex-wrap items-center justify-between gap-2">
+                <div class="bg-academic-navy text-white border-b border-amber-500/30 px-4 sm:px-5 py-3.5 flex flex-wrap items-center justify-between gap-2">
                     <div class="flex items-center gap-2.5">
-                        <span class="px-2 py-0.5 rounded bg-amber-500 text-slate-950 font-mono text-xs font-bold">HOLODIAGRAMA 01</span>
-                        <h3 class="text-sm font-bold text-white">Reconstrução Vetorial do Fluxograma Flowgorithm (Questões Práticas 2, 3, 4 e 5)</h3>
+                        <span class="px-2 py-0.5 rounded bg-amber-500 text-slate-950 font-mono text-xs font-bold shrink-0">HOLODIAGRAMA 01</span>
+                        <h3 class="text-xs sm:text-sm font-bold text-white">Reconstrução Vetorial do Fluxograma Flowgorithm (Questões Práticas 2, 3, 4 e 5)</h3>
                     </div>
                     <button type="button" onclick="toggleFlowTraceGuide()" class="text-xs text-sky-300 hover:text-amber-300 font-mono underline cursor-pointer">
                         Rastrear Fluxo Interativo
                     </button>
                 </div>
 
-                <div id="flow-trace-guide" class="hidden bg-indigo-950 text-indigo-100 px-5 py-3.5 text-xs sm:text-sm border-b border-indigo-800 space-y-1">
+                <div id="flow-trace-guide" class="hidden bg-indigo-950 text-indigo-100 px-4 sm:px-5 py-3.5 text-xs sm:text-sm border-b border-indigo-800 space-y-1">
                     <p class="font-bold text-amber-300">Rastreio Rápido do Holodiagrama 01:</p>
                     <p>1. <code class="font-mono text-sky-300">Main</code> declara <code class="font-mono">Integer Option</code> e entra no ciclo <code class="font-mono">While True</code>.</p>
                     <p>2. Se <code class="font-mono">Option = 1</code> ou <code class="font-mono">2</code>, chama <code class="font-mono">ObterValor(Option)</code>; se <code class="font-mono">Option = 1</code> calcula <code class="font-mono">Valor * Valor</code> (Quadrado), senão calcula <code class="font-mono">Valor * Valor * 3.14159</code> (Círculo) e faz <code class="font-mono">Return Real Resultado</code>.</p>
                 </div>
 
-                <div class="p-4 sm:p-6 bg-[#E6F2F5]/60 overflow-x-auto flex justify-center">
+                <div class="p-3 sm:p-6 bg-[#E6F2F5]/60 overflow-x-auto flex justify-center">
                     <svg viewBox="0 0 880 540" class="w-full max-w-4xl h-auto bg-white border border-slate-300 rounded-lg shadow-inner" role="img" aria-label="Fluxograma Flowgorithm com funções Main e ObterValor">
                         <defs>
                             <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -425,7 +501,7 @@
                     </svg>
                 </div>
 
-                <div class="bg-slate-50 border-t border-slate-200 px-5 py-3 flex flex-wrap items-center gap-3 text-xs text-slate-600">
+                <div class="bg-slate-50 border-t border-slate-200 px-4 sm:px-5 py-3 flex flex-wrap items-center gap-2 sm:gap-3 text-xs text-slate-600">
                     <span class="font-semibold text-slate-800">Simbologia Flowgorithm (clique para filtrar):</span>
                     <button type="button" onclick="searchAndFocus('variáveis')" class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-amber-100 hover:bg-amber-200 text-amber-950 cursor-pointer"><span class="w-2.5 h-2.5 rounded-xs bg-amber-300 border border-amber-600"></span> Declaração / Atribuição</button>
                     <button type="button" onclick="searchAndFocus('while')" class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-orange-100 hover:bg-orange-200 text-orange-950 cursor-pointer"><span class="w-2.5 h-2.5 rounded-xs bg-orange-300 border border-orange-600"></span> Hexágono = Ciclo While</button>
@@ -434,46 +510,65 @@
                 </div>
             </div>
 
-            <!-- Container das 6 Questões Práticas -->
-            <div id="practical-container" class="space-y-6"></div>
+            <div id="practical-correct-group" class="space-y-4">
+                <div class="flex items-center justify-between px-4 py-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-950 text-xs sm:text-sm font-bold">
+                    <span>Respostas Corretas na Parte Prática (1 Questão)</span>
+                    <span class="font-mono text-xs bg-emerald-200/80 px-2 py-0.5 rounded">ACERTOS</span>
+                </div>
+                <div id="practical-correct-container" class="space-y-5 sm:space-y-6"></div>
+            </div>
+
+            <div id="practical-errors-group" class="space-y-4 pt-2">
+                <div class="flex items-center justify-between px-4 py-2 rounded-lg bg-amber-50 border border-amber-300 text-amber-950 text-xs sm:text-sm font-bold">
+                    <span>Respostas Incorretas / Revisão Prioritária na Parte Prática (5 Questões)</span>
+                    <span class="font-mono text-xs bg-amber-200/80 px-2 py-0.5 rounded">ERROS</span>
+                </div>
+                <div id="practical-errors-container" class="space-y-5 sm:space-y-6"></div>
+            </div>
         </section>
     </main>
 
     <!-- ===================================================================== -->
-    <!-- SECÇÃO 2: AULA MAGISTRAL & APONTAMENTOS EXECUTIVOS                    -->
+    <!-- SECÇÃO 2: AULA MAGISTRAL, RESUMO COMPLETO & APONTAMENTOS EXECUTIVOS -->
     <!-- ===================================================================== -->
-    <main id="section-tab-lecture" class="tab-section hidden max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-8">
+    <main id="section-tab-lecture" class="tab-section hidden max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-8">
 
-        <div class="bg-academic-navy text-white rounded-2xl p-6 sm:p-8 border border-amber-500/40 shadow-md">
+        <div class="bg-academic-navy text-white rounded-2xl p-5 sm:p-8 border border-amber-500/40 shadow-md">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div class="space-y-2 max-w-3xl">
-                    <span class="inline-block px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-400/30 font-mono text-xs uppercase tracking-wider">
+                    <span class="inline-block px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-400/30 font-mono text-[11px] sm:text-xs uppercase tracking-wider">
                         Cátedra de Algoritmia Estruturada • Que a Força esteja com você
-                    <h2 class="font-serif text-2xl sm:text-3xl font-bold text-white">
-                        Aula Magistral &amp; Apontamentos Executivos
+                    </span>
+                    <h2 class="font-serif text-xl sm:text-3xl font-bold text-white">
+                        Aula Magistral, Resumo Completo &amp; Apontamentos Executivos
                     </h2>
-                    <p class="text-sm sm:text-base text-slate-300 leading-relaxed">
-                        Compêndio académico concebido a partir da análise rigorosa da sua avaliação: consolida os fundamentos em que demonstrou domínio e esclarece ponto por ponto todas as lacunas identificadas.
+                    <p class="text-xs sm:text-base text-slate-300 leading-relaxed">
+                        Compêndio académico concebido a partir da análise rigorosa da sua avaliação: consolida os fundamentos em que demonstrou domínio, esclarece ponto por ponto todas as lacunas identificadas e reúne o resumo completo de algoritmia.
                     </p>
                 </div>
-                <button type="button" onclick="switchMainTab('simulator')" class="no-print shrink-0 px-4 py-2.5 bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold text-xs sm:text-sm rounded-lg transition-colors cursor-pointer">
-                    Testar Conhecimentos &rarr;
-                </button>
+                <div class="no-print shrink-0 flex flex-wrap gap-2">
+                    <a href="#mod-resumo-algoritmia" class="px-3.5 sm:px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/40 font-bold text-xs sm:text-sm rounded-lg transition-colors">
+                        Ir ao Resumo Completo &darr;
+                    </a>
+                    <button type="button" onclick="switchMainTab('simulator')" class="px-3.5 sm:px-4 py-2.5 bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold text-xs sm:text-sm rounded-lg transition-colors cursor-pointer">
+                        Testar Conhecimentos &rarr;
+                    </button>
+                </div>
             </div>
         </div>
 
-        <div class="space-y-8">
+        <div class="space-y-6 sm:space-y-8">
 
             <!-- MÓDULO I -->
             <article id="mod-arrays" class="module-card bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
-                <div class="bg-slate-900 text-white px-6 py-4 flex flex-wrap items-center justify-between gap-2 border-b border-amber-500/30">
-                    <div class="flex items-center gap-3">
-                        <span class="px-2.5 py-1 rounded bg-amber-500 text-slate-950 font-mono text-xs font-bold">MÓDULO I</span>
-                        <h3 class="font-serif text-lg sm:text-xl font-bold">Estruturas de Dados: Arrays Indexados vs. Arrays Associativos</h3>
+                <div class="bg-slate-900 text-white px-4 sm:px-6 py-3.5 sm:py-4 flex flex-wrap items-center justify-between gap-2 border-b border-amber-500/30">
+                    <div class="flex items-center gap-2.5 sm:gap-3">
+                        <span class="px-2.5 py-1 rounded bg-amber-500 text-slate-950 font-mono text-xs font-bold shrink-0">MÓDULO I</span>
+                        <h3 class="font-serif text-base sm:text-xl font-bold">Estruturas de Dados: Arrays Indexados vs. Arrays Associativos</h3>
                     </div>
                     <button type="button" onclick="switchMainTab('review'); searchAndFocus('array');" class="text-xs font-mono text-amber-300 hover:underline cursor-pointer">Ver Questões Q01 e Q10 &rarr;</button>
                 </div>
-                <div class="p-6 space-y-4 text-sm sm:text-base text-slate-700 leading-relaxed">
+                <div class="p-4 sm:p-6 space-y-4 text-sm sm:text-base text-slate-700 leading-relaxed">
                     <p>
                         Um <strong>array</strong> (vetor) é uma estrutura de dados composta que permite armazenar múltiplas ocorrências de informação sob um único identificador de variável. O erro mais frequente consiste em confundir o <em>tipo do índice</em> com o <em>tipo do conteúdo armazenado</em>.
                     </p>
@@ -483,7 +578,7 @@
                                 <span class="w-2 h-2 rounded-full bg-sky-600"></span>
                                 1. Array Indexado (Posicional)
                             </h4>
-                            <p class="text-sm">
+                            <p class="text-xs sm:text-sm">
                                 Cada elemento é acedido através de um <strong>índice numérico inteiro</strong> (habitualmente começando em <code class="font-mono text-indigo-800">0</code>). O conteúdo armazenado pode ser de <strong>qualquer tipo de dados</strong> (inteiros, reais, strings ou booleanos).
                             </p>
                             <pre class="bg-slate-900 text-slate-100 font-mono text-xs p-3 rounded-lg overflow-x-auto">// Exemplo em Pseudocódigo:
@@ -496,7 +591,7 @@ nomes ← ["Joana", "Carlos", "Ana"]
                                 <span class="w-2 h-2 rounded-full bg-amber-600"></span>
                                 2. Array Associativo (Chave-Valor / Mapa)
                             </h4>
-                            <p class="text-sm">
+                            <p class="text-xs sm:text-sm">
                                 Em vez de posições numéricas (<code class="font-mono">0, 1, 2</code>), utiliza <strong>chaves textuais (Strings)</strong> descritivas para indexar cada valor guardado na memória.
                             </p>
                             <pre class="bg-slate-900 text-slate-100 font-mono text-xs p-3 rounded-lg overflow-x-auto">// Exemplo em Pseudocódigo (Q10):
@@ -510,14 +605,14 @@ nomes["aluno"]      ← "Filipe"
 
             <!-- MÓDULO II -->
             <article id="mod-variables" class="module-card bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
-                <div class="bg-slate-900 text-white px-6 py-4 flex flex-wrap items-center justify-between gap-2 border-b border-amber-500/30">
-                    <div class="flex items-center gap-3">
-                        <span class="px-2.5 py-1 rounded bg-amber-500 text-slate-950 font-mono text-xs font-bold">MÓDULO II</span>
-                        <h3 class="font-serif text-lg sm:text-xl font-bold">Variáveis Especiais: Contadores, Acumuladores e Iteradores</h3>
+                <div class="bg-slate-900 text-white px-4 sm:px-6 py-3.5 sm:py-4 flex flex-wrap items-center justify-between gap-2 border-b border-amber-500/30">
+                    <div class="flex items-center gap-2.5 sm:gap-3">
+                        <span class="px-2.5 py-1 rounded bg-amber-500 text-slate-950 font-mono text-xs font-bold shrink-0">MÓDULO II</span>
+                        <h3 class="font-serif text-base sm:text-xl font-bold">Variáveis Especiais: Contadores, Acumuladores e Iteradores</h3>
                     </div>
                     <button type="button" onclick="switchMainTab('review'); searchAndFocus('contador');" class="text-xs font-mono text-emerald-300 hover:underline cursor-pointer">Ver Q02, Q15 e Q16 &rarr;</button>
                 </div>
-                <div class="p-6 space-y-4 text-sm sm:text-base text-slate-700 leading-relaxed">
+                <div class="p-4 sm:p-6 space-y-4 text-sm sm:text-base text-slate-700 leading-relaxed">
                     <p>
                         Demonstrou excelente domínio sobre a função do <strong>acumulador</strong> (Q15) e do <strong>iterador</strong> (Q16). Contudo, na Q02 houve confusão na expressão algébrica do <strong>contador</strong>. A tabela seguinte sintetiza as três funções:
                     </p>
@@ -525,30 +620,30 @@ nomes["aluno"]      ← "Filipe"
                         <table class="min-w-full text-xs sm:text-sm border border-slate-300 rounded-lg overflow-hidden">
                             <thead class="bg-academic-navy text-white">
                                 <tr>
-                                    <th class="px-4 py-3 text-left">Papel da Variável</th>
-                                    <th class="px-4 py-3 text-left">Definição Académica</th>
-                                    <th class="px-4 py-3 text-left">Sintaxe Canónica</th>
-                                    <th class="px-4 py-3 text-left">Armadilha a Evitar</th>
+                                    <th class="px-3 sm:px-4 py-3 text-left">Papel da Variável</th>
+                                    <th class="px-3 sm:px-4 py-3 text-left">Definição Académica</th>
+                                    <th class="px-3 sm:px-4 py-3 text-left">Sintaxe Canónica</th>
+                                    <th class="px-3 sm:px-4 py-3 text-left">Armadilha a Evitar</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-slate-200 bg-white">
                                 <tr>
-                                    <td class="px-4 py-3 font-bold text-academic-navy">Contador</td>
-                                    <td class="px-4 py-3">Regista o número de ocorrências de um evento somando/subtraindo uma <strong>constante fixa</strong>.</td>
-                                    <td class="px-4 py-3 font-mono text-indigo-900 font-semibold">cont ← cont + 1</td>
-                                    <td class="px-4 py-3 text-rose-700"><code class="font-mono">cont * 2</code> não é contador (é progressão geométrica).</td>
+                                    <td class="px-3 sm:px-4 py-3 font-bold text-academic-navy">Contador</td>
+                                    <td class="px-3 sm:px-4 py-3">Regista o número de ocorrências de um evento somando/subtraindo uma <strong>constante fixa</strong>.</td>
+                                    <td class="px-3 sm:px-4 py-3 font-mono text-indigo-900 font-semibold">cont ← cont + 1</td>
+                                    <td class="px-3 sm:px-4 py-3 text-rose-700"><code class="font-mono">cont * 2</code> não é contador (é progressão geométrica).</td>
                                 </tr>
                                 <tr class="bg-slate-50/70">
-                                    <td class="px-4 py-3 font-bold text-academic-navy">Acumulador</td>
-                                    <td class="px-4 py-3">Totaliza valores <strong>variáveis</strong> lidos ou calculados ao longo das iterações de um ciclo.</td>
-                                    <td class="px-4 py-3 font-mono text-indigo-900 font-semibold">soma ← soma + valor</td>
-                                    <td class="px-4 py-3 text-slate-600">Deve ser sempre inicializado a <code class="font-mono">0</code> antes do ciclo.</td>
+                                    <td class="px-3 sm:px-4 py-3 font-bold text-academic-navy">Acumulador</td>
+                                    <td class="px-3 sm:px-4 py-3">Totaliza valores <strong>variáveis</strong> lidos ou calculados ao longo das iterações de um ciclo.</td>
+                                    <td class="px-3 sm:px-4 py-3 font-mono text-indigo-900 font-semibold">soma ← soma + valor</td>
+                                    <td class="px-3 sm:px-4 py-3 text-slate-600">Deve ser sempre inicializado a <code class="font-mono">0</code> antes do ciclo.</td>
                                 </tr>
                                 <tr>
-                                    <td class="px-4 py-3 font-bold text-academic-navy">Iterador</td>
-                                    <td class="px-4 py-3">Variável de controlo que governa a progressão e paragem de um ciclo <code class="font-mono">for</code>.</td>
-                                    <td class="px-4 py-3 font-mono text-indigo-900 font-semibold">Para i ← 1 até 10</td>
-                                    <td class="px-4 py-3 text-slate-600">Não deve ser alterado manualmente dentro do ciclo <code class="font-mono">for</code>.</td>
+                                    <td class="px-3 sm:px-4 py-3 font-bold text-academic-navy">Iterador</td>
+                                    <td class="px-3 sm:px-4 py-3">Variável de controlo que governa a progressão e paragem de um ciclo <code class="font-mono">for</code>.</td>
+                                    <td class="px-3 sm:px-4 py-3 font-mono text-indigo-900 font-semibold">Para i ← 1 até 10</td>
+                                    <td class="px-3 sm:px-4 py-3 text-slate-600">Não deve ser alterado manualmente dentro do ciclo <code class="font-mono">for</code>.</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -558,14 +653,14 @@ nomes["aluno"]      ← "Filipe"
 
             <!-- MÓDULO III -->
             <article id="mod-control" class="module-card bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
-                <div class="bg-slate-900 text-white px-6 py-4 flex flex-wrap items-center justify-between gap-2 border-b border-amber-500/30">
-                    <div class="flex items-center gap-3">
-                        <span class="px-2.5 py-1 rounded bg-amber-500 text-slate-950 font-mono text-xs font-bold">MÓDULO III</span>
-                        <h3 class="font-serif text-lg sm:text-xl font-bold">Estruturas de Controlo: Ciclos vs. Decisões &amp; Validação</h3>
+                <div class="bg-slate-900 text-white px-4 sm:px-6 py-3.5 sm:py-4 flex flex-wrap items-center justify-between gap-2 border-b border-amber-500/30">
+                    <div class="flex items-center gap-2.5 sm:gap-3">
+                        <span class="px-2.5 py-1 rounded bg-amber-500 text-slate-950 font-mono text-xs font-bold shrink-0">MÓDULO III</span>
+                        <h3 class="font-serif text-base sm:text-xl font-bold">Estruturas de Controlo: Ciclos vs. Decisões &amp; Validação</h3>
                     </div>
                     <button type="button" onclick="switchMainTab('review'); searchAndFocus('while');" class="text-xs font-mono text-emerald-300 hover:underline cursor-pointer">Ver Questões de Ciclos &rarr;</button>
                 </div>
-                <div class="p-6 space-y-4 text-sm sm:text-base text-slate-700 leading-relaxed">
+                <div class="p-4 sm:p-6 space-y-4 text-sm sm:text-base text-slate-700 leading-relaxed">
                     <p>
                         Os seus melhores resultados na prova ocorreram aqui: domina a diferença entre <code class="font-mono bg-slate-100 px-1 rounded">for</code> (repetições conhecidas) e <code class="font-mono bg-slate-100 px-1 rounded">while</code> (repetições condicionadas), bem como a conversão entre ambos (Q12) e a repetição do pedido na validação de inputs (Q14). Fixe apenas estas 3 regras críticas:
                     </p>
@@ -573,21 +668,21 @@ nomes["aluno"]      ← "Filipe"
                         <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
                             <span class="text-xs font-mono font-bold uppercase text-indigo-800">Regra 1 • Definição</span>
                             <h4 class="font-bold text-academic-navy">Ciclo vs. Decisão</h4>
-                            <p class="text-sm">
+                            <p class="text-xs sm:text-sm">
                                 <strong>Ciclos</strong> (<code class="font-mono">for</code>, <code class="font-mono">while</code>) repetem blocos enquanto uma condição for verdadeira (Q06). <strong>Decisões</strong> (<code class="font-mono">if</code>) apenas escolhem um caminho uma única vez (Prática 5).
                             </p>
                         </div>
                         <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
                             <span class="text-xs font-mono font-bold uppercase text-indigo-800">Regra 2 • Anatomia do For</span>
                             <h4 class="font-bold text-academic-navy">Elementos do Ciclo For</h4>
-                            <p class="text-sm">
+                            <p class="text-xs sm:text-sm">
                                 Um ciclo <code class="font-mono">for</code> exige <strong>inicialização</strong>, <strong>condição de paragem</strong> e <strong>incremento</strong>. Não exige arrays (Q05) — pode contar simples números inteiros.
                             </p>
                         </div>
                         <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
                             <span class="text-xs font-mono font-bold uppercase text-indigo-800">Regra 3 • Robustez</span>
                             <h4 class="font-bold text-academic-navy">Finalidade da Validação</h4>
-                            <p class="text-sm">
+                            <p class="text-xs sm:text-sm">
                                 Validar o <em>input</em> do utilizador serve para <strong>evitar erros durante a execução</strong> (ex: impedir divisões por zero ou quantidades negativas), e não para tornar o programa mais rápido (Q18).
                             </p>
                         </div>
@@ -597,18 +692,18 @@ nomes["aluno"]      ← "Filipe"
 
             <!-- MÓDULO IV -->
             <article id="mod-operators" class="module-card bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
-                <div class="bg-slate-900 text-white px-6 py-4 flex flex-wrap items-center justify-between gap-2 border-b border-amber-500/30">
-                    <div class="flex items-center gap-3">
-                        <span class="px-2.5 py-1 rounded bg-amber-500 text-slate-950 font-mono text-xs font-bold">MÓDULO IV</span>
-                        <h3 class="font-serif text-lg sm:text-xl font-bold">Operadores Relacionais e Álgebra Booleana (Lógicos)</h3>
+                <div class="bg-slate-900 text-white px-4 sm:px-6 py-3.5 sm:py-4 flex flex-wrap items-center justify-between gap-2 border-b border-amber-500/30">
+                    <div class="flex items-center gap-2.5 sm:gap-3">
+                        <span class="px-2.5 py-1 rounded bg-amber-500 text-slate-950 font-mono text-xs font-bold shrink-0">MÓDULO IV</span>
+                        <h3 class="font-serif text-base sm:text-xl font-bold">Operadores Relacionais e Álgebra Booleana (Lógicos)</h3>
                     </div>
                     <button type="button" onclick="switchMainTab('review'); searchAndFocus('AND');" class="text-xs font-mono text-amber-300 hover:underline cursor-pointer">Ver Q07, Q09 e Q20 &rarr;</button>
                 </div>
-                <div class="p-6 space-y-4 text-sm sm:text-base text-slate-700 leading-relaxed">
+                <div class="p-4 sm:p-6 space-y-4 text-sm sm:text-base text-slate-700 leading-relaxed">
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <div class="space-y-2.5">
                             <h4 class="font-bold text-academic-navy">1. Operadores Relacionais vs. Atribuição (Q09)</h4>
-                            <ul class="space-y-2 text-sm">
+                            <ul class="space-y-2 text-xs sm:text-sm">
                                 <li class="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
                                     <code class="font-mono font-bold text-indigo-900">x ← 10</code> — <strong>Atribuição:</strong> guarda o valor 10 na variável <code class="font-mono">x</code>.
                                 </li>
@@ -623,42 +718,44 @@ nomes["aluno"]      ← "Filipe"
 
                         <div class="space-y-2.5">
                             <h4 class="font-bold text-academic-navy">2. Tabela de Verdade: AND vs. OR (Q07 e Q20)</h4>
-                            <table class="min-w-full text-xs font-mono border border-slate-300 rounded-lg overflow-hidden">
-                                <thead class="bg-slate-800 text-white">
-                                    <tr>
-                                        <th class="px-3 py-2 text-left">Condição A</th>
-                                        <th class="px-3 py-2 text-left">Condição B</th>
-                                        <th class="px-3 py-2 text-left text-amber-300">A AND B (E)</th>
-                                        <th class="px-3 py-2 text-left text-sky-300">A OR B (OU)</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-slate-200 bg-white">
-                                    <tr class="bg-emerald-50/70">
-                                        <td class="px-3 py-2 font-bold">TRUE</td>
-                                        <td class="px-3 py-2 font-bold">TRUE</td>
-                                        <td class="px-3 py-2 font-bold text-emerald-800">TRUE</td>
-                                        <td class="px-3 py-2 font-bold text-emerald-800">TRUE</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-3 py-2">TRUE</td>
-                                        <td class="px-3 py-2">FALSE</td>
-                                        <td class="px-3 py-2 text-rose-700">FALSE</td>
-                                        <td class="px-3 py-2 text-emerald-800">TRUE</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-3 py-2">FALSE</td>
-                                        <td class="px-3 py-2">TRUE</td>
-                                        <td class="px-3 py-2 text-rose-700">FALSE</td>
-                                        <td class="px-3 py-2 text-emerald-800">TRUE</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-3 py-2">FALSE</td>
-                                        <td class="px-3 py-2">FALSE</td>
-                                        <td class="px-3 py-2 text-rose-700">FALSE</td>
-                                        <td class="px-3 py-2 text-rose-700">FALSE</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full text-xs font-mono border border-slate-300 rounded-lg overflow-hidden">
+                                    <thead class="bg-slate-800 text-white">
+                                        <tr>
+                                            <th class="px-3 py-2 text-left">Condição A</th>
+                                            <th class="px-3 py-2 text-left">Condição B</th>
+                                            <th class="px-3 py-2 text-left text-amber-300">A AND B (E)</th>
+                                            <th class="px-3 py-2 text-left text-sky-300">A OR B (OU)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-200 bg-white">
+                                        <tr class="bg-emerald-50/70">
+                                            <td class="px-3 py-2 font-bold">TRUE</td>
+                                            <td class="px-3 py-2 font-bold">TRUE</td>
+                                            <td class="px-3 py-2 font-bold text-emerald-800">TRUE</td>
+                                            <td class="px-3 py-2 font-bold text-emerald-800">TRUE</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-3 py-2">TRUE</td>
+                                            <td class="px-3 py-2">FALSE</td>
+                                            <td class="px-3 py-2 text-rose-700">FALSE</td>
+                                            <td class="px-3 py-2 text-emerald-800">TRUE</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-3 py-2">FALSE</td>
+                                            <td class="px-3 py-2">TRUE</td>
+                                            <td class="px-3 py-2 text-rose-700">FALSE</td>
+                                            <td class="px-3 py-2 text-emerald-800">TRUE</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-3 py-2">FALSE</td>
+                                            <td class="px-3 py-2">FALSE</td>
+                                            <td class="px-3 py-2 text-rose-700">FALSE</td>
+                                            <td class="px-3 py-2 text-rose-700">FALSE</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                             <p class="text-xs text-slate-600">
                                 <strong>Aplicação na Q20 (<code class="font-mono">x = 7</code>):</strong> <code class="font-mono">(7 &gt; 5)</code> é <code class="font-mono">TRUE</code> e <code class="font-mono">(7 &lt; 10)</code> é <code class="font-mono">TRUE</code>. Logo, <code class="font-mono">TRUE AND TRUE = TRUE</code>.
                             </p>
@@ -669,18 +766,18 @@ nomes["aluno"]      ← "Filipe"
 
             <!-- MÓDULO V -->
             <article id="mod-subprograms" class="module-card bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
-                <div class="bg-slate-900 text-white px-6 py-4 flex flex-wrap items-center justify-between gap-2 border-b border-amber-500/30">
-                    <div class="flex items-center gap-3">
-                        <span class="px-2.5 py-1 rounded bg-amber-500 text-slate-950 font-mono text-xs font-bold">MÓDULO V</span>
-                        <h3 class="font-serif text-lg sm:text-xl font-bold">Modularização: Funções vs. Procedimentos</h3>
+                <div class="bg-slate-900 text-white px-4 sm:px-6 py-3.5 sm:py-4 flex flex-wrap items-center justify-between gap-2 border-b border-amber-500/30">
+                    <div class="flex items-center gap-2.5 sm:gap-3">
+                        <span class="px-2.5 py-1 rounded bg-amber-500 text-slate-950 font-mono text-xs font-bold shrink-0">MÓDULO V</span>
+                        <h3 class="font-serif text-base sm:text-xl font-bold">Modularização: Funções vs. Procedimentos</h3>
                     </div>
                     <button type="button" onclick="switchMainTab('review'); searchAndFocus('retornar');" class="text-xs font-mono text-amber-300 hover:underline cursor-pointer">Ver Q11 e Q17 &rarr;</button>
                 </div>
-                <div class="p-6 space-y-4 text-sm sm:text-base text-slate-700 leading-relaxed">
+                <div class="p-4 sm:p-6 space-y-4 text-sm sm:text-base text-slate-700 leading-relaxed">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="p-4 rounded-xl bg-indigo-50/60 border border-indigo-200 space-y-2">
                             <h4 class="font-bold text-indigo-950">Função (Function) — Devolve Resultado</h4>
-                            <p class="text-sm">
+                            <p class="text-xs sm:text-sm">
                                 Subprograma que recebe parâmetros, efetua um processamento e <strong>devolve obrigatoriamente um valor</strong> ao chamador usando a palavra-chave <code class="font-mono font-bold text-indigo-900">retornar</code> (<code class="font-mono">Return</code>).
                             </p>
                             <pre class="bg-slate-900 text-slate-100 font-mono text-xs p-3 rounded-lg overflow-x-auto">função CalcularQuadrado(Real Lado): Real
@@ -691,7 +788,7 @@ fim_função</pre>
                         </div>
                         <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
                             <h4 class="font-bold text-academic-navy">Procedimento (Procedure / Void) — Não Devolve Valor</h4>
-                            <p class="text-sm">
+                            <p class="text-xs sm:text-sm">
                                 Subprograma que executa uma tarefa (como imprimir um cabeçalho ou menu) e termina <strong>sem retornar qualquer resultado</strong>.
                             </p>
                             <pre class="bg-slate-900 text-slate-100 font-mono text-xs p-3 rounded-lg overflow-x-auto">procedimento MostrarMenu()
@@ -705,22 +802,90 @@ fim_procedimento</pre>
 
             <!-- MÓDULO VI -->
             <article id="mod-flowgorithm" class="module-card bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
-                <div class="bg-slate-900 text-white px-6 py-4 flex flex-wrap items-center justify-between gap-2 border-b border-amber-500/30">
-                    <div class="flex items-center gap-3">
-                        <span class="px-2.5 py-1 rounded bg-amber-500 text-slate-950 font-mono text-xs font-bold">MÓDULO VI</span>
-                        <h3 class="font-serif text-lg sm:text-xl font-bold">Leitura de Fluxogramas Flowgorithm &amp; Teste de Mesa</h3>
+                <div class="bg-slate-900 text-white px-4 sm:px-6 py-3.5 sm:py-4 flex flex-wrap items-center justify-between gap-2 border-b border-amber-500/30">
+                    <div class="flex items-center gap-2.5 sm:gap-3">
+                        <span class="px-2.5 py-1 rounded bg-amber-500 text-slate-950 font-mono text-xs font-bold shrink-0">MÓDULO VI</span>
+                        <h3 class="font-serif text-base sm:text-xl font-bold">Leitura de Fluxogramas Flowgorithm &amp; Teste de Mesa</h3>
                     </div>
                     <button type="button" onclick="switchMainTab('review'); setFilter('practical');" class="text-xs font-mono text-amber-300 hover:underline cursor-pointer">Ver Práticas 1 a 6 &rarr;</button>
                 </div>
-                <div class="p-6 space-y-4 text-sm sm:text-base text-slate-700 leading-relaxed">
+                <div class="p-4 sm:p-6 space-y-4 text-sm sm:text-base text-slate-700 leading-relaxed">
                     <p>
                         Para dominar a componente prática (que vale <strong>50% da nota final</strong>), aplique sistematicamente este protocolo de 3 passos perante qualquer fluxograma:
                     </p>
-                    <ol class="list-decimal list-inside space-y-2 text-sm bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <ol class="list-decimal list-inside space-y-2 text-xs sm:text-sm bg-slate-50 p-4 rounded-xl border border-slate-200">
                         <li><strong>Identificar Declarações (Retângulos com dupla linha):</strong> Conte cada nome de variável separado por vírgula e observe a palavra-chave à esquerda (<code class="font-mono text-indigo-800">Integer</code> = inteiro, <code class="font-mono text-indigo-800">Real</code> = decimal, <code class="font-mono text-indigo-800">String</code> = texto, <code class="font-mono text-indigo-800">Boolean</code> = lógico).</li>
                         <li><strong>Distinguir Formas Geométricas:</strong> <em>Losango</em> = Decisão (<code class="font-mono">If</code>); <em>Hexágono</em> = Ciclo (<code class="font-mono">For</code> / <code class="font-mono">While</code>); <em>Paralelogramo Azul</em> = Leitura (<code class="font-mono">Input</code>); <em>Paralelogramo Verde</em> = Escrita (<code class="font-mono">Output</code>).</li>
                         <li><strong>Construir a Tabela de Rastreio (Teste de Mesa):</strong> Simule cada volta do ciclo anotando o valor atual das variáveis e verificando se a condição de impressão é <code class="font-mono">True</code> ou <code class="font-mono">False</code> antes de escrever o resultado final.</li>
                     </ol>
+                </div>
+            </article>
+
+            <!-- MÓDULO VII: RESUMO COMPLETO DE ALGORITMIA -->
+            <article id="mod-resumo-algoritmia" class="module-card bg-white border-2 border-amber-500/50 rounded-xl shadow-sm overflow-hidden">
+                <div class="bg-academic-obsidian text-white px-4 sm:px-6 py-3.5 sm:py-4 flex flex-wrap items-center justify-between gap-2 border-b border-amber-500/40">
+                    <div class="flex items-center gap-2.5 sm:gap-3">
+                        <span class="px-2.5 py-1 rounded bg-amber-500 text-slate-950 font-mono text-xs font-bold shrink-0">MÓDULO VII • RESUMO GERAL</span>
+                        <h3 class="font-serif text-base sm:text-xl font-bold text-amber-300">Resumo Completo de Algoritmia: Tudo o Que Precisa Saber</h3>
+                    </div>
+                    <button type="button" onclick="toggleHolocronAI()" class="text-xs font-mono text-sky-300 hover:underline cursor-pointer">Tirar Dúvida na IA Holocron &rarr;</button>
+                </div>
+                <div class="p-4 sm:p-6 space-y-5 sm:space-y-6 text-sm sm:text-base text-slate-700 leading-relaxed">
+                    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                        <h4 class="font-bold text-academic-navy text-sm sm:text-base">1. O Que É um Algoritmo e Como Funciona o Processamento (IPO)</h4>
+                        <p class="text-xs sm:text-sm">
+                            Um <strong>algoritmo</strong> é uma sequência finita, ordenada e não ambígua de instruções lógicas para resolver um problema ou executar uma tarefa. Todo algoritmo segue o ciclo <strong>Entrada (Input) &rarr; Processamento &rarr; Saída (Output)</strong>: recebe dados, aplica cálculos/decisões/repetições sobre variáveis e apresenta o resultado.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                            <h4 class="font-bold text-academic-navy">2. Variáveis, Tipos Primitivos e Atribuição</h4>
+                            <p class="text-xs sm:text-sm">
+                                Uma <strong>variável</strong> é um espaço nomeado na memória que guarda um valor que pode mudar durante a execução. Os <strong>tipos primitivos</strong> definem que tipo de dado cabe nela:
+                            </p>
+                            <ul class="list-disc list-inside text-xs sm:text-sm space-y-1">
+                                <li><code class="font-mono font-bold text-indigo-900">Integer</code> (Inteiro): números sem casas decimais (<code class="font-mono">-3, 0, 5, 42</code>).</li>
+                                <li><code class="font-mono font-bold text-indigo-900">Real</code> (Decimal/Float): números com casas decimais (<code class="font-mono">3.14159, 44.0</code>).</li>
+                                <li><code class="font-mono font-bold text-indigo-900">String</code> (Texto): cadeias de caracteres entre aspas (<code class="font-mono">"Quadrado"</code>).</li>
+                                <li><code class="font-mono font-bold text-indigo-900">Boolean</code> (Lógico): apenas <code class="font-mono">TRUE</code> ou <code class="font-mono">FALSE</code>.</li>
+                            </ul>
+                            <p class="text-xs text-slate-600">
+                                Atribuição (<code class="font-mono">←</code> ou <code class="font-mono">=</code> em atribuições) coloca um valor dentro da variável, substituindo o valor anterior.
+                            </p>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                            <h4 class="font-bold text-academic-navy">3. Estruturas de Controlo: Sequência, Decisão e Repetição</h4>
+                            <ul class="list-disc list-inside text-xs sm:text-sm space-y-1.5">
+                                <li><strong>Sequencial:</strong> executa uma linha após a outra, sem desvios nem repetições.</li>
+                                <li><strong>Decisão (<code class="font-mono">if / else</code>):</strong> avalia uma condição lógica e escolhe qual ramo executar uma vez.</li>
+                                <li><strong>Repetição / Ciclos (<code class="font-mono">for</code> e <code class="font-mono">while</code>):</strong> repetem um bloco de instruções. Use <code class="font-mono">for</code> quando o número de repetições é conhecido/definido (com inicialização, condição de paragem e incremento); use <code class="font-mono">while</code> quando a repetição depende de uma condição que pode variar ao longo da execução.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="p-4 rounded-xl bg-amber-50/50 border border-amber-200 space-y-2">
+                            <h4 class="font-bold text-academic-navy">4. Contadores, Acumuladores, Iteradores e Arrays</h4>
+                            <p class="text-xs sm:text-sm">
+                                <strong>Contador</strong> (<code class="font-mono">c ← c + 1</code>) conta ocorrências com passo fixo; <strong>Acumulador</strong> (<code class="font-mono">soma ← soma + v</code>) soma valores variáveis (ex.: total/média); <strong>Iterador</strong> governa a contagem de um ciclo <code class="font-mono">for</code>.
+                            </p>
+                            <p class="text-xs sm:text-sm">
+                                <strong>Arrays</strong> agrupam vários valores sob o mesmo nome: <em>indexados</em> usam índices numéricos (guardando qualquer tipo de dado) e <em>associativos</em> usam chaves textuais (<code class="font-mono">mapa["chave"]</code>).
+                            </p>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-indigo-50/50 border border-indigo-200 space-y-2">
+                            <h4 class="font-bold text-academic-navy">5. Operadores, Validação, Funções e Fluxogramas</h4>
+                            <p class="text-xs sm:text-sm">
+                                Relacionais comparam valores (<code class="font-mono">==</code>, <code class="font-mono">!=</code>, <code class="font-mono">&gt;</code>, <code class="font-mono">&lt;</code>); lógicos combinam condições (<code class="font-mono">AND</code> exige todas verdadeiras; <code class="font-mono">OR</code> exige pelo menos uma; <code class="font-mono">NOT</code> inverte).
+                            </p>
+                            <p class="text-xs sm:text-sm">
+                                <strong>Validação de input</strong> repete o pedido quando o dado é inválido para evitar erros em execução. <strong>Funções</strong> devolvem um valor com <code class="font-mono">retornar</code> (<code class="font-mono">Return</code>), enquanto <strong>procedimentos</strong> apenas executam ações. Em <strong>fluxogramas</strong> (Flowgorithm) e <strong>testes de mesa</strong>, siga cada seta e cada condição passo a passo.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </article>
 
@@ -730,23 +895,23 @@ fim_procedimento</pre>
     <!-- ===================================================================== -->
     <!-- SECÇÃO 3: SIMULADOR DE PROVAS INFINITAS (SEM REPETIÇÃO & RANK JEDI)   -->
     <!-- ===================================================================== -->
-    <main id="section-tab-simulator" class="tab-section hidden max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-8">
+    <main id="section-tab-simulator" class="tab-section hidden max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-8">
 
-        <div class="jedi-archive-bg text-white rounded-2xl p-6 sm:p-8 border-2 border-amber-500/40 shadow-lg">
+        <div class="jedi-archive-bg text-white rounded-2xl p-5 sm:p-8 border-2 border-amber-500/40 shadow-lg">
             <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                 <div class="space-y-2 max-w-3xl">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/15 border border-sky-400/40 text-sky-300 text-xs font-mono uppercase tracking-wider">
-                        <span>Protocolo de Avaliação Contínua • Banco Sem Repetição</span>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/15 border border-sky-400/40 text-sky-300 text-[11px] sm:text-xs font-mono uppercase tracking-wider">
+                        <span>Protocolo de Avaliação Contínua • Banco Sem Repetição &amp; Easter Eggs Star Wars</span>
                     </div>
-                    <h2 class="font-serif text-2xl sm:text-3xl font-bold text-white">
+                    <h2 class="font-serif text-xl sm:text-3xl font-bold text-white">
                         Câmara de Provas do Conselho — Exame #<span id="sim-exam-number">1</span>
                     </h2>
-                    <p class="text-sm text-slate-300 leading-relaxed">
-                        Cada prova contém <strong>10 questões inéditas</strong> (6 Teóricas + 4 Práticas de Fluxograma/Lógica). O sistema regista todas as questões já respondidas para <strong>nunca repetir perguntas</strong>. Se ficar abaixo da média (<strong class="text-rose-300">&lt; 50%</strong>), o treino continua obrigatoriamente até atingir a aprovação.
+                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                        Cada prova contém <strong>10 questões inéditas</strong> (6 Teóricas — incluindo perguntas temáticas de <strong>Star Wars</strong> dentro da matéria — + 4 Práticas de Fluxograma/Lógica). O sistema regista todas as questões já respondidas para <strong>nunca repetir perguntas</strong>. Se ficar abaixo da média (<strong class="text-rose-300">&lt; 50%</strong>), o treino continua obrigatoriamente até atingir a aprovação.
                     </p>
                 </div>
 
-                <div class="bg-slate-900/90 border border-slate-700 rounded-xl p-4 shrink-0 min-w-[230px] space-y-2 text-xs">
+                <div class="bg-slate-900/90 border border-slate-700 rounded-xl p-4 shrink-0 w-full lg:w-auto lg:min-w-[230px] space-y-2 text-xs">
                     <div class="font-bold uppercase tracking-wider text-amber-300 border-b border-slate-700 pb-1.5">
                         Telemetria do Holocron
                     </div>
@@ -766,10 +931,10 @@ fim_procedimento</pre>
             </div>
         </div>
 
-        <div id="sim-result-panel" class="hidden rounded-2xl border-2 p-6 sm:p-8 shadow-lg transition-all"></div>
+        <div id="sim-result-panel" class="hidden rounded-2xl border-2 p-5 sm:p-8 shadow-lg transition-all"></div>
 
         <form id="sim-exam-form" onsubmit="gradeSimulatedExam(event)" class="space-y-6">
-            <div class="flex flex-wrap items-center justify-between gap-2 bg-white border border-slate-200 rounded-xl px-5 py-3 shadow-xs">
+            <div class="flex flex-wrap items-center justify-between gap-2 bg-white border border-slate-200 rounded-xl px-4 sm:px-5 py-3 shadow-xs">
                 <span class="text-xs sm:text-sm font-semibold text-slate-700">
                     Progresso desta Prova: <strong id="sim-progress-text" class="text-academic-navy font-mono">0 / 10</strong> respondidas
                 </span>
@@ -781,31 +946,31 @@ fim_procedimento</pre>
                 </div>
             </div>
 
-            <div id="sim-questions-list" class="space-y-6"></div>
+            <div id="sim-questions-list" class="space-y-5 sm:space-y-6"></div>
 
-            <div id="sim-submit-container" class="bg-white border border-slate-200 rounded-xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xs">
-                <p class="text-sm text-slate-600">
+            <div id="sim-submit-container" class="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xs">
+                <p class="text-xs sm:text-sm text-slate-600">
                     Revise todas as alternativas selecionadas antes de submeter ao Conselho Jedi.
                 </p>
-                <button type="submit" class="w-full sm:w-auto px-6 py-3 bg-academic-navy hover:bg-slate-800 text-amber-300 border border-amber-500/40 font-bold text-sm rounded-lg shadow-sm transition-all cursor-pointer">
+                <button type="submit" class="w-full sm:w-auto px-6 py-3 bg-academic-navy hover:bg-slate-800 text-amber-300 border border-amber-500/40 font-bold text-xs sm:text-sm rounded-lg shadow-sm transition-all cursor-pointer">
                     Submeter Prova para Avaliação
                 </button>
             </div>
         </form>
 
         <section class="bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
-            <div class="bg-slate-900 text-white px-6 py-4 flex flex-wrap items-center justify-between gap-2 border-b border-amber-500/30">
+            <div class="bg-slate-900 text-white px-4 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-2 border-b border-amber-500/30">
                 <div class="flex items-center gap-2.5">
-                    <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                    <h3 class="font-serif text-lg font-bold">Histórico Oficial de Notas &amp; Ascensão Jedi</h3>
+                    <svg class="w-5 h-5 text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    <h3 class="font-serif text-base sm:text-lg font-bold">Histórico Oficial de Notas &amp; Ascensão Jedi</h3>
                 </div>
                 <button type="button" onclick="clearExamHistory()" class="text-xs text-slate-400 hover:text-rose-300 underline cursor-pointer">
                     Limpar Histórico
                 </button>
             </div>
-            <div class="p-6">
+            <div class="p-4 sm:p-6">
                 <div id="sim-history-container" class="overflow-x-auto">
-                    <p class="text-sm text-slate-500 italic">Ainda não realizou nenhuma prova no simulador. Submeta a Prova #1 acima para registar a sua primeira nota.</p>
+                    <p class="text-xs sm:text-sm text-slate-500 italic">Ainda não realizou nenhuma prova no simulador. Submeta a Prova #1 acima para registar a sua primeira nota.</p>
                 </div>
             </div>
         </section>
@@ -815,29 +980,29 @@ fim_procedimento</pre>
     <!-- ===================================================================== -->
     <!-- SECÇÃO 4: DIAGNÓSTICO FINAL — ONDE ERROU & PLANO DE ESTUDOS           -->
     <!-- ===================================================================== -->
-    <main id="section-tab-diagnosis" class="tab-section hidden max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-8">
+    <main id="section-tab-diagnosis" class="tab-section hidden max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-8">
 
-        <div class="bg-academic-navy text-white rounded-2xl p-6 sm:p-8 border border-amber-500/40 shadow-md">
-            <span class="inline-block px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-400/30 font-mono text-xs uppercase tracking-wider mb-2">
+        <div class="bg-academic-navy text-white rounded-2xl p-5 sm:p-8 border border-amber-500/40 shadow-md">
+            <span class="inline-block px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-400/30 font-mono text-[11px] sm:text-xs uppercase tracking-wider mb-2">
                 Relatório Analítico do Conselho • Diagnóstico de Competências
             </span>
-            <h2 class="font-serif text-2xl sm:text-3xl font-bold text-white">
+            <h2 class="font-serif text-xl sm:text-3xl font-bold text-white">
                 Diagnóstico Final: Onde Errou &amp; Plano de Estudos Prioritário
             </h2>
-            <p class="text-sm sm:text-base text-slate-300 mt-2 max-w-3xl leading-relaxed">
+            <p class="text-xs sm:text-base text-slate-300 mt-2 max-w-3xl leading-relaxed">
                 Análise quantitativa e qualitativa das <strong>17 questões falhadas</strong> na avaliação diagnóstica (12 teóricas e 5 práticas), ordenada pelo impacto direto na sua nota final.
             </p>
         </div>
 
-        <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-xs space-y-5">
-            <h3 class="font-serif text-lg font-bold text-academic-navy border-b border-slate-200 pb-3">
+        <div class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-xs space-y-5">
+            <h3 class="font-serif text-base sm:text-lg font-bold text-academic-navy border-b border-slate-200 pb-3">
                 Mapa de Domínio por Área Temática (Clique para ir à revisão)
             </h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 text-sm">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 text-xs sm:text-sm">
                 <button type="button" onclick="switchMainTab('review'); searchAndFocus('ciclo');" class="text-left p-3 rounded-lg hover:bg-slate-50 transition-colors space-y-1.5 cursor-pointer">
-                    <div class="flex justify-between font-semibold">
+                    <div class="flex justify-between font-semibold gap-2">
                         <span class="text-academic-navy">1. Ciclos (For vs. While) &amp; Acumuladores</span>
-                        <span class="text-emerald-700 font-mono">71% (5/7 acertos)</span>
+                        <span class="text-emerald-700 font-mono shrink-0">71% (5/7 acertos)</span>
                     </div>
                     <div class="w-full bg-slate-200 rounded-full h-2.5">
                         <div class="bg-emerald-600 h-2.5 rounded-full" style="width: 71%"></div>
@@ -846,9 +1011,9 @@ fim_procedimento</pre>
                 </button>
 
                 <button type="button" onclick="switchMainTab('review'); searchAndFocus('if');" class="text-left p-3 rounded-lg hover:bg-slate-50 transition-colors space-y-1.5 cursor-pointer">
-                    <div class="flex justify-between font-semibold">
+                    <div class="flex justify-between font-semibold gap-2">
                         <span class="text-academic-navy">2. Estrutura Sequencial, Decisão (If) &amp; Validação</span>
-                        <span class="text-sky-700 font-mono">75% (3/4 acertos)</span>
+                        <span class="text-sky-700 font-mono shrink-0">75% (3/4 acertos)</span>
                     </div>
                     <div class="w-full bg-slate-200 rounded-full h-2.5">
                         <div class="bg-sky-600 h-2.5 rounded-full" style="width: 75%"></div>
@@ -857,9 +1022,9 @@ fim_procedimento</pre>
                 </button>
 
                 <button type="button" onclick="switchMainTab('review'); setFilter('practical');" class="text-left p-3 rounded-lg hover:bg-slate-50 transition-colors space-y-1.5 cursor-pointer">
-                    <div class="flex justify-between font-semibold">
+                    <div class="flex justify-between font-semibold gap-2">
                         <span class="text-academic-navy">3. Leitura de Fluxogramas &amp; Teste de Mesa</span>
-                        <span class="text-rose-700 font-mono">17% (1/6 acertos)</span>
+                        <span class="text-rose-700 font-mono shrink-0">17% (1/6 acertos)</span>
                     </div>
                     <div class="w-full bg-slate-200 rounded-full h-2.5">
                         <div class="bg-rose-600 h-2.5 rounded-full" style="width: 17%"></div>
@@ -868,9 +1033,9 @@ fim_procedimento</pre>
                 </button>
 
                 <button type="button" onclick="switchMainTab('review'); searchAndFocus('operador');" class="text-left p-3 rounded-lg hover:bg-slate-50 transition-colors space-y-1.5 cursor-pointer">
-                    <div class="flex justify-between font-semibold">
+                    <div class="flex justify-between font-semibold gap-2">
                         <span class="text-academic-navy">4. Operadores Lógicos, Arrays &amp; Funções</span>
-                        <span class="text-amber-700 font-mono">0% (0/7 acertos)</span>
+                        <span class="text-amber-700 font-mono shrink-0">0% (0/7 acertos)</span>
                     </div>
                     <div class="w-full bg-slate-200 rounded-full h-2.5">
                         <div class="bg-amber-500 h-2.5 rounded-full" style="width: 4%"></div>
@@ -881,17 +1046,17 @@ fim_procedimento</pre>
         </div>
 
         <div class="space-y-4">
-            <h3 class="font-serif text-xl font-bold text-academic-navy">
+            <h3 class="font-serif text-lg sm:text-xl font-bold text-academic-navy">
                 Roteiro Executivo: O Que Estudar por Ordem de Impacto na Nota
             </h3>
 
-            <div class="bg-white border-l-4 border-l-rose-600 border border-slate-200 rounded-xl p-5 sm:p-6 shadow-xs space-y-3">
+            <div class="bg-white border-l-4 border-l-rose-600 border border-slate-200 rounded-xl p-4 sm:p-6 shadow-xs space-y-3">
                 <div class="flex flex-wrap items-center justify-between gap-2">
-                    <span class="px-2.5 py-0.5 rounded bg-rose-100 text-rose-900 font-mono text-xs font-bold uppercase">Prioridade 1 • Impacto: 70 Pontos na Prática</span>
+                    <span class="px-2.5 py-0.5 rounded bg-rose-100 text-rose-900 font-mono text-[11px] sm:text-xs font-bold uppercase">Prioridade 1 • Impacto: 70 Pontos na Prática</span>
                     <button type="button" onclick="switchMainTab('lecture')" class="text-xs font-bold text-indigo-800 hover:underline cursor-pointer">Abrir Módulo VI na Aula &rarr;</button>
                 </div>
-                <h4 class="font-serif text-lg font-bold text-academic-navy">Dominar a Leitura de Fluxogramas (Flowgorithm) e o Teste de Mesa</h4>
-                <p class="text-sm text-slate-700 leading-relaxed">
+                <h4 class="font-serif text-base sm:text-lg font-bold text-academic-navy">Dominar a Leitura de Fluxogramas (Flowgorithm) e o Teste de Mesa</h4>
+                <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
                     <strong>Onde errou:</strong> Na Prática 1 respondeu <em>"Valor de Q inválido"</em> sem seguir o ramo verdadeiro (<code class="font-mono">Q=5</code> &rarr; <code class="font-mono">44,0</code>); na Prática 2 escreveu instruções em vez de contar as <strong>3 variáveis</strong>; na Prática 4 não identificou o tipo primitivo <strong>Real</strong>; na Prática 5 confundiu <code class="font-mono">if</code> com um ciclo; e na Prática 6 não executou o rastreio passo a passo (<code class="font-mono">A = 2 A = 3 A = 5</code>).
                 </p>
                 <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs text-slate-800 font-medium">
@@ -899,13 +1064,13 @@ fim_procedimento</pre>
                 </div>
             </div>
 
-            <div class="bg-white border-l-4 border-l-amber-500 border border-slate-200 rounded-xl p-5 sm:p-6 shadow-xs space-y-3">
+            <div class="bg-white border-l-4 border-l-amber-500 border border-slate-200 rounded-xl p-4 sm:p-6 shadow-xs space-y-3">
                 <div class="flex flex-wrap items-center justify-between gap-2">
-                    <span class="px-2.5 py-0.5 rounded bg-amber-100 text-amber-900 font-mono text-xs font-bold uppercase">Prioridade 2 • Impacto: 5 Pontos na Teórica</span>
+                    <span class="px-2.5 py-0.5 rounded bg-amber-100 text-amber-900 font-mono text-[11px] sm:text-xs font-bold uppercase">Prioridade 2 • Impacto: 5 Pontos na Teórica</span>
                     <button type="button" onclick="switchMainTab('lecture')" class="text-xs font-bold text-indigo-800 hover:underline cursor-pointer">Abrir Módulos IV e V na Aula &rarr;</button>
                 </div>
-                <h4 class="font-serif text-lg font-bold text-academic-navy">Operadores Lógicos/Relacionais e Subprogramas (Funções)</h4>
-                <p class="text-sm text-slate-700 leading-relaxed">
+                <h4 class="font-serif text-base sm:text-lg font-bold text-academic-navy">Operadores Lógicos/Relacionais e Subprogramas (Funções)</h4>
+                <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
                     <strong>Onde errou:</strong> Trocou <code class="font-mono">AND</code> por <code class="font-mono">OR</code> na Q07; confundiu <code class="font-mono">!=</code> (diferente de) com atribuição na Q09; avaliou <code class="font-mono">(7 &gt; 5) AND (7 &lt; 10)</code> como falso na Q20; confundiu <strong>Função</strong> com <em>Procedimento</em> na Q11; e assinalou <em>função</em> em vez de <code class="font-mono">retornar</code> na Q17.
                 </p>
                 <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs text-slate-800 font-medium">
@@ -913,13 +1078,13 @@ fim_procedimento</pre>
                 </div>
             </div>
 
-            <div class="bg-white border-l-4 border-l-sky-600 border border-slate-200 rounded-xl p-5 sm:p-6 shadow-xs space-y-3">
+            <div class="bg-white border-l-4 border-l-sky-600 border border-slate-200 rounded-xl p-4 sm:p-6 shadow-xs space-y-3">
                 <div class="flex flex-wrap items-center justify-between gap-2">
-                    <span class="px-2.5 py-0.5 rounded bg-sky-100 text-sky-900 font-mono text-xs font-bold uppercase">Prioridade 3 • Impacto: 6 Pontos na Teórica</span>
+                    <span class="px-2.5 py-0.5 rounded bg-sky-100 text-sky-900 font-mono text-[11px] sm:text-xs font-bold uppercase">Prioridade 3 • Impacto: 6 Pontos na Teórica</span>
                     <button type="button" onclick="switchMainTab('simulator')" class="text-xs font-bold text-indigo-800 hover:underline cursor-pointer">Praticar no Simulador &rarr;</button>
                 </div>
-                <h4 class="font-serif text-lg font-bold text-academic-navy">Arrays Associativos, Contadores Lineares e Definições de Ciclos</h4>
-                <p class="text-sm text-slate-700 leading-relaxed">
+                <h4 class="font-serif text-base sm:text-lg font-bold text-academic-navy">Arrays Associativos, Contadores Lineares e Definições de Ciclos</h4>
+                <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
                     <strong>Onde errou:</strong> Limitou arrays indexados a números (Q01); usou multiplicação num contador (Q02); assinalou condição de paragem como desnecessária no <code class="font-mono">for</code> (Q05); confundiu <code class="font-mono">while</code> com <code class="font-mono">for</code> na definição (Q06); escolheu array indexado em vez de associativo (Q10); e confundiu a finalidade da validação de input (Q18).
                 </p>
                 <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs text-slate-800 font-medium">
@@ -931,21 +1096,21 @@ fim_procedimento</pre>
 
     <!-- Rodapé Académico -->
     <footer class="bg-academic-obsidian text-slate-400 border-t border-amber-500/30 mt-12 py-6">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-center sm:text-left">
             <div class="flex items-center gap-2">
                 <svg class="w-4 h-4 text-amber-400 shrink-0" viewBox="0 0 64 64" fill="currentColor">
                     <path d="M32 3L25 17L12 13L19 26L5 29L18 36L10 48L24 44L22 58L32 47L42 58L40 44L54 48L46 36L59 29L45 26L52 13L39 17L32 3Z"/>
                 </svg>
                 <span>Arquivos Académicos de Algoritmia &amp; Programação • Conselho Jedi de Engenharia de Software</span>
             </div>
-            <button type="button" onclick="triggerForceBlessing()" class="font-mono text-amber-400/90 hover:text-amber-300 cursor-pointer">
-                "Que a Força esteja com você." — Arquivos de Coruscant
+            <button type="button" onclick="triggerLukeEasterEgg()" class="font-mono text-amber-400/90 hover:text-amber-300 cursor-pointer">
+                "Que a Força esteja com você." — Luke Skywalker &amp; Coruscant
             </button>
         </div>
     </footer>
 
     <!-- ===================================================================== -->
-    <!-- LÓGICA JAVASCRIPT: REVISÃO + SIMULADOR INFINITO SEM REPETIÇÃO + RANKS -->
+    <!-- LÓGICA JAVASCRIPT: REVISÃO + SIMULADOR INFINITO + EASTER EGGS SW     -->
     <!-- ===================================================================== -->
     <script>
         const theoryQuestions = [
@@ -1306,6 +1471,33 @@ fim_procedimento</pre>
             showToast("Que a Força esteja com você! — Conselho Jedi de Engenharia de Software");
         }
 
+        function triggerLightsaberEasterEgg() {
+            showToast("⚡ *Vrrrrrm-snap!* Sabre de luz verde de Luke Skywalker ativado: 'Faça ou não faça. Não existe tentar.' (Mestre Yoda)");
+        }
+
+        function triggerMandalorianEasterEgg() {
+            showToast("🛡️ Din Djarin & Grogu: 'Este é o Caminho.' (Lembrete: valida sempre o input do utilizador antes de entrar no ciclo!)");
+        }
+
+        function triggerLukeEasterEgg() {
+            showToast("☀️ Luke Skywalker em Tatooine: 'A Força é o que dá a um programador o seu algoritmo.' Que a Força esteja com você!");
+        }
+
+        // Easter egg secreto no teclado (Konami Code: ↑ ↑ ↓ ↓ ← → ← →)
+        const konamiSequence = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight"];
+        let konamiIndex = 0;
+        document.addEventListener("keydown", (e) => {
+            if (e.key === konamiSequence[konamiIndex]) {
+                konamiIndex++;
+                if (konamiIndex === konamiSequence.length) {
+                    konamiIndex = 0;
+                    showToast("🌌 CÓDIGO SECRETO DA ESTRELA DA MORTE DESBLOQUEADO: 'Nunca me diga as probabilidades!' — Han Solo");
+                }
+            } else {
+                konamiIndex = 0;
+            }
+        });
+
         let toastTimer = null;
         function showToast(msg) {
             const toast = document.getElementById("force-toast");
@@ -1313,7 +1505,7 @@ fim_procedimento</pre>
             toast.classList.remove("hidden");
             toast.classList.add("flex");
             clearTimeout(toastTimer);
-            toastTimer = setTimeout(hideToast, 4500);
+            toastTimer = setTimeout(hideToast, 5000);
         }
 
         function hideToast() {
@@ -1340,7 +1532,78 @@ fim_procedimento</pre>
         }
 
         // =====================================================================
-        // MOTOR DE PROVAS INFINITAS SEM REPETIÇÃO
+        // IA HOLOCRON — TUTOR INTERATIVO DE ALGORITMIA + EASTER EGGS STAR WARS
+        // =====================================================================
+        function toggleHolocronAI() {
+            const panel = document.getElementById("holocron-ai-panel");
+            panel.classList.toggle("hidden");
+            if (!panel.classList.contains("hidden")) {
+                document.getElementById("holocron-ai-input").focus();
+            }
+        }
+
+        function appendHolocronMessage(text, isUser) {
+            const container = document.getElementById("holocron-ai-messages");
+            const div = document.createElement("div");
+            div.className = isUser
+                ? "p-3 rounded-xl bg-academic-navy text-amber-200 ml-6 font-medium"
+                : "p-3 rounded-xl bg-slate-100 text-slate-800 border border-slate-200 mr-2";
+            div.innerHTML = text;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function generateHolocronReply(rawQuery) {
+            const q = rawQuery.toLowerCase().trim();
+
+            if (q.includes("mando") || q.includes("mandaloriano") || q.includes("grogu") || q.includes("luke") || q.includes("skywalker") || q.includes("jedi") || q.includes("yoda") || q.includes("easter")) {
+                return "<strong>Easter Egg da Galáxia:</strong> Din Djarin segue o Caminho com um ciclo <code>while (tem_beskar)</code>; Luke Skywalker treina com <code>if (concentracao == TRUE)</code>; e o Mestre Yoda lembra: <em>“Fazer ou não fazer. Não existe tentar.”</em> — tal como inicializar bem um acumulador antes do ciclo! Que a Força esteja com você.";
+            }
+            if (q.includes("q02") || q.includes("contador")) {
+                return "Na <strong>Q02</strong>, o contador correto é <code>contador ← contador + 1</code> (soma uma constante fixa a cada volta). Já <code>contador * 2</code> multiplica por 2 a cada passo, o que não é um contador linear.";
+            }
+            if (q.includes("array") || q.includes("q01") || q.includes("q10")) {
+                return "Um <strong>array indexado</strong> usa índices numéricos (ex.: <code>0, 1, 2</code>) e pode guardar <strong>dados de qualquer tipo</strong> (Q01). Um <strong>array associativo</strong> usa chaves textuais como <code>nomes[\"professora\"] ← \"Joana\"</code> (Q10).";
+            }
+            if (q.includes("acumulador") || q.includes("iterador")) {
+                return "O <strong>acumulador</strong> (ex.: <code>soma ← soma + valor</code>) soma valores variáveis ao longo do ciclo (Q15). O <strong>iterador</strong> controla o número de repetições do ciclo <code>for</code> (Q16).";
+            }
+            if (q.includes("while") || q.includes("for") || q.includes("ciclo")) {
+                return "Use <strong>for</strong> quando o número de repetições é conhecido e <strong>while</strong> quando depende de uma condição (Q03, Q04). O <code>for</code> não exige array (Q05) e para converter <code>for</code> em <code>while</code> basta separar inicialização, condição e incremento (Q12). Lembre-se: <code>if</code> é decisão, não ciclo (Prática 5).";
+            }
+            if (q.includes("and") || q.includes("or") || q.includes("operador") || q.includes("!=")) {
+                return "O operador <code>!=</code> verifica se dois valores são <strong>diferentes</strong> (Q09). <code>AND</code> exige ambas as condições verdadeiras — em <code>(7 &gt; 5) AND (7 &lt; 10)</code>, ambas são verdadeiras, logo dá <strong>TRUE</strong> (Q20). Já <code>OR</code> exige pelo menos uma verdadeira.";
+            }
+            if (q.includes("função") || q.includes("funcao") || q.includes("procedimento") || q.includes("retornar")) {
+                return "Uma <strong>função</strong> recebe parâmetros e <strong>devolve um valor</strong> usando a palavra-chave <code>retornar</code> (<code>Return</code>) (Q11, Q17). Um <strong>procedimento</strong> executa ações sem devolver valor.";
+            }
+            if (q.includes("fluxograma") || q.includes("prática") || q.includes("pratica") || q.includes("mesa") || q.includes("44,0") || q.includes("real")) {
+                return "Nos fluxogramas da prova: na <strong>Prática 1</strong>, com <code>Q = 5</code> e valores <code>42, 44, 50, 44, 40</code>, a soma é <code>220</code> e a média é <strong>44,0</strong>. Na <strong>Prática 2</strong> são <strong>3 variáveis</strong> (<code>Option</code>, <code>Valor</code>, <code>Resultado</code>). Na <strong>Prática 4</strong>, <code>Resultado</code> é do tipo <strong>Real</strong>. Na <strong>Prática 6</strong>, <code>A = 4</code> falha a condição interna e imprime <strong>A = 2 A = 3 A = 5</strong>.";
+            }
+            if (q.includes("resumo") || q.includes("algoritmia") || q.includes("tudo")) {
+                return "Um <strong>algoritmo</strong> é uma sequência lógica de passos (entrada, processamento e saída) usando variáveis com tipos primitivos (<code>Integer</code>, <code>Real</code>, <code>String</code>, <code>Boolean</code>), estruturas sequenciais, decisões (<code>if</code>), ciclos (<code>for</code>/<code>while</code>), arrays e subprogramas. Veja o <strong>Módulo VII — Resumo Completo de Algoritmia</strong> na aba <em>Aula Magistral, Resumo &amp; Apontamentos</em>.";
+            }
+
+            return "Em algoritmia, tudo parte de variáveis bem tipadas, estruturas de decisão (<code>if</code>) e repetição (<code>for</code>/<code>while</code>), operadores lógicos/relacionais e modularização com funções (<code>retornar</code>). Podes perguntar sobre qualquer questão (ex.: <em>Q02, Q10, Q20, Prática 1</em>), testar <em>Mando / Luke</em> ou abrir o <strong>Módulo VII</strong> na aba de estudos.";
+        }
+
+        function askHolocronPreset(text) {
+            appendHolocronMessage(text, true);
+            appendHolocronMessage(generateHolocronReply(text), false);
+        }
+
+        function handleHolocronSubmit(event) {
+            event.preventDefault();
+            const input = document.getElementById("holocron-ai-input");
+            const val = input.value.trim();
+            if (!val) return;
+            appendHolocronMessage(val, true);
+            appendHolocronMessage(generateHolocronReply(val), false);
+            input.value = "";
+        }
+
+        // =====================================================================
+        // MOTOR DE PROVAS INFINITAS SEM REPETIÇÃO (+ PERGUNTAS STAR WARS)
         // =====================================================================
         const STORAGE_SEEN_KEY = "jedi_algoritmia_seen_signatures_v1";
         const STORAGE_HISTORY_KEY = "jedi_algoritmia_exam_history_v1";
@@ -1379,7 +1642,15 @@ fim_procedimento</pre>
             { sig: "th_27", q: "Qual tipo de dados primitivo armazena apenas os valores Verdadeiro (True) ou Falso (False)?", opts: ["Boolean", "Integer", "Real", "String"], ans: 0, exp: "O tipo Boolean representa valores lógicos binários (True / False)." },
             { sig: "th_28", q: "O que acontece se a condição de um ciclo 'enquanto' (while) nunca se tornar falsa?", opts: ["Ocorre um ciclo infinito.", "O programa ignora o ciclo.", "O compilador transforma-o num 'if'.", "A variável passa a ser Real."], ans: 0, exp: "Sem atualização da variável de condição, o ciclo 'while' executa indefinidamente (ciclo infinito)." },
             { sig: "th_29", q: "Em pseudocódigo, qual símbolo representa a atribuição de um valor a uma variável?", opts: ["←", "==", "!=", "&&"], ans: 0, exp: "A seta para a esquerda '←' indica atribuição de valor (ex: x ← 5)." },
-            { sig: "th_30", q: "Qual a vantagem principal de dividir um algoritmo em funções e procedimentos?", opts: ["Reutilização de código, legibilidade e facilidade de manutenção.", "Aumentar o consumo de memória RAM.", "Evitar o uso de variáveis locais.", "Impedir a leitura de dados."], ans: 0, exp: "A modularização permite isolar tarefas, evitar repetição de código e facilitar testes." }
+            { sig: "th_30", q: "Qual a vantagem principal de dividir um algoritmo em funções e procedimentos?", opts: ["Reutilização de código, legibilidade e facilidade de manutenção.", "Aumentar o consumo de memória RAM.", "Evitar o uso de variáveis locais.", "Impedir a leitura de dados."], ans: 0, exp: "A modularização permite isolar tarefas, evitar repetição de código e facilitar testes." },
+
+            // Perguntas de Star Wars aplicadas à matéria de Algoritmia
+            { sig: "sw_mando_01", q: "[Star Wars • Mandaloriano] Din Djarin patrulha planetas enquanto a armadura beskar não estiver completa (enquanto beskar < 100). Qual estrutura de controlo representa melhor este comportamento?", opts: ["Ciclo enquanto (while beskar < 100)", "Estrutura sequencial sem condições", "Array associativo sem ciclo", "Procedimento sem parâmetros"], ans: 0, exp: "Como a patrulha repete enquanto uma condição lógica (beskar < 100) for verdadeira, o ciclo 'enquanto' (while) é o mais adequado." },
+            { sig: "sw_luke_02", q: "[Star Wars • Luke Skywalker] Luke escreve uma função 'CalcularSabre(Real Potencia): Real' que calcula a energia e devolve o valor final. Que instrução devolve esse resultado em pseudocódigo?", opts: ["retornar", "procedimento", "enquanto", "losango"], ans: 0, exp: "A palavra-chave 'retornar' (return) devolve o valor calculado por uma função ao chamador." },
+            { sig: "sw_grogu_03", q: "[Star Wars • Grogu] Grogu come biscoitos a cada ronda do treino e queremos somar o total de biscoitos acumulados ao longo de N rondas. Que variável usamos?", opts: ["Um acumulador (total ← total + biscoitos)", "Um contador com multiplicação por 2", "Um operador relacional !=", "Um losango de decisão"], ans: 0, exp: "Somar valores variáveis ao longo das repetições define um acumulador." },
+            { sig: "sw_jedi_04", q: "[Star Wars • Ordem Jedi] Um Padawan só entra no Templo se (tem_sabre == TRUE) AND (passou_teste == TRUE). Se tem_sabre é TRUE e passou_teste é FALSE, o que devolve a expressão?", opts: ["FALSE", "TRUE", "100", "Retornar"], ans: 0, exp: "Com o operador lógico AND, ambas as condições têm de ser verdadeiras; TRUE AND FALSE devolve FALSE." },
+            { sig: "sw_droid_05", q: "[Star Wars • R2-D2 & C-3PO] Para guardar coordenadas de setores por nome do planeta, como R2D2[\"Tatooine\"] ← \"Setor Arla\", que estrutura está a ser usada?", opts: ["Array associativo (chave textual)", "Ciclo para (for) com passo 2", "Operador de desigualdade !=", "Variável booleana simples"], ans: 0, exp: "Indexar valores através de chaves de texto (como \"Tatooine\") caracteriza um array associativo." },
+            { sig: "sw_yoda_06", q: "[Star Wars • Mestre Yoda] Antes de lançar a X-Wing no pântano, verifica-se se o nível de energia (energia > 0) é válido para evitar falha na descolagem. Qual é a finalidade deste passo?", opts: ["Validar o input / condição para evitar erros durante a execução", "Aumentar o tamanho do array indexado", "Substituir o ciclo while por um losango", "Converter Real em String"], ans: 0, exp: "Validar dados/condições antes do processamento evita erros em tempo de execução." }
         ];
 
         function generateUniqueParametricQuestion(category, attemptGuard = 0) {
@@ -1516,7 +1787,7 @@ fim_procedimento</pre>
             const chosenTheory = shuffleArray(unseenTheory).slice(0, 6).map(item => ({
                 sig: item.sig,
                 isPractical: false,
-                badge: "Fundamentos Teóricos",
+                badge: item.q.startsWith("[Star Wars") ? "Star Wars • Algoritmia" : "Fundamentos Teóricos",
                 q: item.q,
                 opts: item.opts,
                 ans: item.ans,
@@ -1565,27 +1836,27 @@ fim_procedimento</pre>
 
                 const optionsHtml = item.opts.map((optText, oIdx) => `
                     <label id="sim_lbl_${item.index}_${oIdx}" class="flex items-start gap-3 p-3.5 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition-all">
-                        <input type="radio" name="sim_q_${item.index}" value="${oIdx}" required onchange="updateSimProgress()" class="mt-0.5 w-4 h-4 text-indigo-800 border-slate-300 focus:ring-indigo-700">
-                        <span class="text-sm text-slate-800 font-medium">${optText}</span>
+                        <input type="radio" name="sim_q_${item.index}" value="${oIdx}" required onchange="updateSimProgress()" class="mt-0.5 w-4 h-4 text-indigo-800 border-slate-300 focus:ring-indigo-700 shrink-0">
+                        <span class="text-xs sm:text-sm text-slate-800 font-medium">${optText}</span>
                     </label>
                 `).join("");
 
                 return `
-                    <div class="bg-white border border-slate-200 rounded-xl p-5 sm:p-6 shadow-xs space-y-3">
+                    <div class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-xs space-y-3">
                         <div class="flex flex-wrap items-center justify-between gap-2">
-                            <span class="px-2.5 py-1 rounded-md font-mono text-xs font-bold ${badgeStyle}">
+                            <span class="px-2.5 py-1 rounded-md font-mono text-[11px] sm:text-xs font-bold ${badgeStyle}">
                                 QUESTÃO ${String(item.index + 1).padStart(2, '0')} • ${item.badge}
                             </span>
                             <span class="text-xs font-mono text-slate-400">10% da Nota</span>
                         </div>
-                        <h3 class="text-base sm:text-lg font-bold text-academic-navy leading-snug">
+                        <h3 class="text-sm sm:text-lg font-bold text-academic-navy leading-snug">
                             ${item.q}
                         </h3>
                         ${codeHtml}
                         <div class="space-y-2 pt-1">
                             ${optionsHtml}
                         </div>
-                        <div id="sim_exp_${item.index}" class="hidden mt-3 pt-3 border-t border-slate-100 text-sm"></div>
+                        <div id="sim_exp_${item.index}" class="hidden mt-3 pt-3 border-t border-slate-100 text-xs sm:text-sm"></div>
                     </div>
                 `;
             }).join("");
@@ -1675,7 +1946,7 @@ fim_procedimento</pre>
             resultPanel.classList.remove("hidden");
 
             if (isMax) {
-                resultPanel.className = "rounded-2xl border-2 border-amber-500 bg-gradient-to-br from-emerald-50 via-white to-amber-50 p-6 sm:p-8 shadow-xl space-y-5";
+                resultPanel.className = "rounded-2xl border-2 border-amber-500 bg-gradient-to-br from-emerald-50 via-white to-amber-50 p-5 sm:p-8 shadow-xl space-y-5";
                 resultPanel.innerHTML = `
                     <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
                         <div class="shrink-0">${rankInfo.svg}</div>
@@ -1683,10 +1954,10 @@ fim_procedimento</pre>
                             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500 text-slate-950 text-xs font-black uppercase tracking-wider">
                                 Nota Máxima Atingida • 100% (20,0 Valores)
                             </div>
-                            <h3 class="font-serif text-2xl sm:text-3xl font-black text-academic-navy">
+                            <h3 class="font-serif text-xl sm:text-3xl font-black text-academic-navy">
                                 ${rankInfo.rankTitle}
                             </h3>
-                            <p class="text-sm sm:text-base text-slate-700 italic font-medium">
+                            <p class="text-xs sm:text-base text-slate-700 italic font-medium">
                                 ${rankInfo.quote}
                             </p>
                         </div>
@@ -1706,7 +1977,7 @@ fim_procedimento</pre>
                     </div>
                 `;
             } else if (passed) {
-                resultPanel.className = "rounded-2xl border-2 border-emerald-500 bg-emerald-50/90 p-6 sm:p-8 shadow-lg space-y-5";
+                resultPanel.className = "rounded-2xl border-2 border-emerald-500 bg-emerald-50/90 p-5 sm:p-8 shadow-lg space-y-5";
                 resultPanel.innerHTML = `
                     <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
                         <div class="shrink-0">${rankInfo.svg}</div>
@@ -1714,10 +1985,10 @@ fim_procedimento</pre>
                             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-700 text-white text-xs font-bold uppercase tracking-wider">
                                 Aprovado • Acima da Média (${scorePct}% / ${grade20} val.)
                             </div>
-                            <h3 class="font-serif text-2xl font-black text-emerald-950">
+                            <h3 class="font-serif text-xl sm:text-2xl font-black text-emerald-950">
                                 Nova Patente: ${rankInfo.rankTitle}
                             </h3>
-                            <p class="text-sm text-emerald-900 italic">
+                            <p class="text-xs sm:text-sm text-emerald-900 italic">
                                 ${rankInfo.quote}
                             </p>
                         </div>
@@ -1737,7 +2008,7 @@ fim_procedimento</pre>
                     </div>
                 `;
             } else {
-                resultPanel.className = "rounded-2xl border-2 border-rose-500 bg-rose-50/95 p-6 sm:p-8 shadow-lg space-y-5";
+                resultPanel.className = "rounded-2xl border-2 border-rose-500 bg-rose-50/95 p-5 sm:p-8 shadow-lg space-y-5";
                 resultPanel.innerHTML = `
                     <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
                         <div class="shrink-0">${rankInfo.svg}</div>
@@ -1745,10 +2016,10 @@ fim_procedimento</pre>
                             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-700 text-white text-xs font-bold uppercase tracking-wider">
                                 Abaixo da Média (${scorePct}% / ${grade20} val.) • Recuperação Ativa
                             </div>
-                            <h3 class="font-serif text-2xl font-black text-rose-950">
+                            <h3 class="font-serif text-xl sm:text-2xl font-black text-rose-950">
                                 Estatuto Atual: ${rankInfo.rankTitle}
                             </h3>
-                            <p class="text-sm text-rose-900 italic">
+                            <p class="text-xs sm:text-sm text-rose-900 italic">
                                 ${rankInfo.quote}
                             </p>
                         </div>
@@ -1804,7 +2075,7 @@ fim_procedimento</pre>
 
             const histContainer = document.getElementById("sim-history-container");
             if (examHistory.length === 0) {
-                histContainer.innerHTML = `<p class="text-sm text-slate-500 italic">Ainda não realizou nenhuma prova no simulador. Submeta a Prova #1 acima para registar a sua primeira nota.</p>`;
+                histContainer.innerHTML = `<p class="text-xs sm:text-sm text-slate-500 italic">Ainda não realizou nenhuma prova no simulador. Submeta a Prova #1 acima para registar a sua primeira nota.</p>`;
                 return;
             }
 
@@ -1812,23 +2083,23 @@ fim_procedimento</pre>
                 <table class="min-w-full text-xs sm:text-sm border border-slate-200 rounded-lg overflow-hidden">
                     <thead class="bg-slate-100 text-slate-700 font-bold uppercase text-xs">
                         <tr>
-                            <th class="px-4 py-2.5 text-left">Tentativa</th>
-                            <th class="px-4 py-2.5 text-left">Data / Hora</th>
-                            <th class="px-4 py-2.5 text-left">Nota (%)</th>
-                            <th class="px-4 py-2.5 text-left">Escala /20</th>
-                            <th class="px-4 py-2.5 text-left">Personagem / Patente Jedi</th>
-                            <th class="px-4 py-2.5 text-left">Estado</th>
+                            <th class="px-3 sm:px-4 py-2.5 text-left">Tentativa</th>
+                            <th class="px-3 sm:px-4 py-2.5 text-left">Data / Hora</th>
+                            <th class="px-3 sm:px-4 py-2.5 text-left">Nota (%)</th>
+                            <th class="px-3 sm:px-4 py-2.5 text-left">Escala /20</th>
+                            <th class="px-3 sm:px-4 py-2.5 text-left">Personagem / Patente Jedi</th>
+                            <th class="px-3 sm:px-4 py-2.5 text-left">Estado</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-200 bg-white">
                         ${examHistory.map(row => `
                             <tr>
-                                <td class="px-4 py-2.5 font-mono font-bold text-academic-navy">#${row.attempt}</td>
-                                <td class="px-4 py-2.5 text-slate-500 font-mono text-xs">${row.date}</td>
-                                <td class="px-4 py-2.5 font-mono font-bold ${row.passed ? 'text-emerald-700' : 'text-rose-700'}">${row.scorePct}%</td>
-                                <td class="px-4 py-2.5 font-mono">${row.grade20} val.</td>
-                                <td class="px-4 py-2.5 font-semibold text-academic-navy">${row.rankTitle}</td>
-                                <td class="px-4 py-2.5">
+                                <td class="px-3 sm:px-4 py-2.5 font-mono font-bold text-academic-navy">#${row.attempt}</td>
+                                <td class="px-3 sm:px-4 py-2.5 text-slate-500 font-mono text-xs">${row.date}</td>
+                                <td class="px-3 sm:px-4 py-2.5 font-mono font-bold ${row.passed ? 'text-emerald-700' : 'text-rose-700'}">${row.scorePct}%</td>
+                                <td class="px-3 sm:px-4 py-2.5 font-mono">${row.grade20} val.</td>
+                                <td class="px-3 sm:px-4 py-2.5 font-semibold text-academic-navy">${row.rankTitle}</td>
+                                <td class="px-3 sm:px-4 py-2.5">
                                     ${row.passed
                                         ? '<span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">Aprovado</span>'
                                         : '<span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-rose-100 text-rose-800">Em Recuperação</span>'}
@@ -1841,117 +2112,125 @@ fim_procedimento</pre>
         }
 
         // =====================================================================
-        // RENDERIZAÇÃO DA SECÇÃO 1 (REVISÃO) & NAVEGAÇÃO ENTRE ABAS
+        // RENDERIZAÇÃO DA SECÇÃO 1 (REVISÃO SEPARADA) & NAVEGAÇÃO ENTRE ABAS
         // =====================================================================
         let currentFilter = 'all';
 
+        function buildTheoryCardHtml(q) {
+            const statusBadge = q.isCorrect
+                ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+                     <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                     Correta (1/1)
+                   </span>`
+                : `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-900 border border-amber-300">
+                     <svg class="w-3.5 h-3.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                     Incorreta — Revisar (0/1)
+                   </span>`;
+
+            const answerComparison = q.isCorrect
+                ? `<div class="p-3.5 rounded-lg bg-emerald-50/70 border border-emerald-200 text-xs sm:text-sm">
+                     <span class="block text-xs font-bold uppercase tracking-wider text-emerald-800 mb-1">Sua Resposta (Correta)</span>
+                     <span class="font-medium text-emerald-950">${q.correctAnswer}</span>
+                   </div>`
+                : `<div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs sm:text-sm">
+                     <div class="p-3.5 rounded-lg bg-rose-50/70 border border-rose-200">
+                         <span class="block text-xs font-bold uppercase tracking-wider text-rose-800 mb-1">Sua Resposta Assinalada</span>
+                         <span class="font-medium text-rose-950">${q.userAnswer}</span>
+                     </div>
+                     <div class="p-3.5 rounded-lg bg-emerald-50/80 border border-emerald-300">
+                         <span class="block text-xs font-bold uppercase tracking-wider text-emerald-800 mb-1">Gabarito / Resposta Correta</span>
+                         <span class="font-semibold text-emerald-950">${q.correctAnswer}</span>
+                     </div>
+                   </div>`;
+
+            return `
+                <article class="question-card bg-white border ${q.isCorrect ? 'border-slate-200' : 'border-l-4 border-l-amber-500 border-slate-200'} rounded-xl p-4 sm:p-6 shadow-xs transition-all"
+                         data-type="theory"
+                         data-correct="${q.isCorrect}"
+                         data-search="${(q.question + ' ' + q.correctAnswer + ' ' + q.explanation).toLowerCase()}">
+                    <div class="flex flex-wrap items-start justify-between gap-2 sm:gap-3 mb-3">
+                        <div class="flex items-center gap-2.5">
+                            <span class="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-academic-navy text-amber-300 font-mono text-xs font-bold">Q${String(q.num).padStart(2, '0')}</span>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Questão Teórica</span>
+                        </div>
+                        ${statusBadge}
+                    </div>
+                    <h3 class="text-sm sm:text-lg font-bold text-academic-navy leading-snug mb-4">${q.question}</h3>
+                    ${answerComparison}
+                    <div id="exp_th_${q.num}" class="mt-4 pt-3.5 border-t border-slate-100">
+                        <div class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            <button type="button" onclick="toggleExpBox('exp_body_th_${q.num}')" class="shrink-0 mt-0.5 px-2 py-0.5 rounded bg-indigo-50 hover:bg-indigo-100 text-indigo-900 font-semibold text-xs border border-indigo-200 cursor-pointer">Fundamentação</button>
+                            <p id="exp_body_th_${q.num}">${q.explanation}</p>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }
+
         function renderTheory() {
-            const container = document.getElementById('theory-container');
-            container.innerHTML = theoryQuestions.map(q => {
-                const statusBadge = q.isCorrect
-                    ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
-                         <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-                         Correta (1/1)
-                       </span>`
-                    : `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-900 border border-amber-300">
-                         <svg class="w-3.5 h-3.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                         Incorreta — Revisar (0/1)
-                       </span>`;
+            const correctContainer = document.getElementById('theory-correct-container');
+            const errorsContainer = document.getElementById('theory-errors-container');
+            correctContainer.innerHTML = theoryQuestions.filter(q => q.isCorrect).map(buildTheoryCardHtml).join('');
+            errorsContainer.innerHTML = theoryQuestions.filter(q => !q.isCorrect).map(buildTheoryCardHtml).join('');
+        }
 
-                const answerComparison = q.isCorrect
-                    ? `<div class="p-3.5 rounded-lg bg-emerald-50/70 border border-emerald-200 text-sm">
-                         <span class="block text-xs font-bold uppercase tracking-wider text-emerald-800 mb-1">Sua Resposta (Correta)</span>
-                         <span class="font-medium text-emerald-950">${q.correctAnswer}</span>
-                       </div>`
-                    : `<div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-                         <div class="p-3.5 rounded-lg bg-rose-50/70 border border-rose-200">
-                             <span class="block text-xs font-bold uppercase tracking-wider text-rose-800 mb-1">Sua Resposta Assinalada</span>
-                             <span class="font-medium text-rose-950">${q.userAnswer}</span>
-                         </div>
-                         <div class="p-3.5 rounded-lg bg-emerald-50/80 border border-emerald-300">
-                             <span class="block text-xs font-bold uppercase tracking-wider text-emerald-800 mb-1">Gabarito / Resposta Correta</span>
-                             <span class="font-semibold text-emerald-950">${q.correctAnswer}</span>
-                         </div>
-                       </div>`;
+        function buildPracticalCardHtml(q) {
+            const statusBadge = q.isCorrect
+                ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+                     <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                     Correta (10/10)
+                   </span>`
+                : `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-900 border border-amber-300">
+                     <svg class="w-3.5 h-3.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                     Incorreta — Revisar (0/${q.points.split(' ')[0]})
+                   </span>`;
 
-                return `
-                    <article class="question-card bg-white border ${q.isCorrect ? 'border-slate-200' : 'border-l-4 border-l-amber-500 border-slate-200'} rounded-xl p-5 sm:p-6 shadow-xs transition-all"
-                             data-type="theory"
-                             data-correct="${q.isCorrect}"
-                             data-search="${(q.question + ' ' + q.correctAnswer + ' ' + q.explanation).toLowerCase()}">
-                        <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
-                            <div class="flex items-center gap-2.5">
-                                <span class="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-academic-navy text-amber-300 font-mono text-xs font-bold">Q${String(q.num).padStart(2, '0')}</span>
-                                <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Questão Teórica</span>
-                            </div>
-                            ${statusBadge}
+            const answerComparison = q.isCorrect
+                ? `<div class="p-3.5 rounded-lg bg-emerald-50/70 border border-emerald-200 text-xs sm:text-sm">
+                     <span class="block text-xs font-bold uppercase tracking-wider text-emerald-800 mb-1">Sua Resposta (Correta)</span>
+                     <span class="font-mono font-semibold text-emerald-950">${q.correctAnswer}</span>
+                   </div>`
+                : `<div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs sm:text-sm">
+                     <div class="p-3.5 rounded-lg bg-rose-50/70 border border-rose-200">
+                         <span class="block text-xs font-bold uppercase tracking-wider text-rose-800 mb-1">Sua Resposta Submetida</span>
+                         <span class="font-mono text-xs sm:text-sm text-rose-950 break-words">${q.userAnswer}</span>
+                     </div>
+                     <div class="p-3.5 rounded-lg bg-emerald-50/80 border border-emerald-300">
+                         <span class="block text-xs font-bold uppercase tracking-wider text-emerald-800 mb-1">Solução Esperada</span>
+                         <span class="font-mono font-bold text-emerald-950">${q.correctAnswer}</span>
+                     </div>
+                   </div>`;
+
+            return `
+                <article class="question-card bg-white border ${q.isCorrect ? 'border-slate-200' : 'border-l-4 border-l-indigo-800 border-slate-200'} rounded-xl p-4 sm:p-6 shadow-xs transition-all"
+                         data-type="practical"
+                         data-correct="${q.isCorrect}"
+                         data-search="${(q.title + ' ' + q.question + ' ' + q.correctAnswer).toLowerCase()}">
+                    <div class="flex flex-wrap items-start justify-between gap-2 sm:gap-3 mb-3">
+                        <div class="flex items-center gap-2.5 flex-wrap">
+                            <span class="inline-flex items-center justify-center px-2.5 h-7 rounded-lg bg-indigo-900 text-amber-300 font-mono text-xs font-bold">PRÁTICA ${q.num}</span>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">${q.points} • ${q.title}</span>
                         </div>
-                        <h3 class="text-base sm:text-lg font-bold text-academic-navy leading-snug mb-4">${q.question}</h3>
-                        ${answerComparison}
-                        <div id="exp_th_${q.num}" class="mt-4 pt-3.5 border-t border-slate-100">
-                            <div class="flex items-start gap-2.5 text-sm text-slate-700 leading-relaxed">
-                                <button type="button" onclick="toggleExpBox('exp_body_th_${q.num}')" class="shrink-0 mt-0.5 px-2 py-0.5 rounded bg-indigo-50 hover:bg-indigo-100 text-indigo-900 font-semibold text-xs border border-indigo-200 cursor-pointer">Fundamentação</button>
-                                <p id="exp_body_th_${q.num}">${q.explanation}</p>
-                            </div>
-                        </div>
-                    </article>
-                `;
-            }).join('');
+                        ${statusBadge}
+                    </div>
+                    <h3 class="text-sm sm:text-lg font-bold text-academic-navy leading-snug mb-4">${q.question}</h3>
+                    ${answerComparison}
+                    <div class="mt-4 pt-4 border-t border-slate-100">
+                        <button type="button" onclick="toggleExpBox('exp_body_pr_${q.num}')" class="text-xs font-bold uppercase tracking-wider text-indigo-900 hover:text-indigo-700 mb-2 flex items-center gap-1.5 cursor-pointer">
+                            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span>Resolução Passo a Passo (Clique para recolher/expandir)</span>
+                        </button>
+                        <div id="exp_body_pr_${q.num}" class="text-xs sm:text-sm text-slate-700 leading-relaxed">${q.explanation}</div>
+                    </div>
+                </article>
+            `;
         }
 
         function renderPractical() {
-            const container = document.getElementById('practical-container');
-            container.innerHTML = practicalQuestions.map(q => {
-                const statusBadge = q.isCorrect
-                    ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
-                         <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-                         Correta (10/10)
-                       </span>`
-                    : `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-900 border border-amber-300">
-                         <svg class="w-3.5 h-3.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                         Incorreta — Revisar (0/${q.points.split(' ')[0]})
-                       </span>`;
-
-                const answerComparison = q.isCorrect
-                    ? `<div class="p-3.5 rounded-lg bg-emerald-50/70 border border-emerald-200 text-sm">
-                         <span class="block text-xs font-bold uppercase tracking-wider text-emerald-800 mb-1">Sua Resposta (Correta)</span>
-                         <span class="font-mono font-semibold text-emerald-950">${q.correctAnswer}</span>
-                       </div>`
-                    : `<div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-                         <div class="p-3.5 rounded-lg bg-rose-50/70 border border-rose-200">
-                             <span class="block text-xs font-bold uppercase tracking-wider text-rose-800 mb-1">Sua Resposta Submetida</span>
-                             <span class="font-mono text-xs sm:text-sm text-rose-950 break-words">${q.userAnswer}</span>
-                         </div>
-                         <div class="p-3.5 rounded-lg bg-emerald-50/80 border border-emerald-300">
-                             <span class="block text-xs font-bold uppercase tracking-wider text-emerald-800 mb-1">Solução Esperada</span>
-                             <span class="font-mono font-bold text-emerald-950">${q.correctAnswer}</span>
-                         </div>
-                       </div>`;
-
-                return `
-                    <article class="question-card bg-white border ${q.isCorrect ? 'border-slate-200' : 'border-l-4 border-l-indigo-800 border-slate-200'} rounded-xl p-5 sm:p-6 shadow-xs transition-all"
-                             data-type="practical"
-                             data-correct="${q.isCorrect}"
-                             data-search="${(q.title + ' ' + q.question + ' ' + q.correctAnswer).toLowerCase()}">
-                        <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
-                            <div class="flex items-center gap-2.5">
-                                <span class="inline-flex items-center justify-center px-2.5 h-7 rounded-lg bg-indigo-900 text-amber-300 font-mono text-xs font-bold">PRÁTICA ${q.num}</span>
-                                <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">${q.points} • ${q.title}</span>
-                            </div>
-                            ${statusBadge}
-                        </div>
-                        <h3 class="text-base sm:text-lg font-bold text-academic-navy leading-snug mb-4">${q.question}</h3>
-                        ${answerComparison}
-                        <div class="mt-4 pt-4 border-t border-slate-100">
-                            <button type="button" onclick="toggleExpBox('exp_body_pr_${q.num}')" class="text-xs font-bold uppercase tracking-wider text-indigo-900 hover:text-indigo-700 mb-2 flex items-center gap-1.5 cursor-pointer">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                <span>Resolução Passo a Passo (Clique para recolher/expandir)</span>
-                            </button>
-                            <div id="exp_body_pr_${q.num}" class="text-sm text-slate-700 leading-relaxed">${q.explanation}</div>
-                        </div>
-                    </article>
-                `;
-            }).join('');
+            const correctContainer = document.getElementById('practical-correct-container');
+            const errorsContainer = document.getElementById('practical-errors-container');
+            correctContainer.innerHTML = practicalQuestions.filter(q => q.isCorrect).map(buildPracticalCardHtml).join('');
+            errorsContainer.innerHTML = practicalQuestions.filter(q => !q.isCorrect).map(buildPracticalCardHtml).join('');
         }
 
         function toggleExpBox(id) {
@@ -1977,8 +2256,10 @@ fim_procedimento</pre>
         function filterContent() {
             const query = document.getElementById('searchInput').value.toLowerCase().trim();
             const cards = document.querySelectorAll('.question-card');
-            let visibleTheory = 0;
-            let visiblePractical = 0;
+            let visibleTheoryCorrect = 0;
+            let visibleTheoryErrors = 0;
+            let visiblePracticalCorrect = 0;
+            let visiblePracticalErrors = 0;
 
             cards.forEach(card => {
                 const type = card.getAttribute('data-type');
@@ -1986,6 +2267,7 @@ fim_procedimento</pre>
                 const searchableText = card.getAttribute('data-search');
 
                 let matchesTab = true;
+                if (currentFilter === 'correct' && !isCorrect) matchesTab = false;
                 if (currentFilter === 'errors' && isCorrect) matchesTab = false;
                 if (currentFilter === 'theory' && type !== 'theory') matchesTab = false;
                 if (currentFilter === 'practical' && type !== 'practical') matchesTab = false;
@@ -1994,15 +2276,22 @@ fim_procedimento</pre>
 
                 if (matchesTab && matchesSearch) {
                     card.style.display = 'block';
-                    if (type === 'theory') visibleTheory++;
-                    if (type === 'practical') visiblePractical++;
+                    if (type === 'theory' && isCorrect) visibleTheoryCorrect++;
+                    if (type === 'theory' && !isCorrect) visibleTheoryErrors++;
+                    if (type === 'practical' && isCorrect) visiblePracticalCorrect++;
+                    if (type === 'practical' && !isCorrect) visiblePracticalErrors++;
                 } else {
                     card.style.display = 'none';
                 }
             });
 
-            document.getElementById('section-theory').style.display = visibleTheory > 0 ? 'block' : 'none';
-            document.getElementById('section-practical').style.display = visiblePractical > 0 ? 'block' : 'none';
+            document.getElementById('theory-correct-group').style.display = visibleTheoryCorrect > 0 ? 'block' : 'none';
+            document.getElementById('theory-errors-group').style.display = visibleTheoryErrors > 0 ? 'block' : 'none';
+            document.getElementById('section-theory').style.display = (visibleTheoryCorrect + visibleTheoryErrors) > 0 ? 'block' : 'none';
+
+            document.getElementById('practical-correct-group').style.display = visiblePracticalCorrect > 0 ? 'block' : 'none';
+            document.getElementById('practical-errors-group').style.display = visiblePracticalErrors > 0 ? 'block' : 'none';
+            document.getElementById('section-practical').style.display = (visiblePracticalCorrect + visiblePracticalErrors) > 0 ? 'block' : 'none';
         }
 
         function switchMainTab(tabName) {
@@ -2011,12 +2300,12 @@ fim_procedimento</pre>
             if (targetSec) targetSec.classList.remove('hidden');
 
             document.querySelectorAll('.main-tab-btn').forEach(btn => {
-                btn.className = "main-tab-btn shrink-0 px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 border border-transparent cursor-pointer flex items-center gap-2";
+                btn.className = "main-tab-btn shrink-0 px-3.5 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 border border-transparent cursor-pointer flex items-center gap-2";
             });
 
             const activeBtn = document.getElementById(`main-tab-${tabName}`);
             if (activeBtn) {
-                activeBtn.className = "main-tab-btn shrink-0 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all bg-academic-navy text-amber-300 border border-amber-500/40 shadow-xs cursor-pointer flex items-center gap-2";
+                activeBtn.className = "main-tab-btn shrink-0 px-3.5 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all bg-academic-navy text-amber-300 border border-amber-500/40 shadow-xs cursor-pointer flex items-center gap-2";
             }
 
             if (tabName === 'simulator' && activeExamQuestions.length === 0) {
