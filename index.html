@@ -147,13 +147,16 @@
 
     <!-- Assistente IA Holocron — Posição Dedicada Mobile / Android & Responsiva -->
     <div class="holocron-dock fixed z-40 no-print flex flex-col items-end">
-        <div id="holocron-ai-panel" class="hidden mb-2 w-[calc(100vw-1.75rem)] sm:w-[26rem] max-w-md bg-white border-2 border-slate-900 rounded-3xl shadow-2xl overflow-hidden text-slate-800">
+        <div id="holocron-ai-panel" class="hidden mb-2 w-[calc(100vw-1.75rem)] sm:w-[27rem] max-w-md bg-white border-2 border-slate-900 rounded-3xl shadow-2xl overflow-hidden text-slate-800">
             <div class="bg-slate-950 text-white px-3.5 sm:px-4 py-3 flex items-center justify-between gap-2 border-b border-amber-500/40">
                 <div class="flex items-center gap-2 min-w-0">
                     <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shrink-0"></span>
-                    <span class="font-serif text-xs sm:text-sm font-bold text-amber-300 truncate">IA Holocron • Tutor Mobile</span>
+                    <span class="font-serif text-xs sm:text-sm font-bold text-amber-300 truncate">IA Holocron • Tutor de Algoritmia</span>
                 </div>
-                <button type="button" onclick="toggleHolocronAI()" class="text-slate-300 hover:text-white font-mono text-xs cursor-pointer px-2 py-1 rounded-lg shrink-0" title="Fechar IA">✕</button>
+                <div class="flex items-center gap-1 shrink-0">
+                    <button type="button" onclick="clearHolocronChat()" class="text-slate-400 hover:text-amber-300 font-mono text-[11px] cursor-pointer px-2 py-1 rounded-lg" title="Limpar conversa">Limpar</button>
+                    <button type="button" onclick="toggleHolocronAI()" class="text-slate-300 hover:text-white font-mono text-xs cursor-pointer px-2 py-1 rounded-lg" title="Fechar IA">✕</button>
+                </div>
             </div>
 
             <div class="p-2.5 bg-slate-50 border-b border-slate-200 flex items-center gap-1.5 overflow-x-auto sm:flex-wrap text-[11px]">
@@ -161,17 +164,18 @@
                 <button type="button" onclick="askHolocronPreset('Qual a diferença entre contador, acumulador e iterador?')" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-white hover:bg-indigo-50 border border-slate-300 text-slate-700 font-medium cursor-pointer">Contador vs Acumulador</button>
                 <button type="button" onclick="askHolocronPreset('Como funciona o ciclo while vs for e o teste de mesa?')" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-white hover:bg-indigo-50 border border-slate-300 text-slate-700 font-medium cursor-pointer">Ciclos &amp; Teste de Mesa</button>
                 <button type="button" onclick="askHolocronPreset('Como funcionam operadores AND, OR, != e funções com retornar?')" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-white hover:bg-indigo-50 border border-slate-300 text-slate-700 font-medium cursor-pointer">Operadores &amp; Funções</button>
+                <button type="button" onclick="askHolocronPreset('Explica os fluxogramas Prática 1 a 6')" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-950 font-semibold cursor-pointer">Práticas 1-6</button>
                 <button type="button" onclick="askHolocronPreset('Easter egg Mandaloriano e Luke Skywalker')" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-950 font-semibold cursor-pointer">Easter Eggs SW</button>
             </div>
 
-            <div id="holocron-ai-messages" class="p-3.5 max-h-[42dvh] sm:max-h-72 overflow-y-auto space-y-2.5 text-xs sm:text-sm leading-relaxed bg-white">
+            <div id="holocron-ai-messages" class="p-3.5 max-h-[44dvh] sm:max-h-80 overflow-y-auto space-y-2.5 text-xs sm:text-sm leading-relaxed bg-white">
                 <div class="p-3 rounded-2xl bg-slate-100 text-slate-800 border border-slate-200">
-                    Olá! Sou a <strong>IA Holocron</strong>. Pergunta-me qualquer coisa sobre algoritmia, fluxogramas Flowgorithm, variáveis, ciclos, arrays, operadores ou sobre as questões desta prova.
+                    Olá! Sou a <strong>IA Holocron</strong>. Pergunta-me sobre qualquer questão (ex.: <code class="font-mono text-indigo-800">Q01</code> a <code class="font-mono text-indigo-800">Q20</code> ou <code class="font-mono text-indigo-800">Prática 1</code> a <code class="font-mono text-indigo-800">6</code>), conceitos de algoritmia, Flowgorithm ou <em>Star Wars</em>.
                 </div>
             </div>
 
             <form onsubmit="handleHolocronSubmit(event)" class="p-2.5 bg-slate-50 border-t border-slate-200 flex items-center gap-2">
-                <input type="text" id="holocron-ai-input" placeholder="Ex: por que errei a Q02 ou Luke / Mando..." class="flex-1 min-w-0 px-3 py-2.5 bg-white border border-slate-300 rounded-2xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600">
+                <input type="text" id="holocron-ai-input" placeholder="Ex: Q09, prática 4, AND vs OR, Luke..." class="flex-1 min-w-0 px-3 py-2.5 bg-white border border-slate-300 rounded-2xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600">
                 <button type="submit" class="px-3.5 py-2.5 bg-slate-950 hover:bg-slate-800 text-amber-300 font-bold text-xs sm:text-sm rounded-2xl cursor-pointer shrink-0">
                     Enviar
                 </button>
@@ -638,7 +642,7 @@
                         <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
                             <h4 class="font-bold text-slate-950 flex items-center gap-2">
                                 <span class="w-2 h-2 rounded-full bg-sky-600"></span>
-                                1. Array Indexado (Posicional)
+1. Array Indexado (Posicional)
                             </h4>
                             <p class="text-xs sm:text-sm">
                                 Cada elemento é acedido através de um <strong>índice numérico inteiro</strong> (habitualmente começando em <code class="font-mono text-indigo-800">0</code>). O conteúdo armazenado pode ser de <strong>qualquer tipo de dados</strong> (inteiros, reais, strings ou booleanos).
@@ -651,7 +655,7 @@ nomes ← ["Joana", "Carlos", "Ana"]
                         <div class="p-4 rounded-xl bg-amber-50/50 border border-amber-200 space-y-2">
                             <h4 class="font-bold text-slate-950 flex items-center gap-2">
                                 <span class="w-2 h-2 rounded-full bg-amber-600"></span>
-                                2. Array Associativo (Chave-Valor / Mapa)
+2. Array Associativo (Chave-Valor / Mapa)
                             </h4>
                             <p class="text-xs sm:text-sm">
                                 Em vez de posições numéricas (<code class="font-mono">0, 1, 2</code>), utiliza <strong>chaves textuais (Strings)</strong> descritivas para indexar cada valor guardado na memória.
@@ -1614,6 +1618,15 @@ fim_procedimento</pre>
             }
         }
 
+        function clearHolocronChat() {
+            const container = document.getElementById("holocron-ai-messages");
+            container.innerHTML = `
+                <div class="p-3 rounded-2xl bg-slate-100 text-slate-800 border border-slate-200">
+                    Conversa limpa! Pergunta-me sobre qualquer questão (ex.: <code class="font-mono text-indigo-800">Q01</code> a <code class="font-mono text-indigo-800">Q20</code> ou <code class="font-mono text-indigo-800">Prática 1</code> a <code class="font-mono text-indigo-800">6</code>), conceitos de algoritmia ou <em>Star Wars</em>.
+                </div>
+            `;
+        }
+
         function appendHolocronMessage(text, isUser) {
             const container = document.getElementById("holocron-ai-messages");
             const div = document.createElement("div");
@@ -1628,13 +1641,35 @@ fim_procedimento</pre>
         function generateHolocronReply(rawQuery) {
             const q = rawQuery.toLowerCase().trim();
 
+            const qMatch = q.match(/\bq0*([1-9]|1[0-9]|20)\b/);
+            if (qMatch) {
+                const num = parseInt(qMatch[1], 10);
+                const item = theoryQuestions.find(t => t.num === num);
+                if (item) {
+                    const statusTxt = item.isCorrect
+                        ? `<span class="text-emerald-700 font-bold">Acertaste (${item.correctAnswer})</span>`
+                        : `<span class="text-rose-700 font-bold">Erraste</span> (marcaste <em>"${item.userAnswer}"</em>; correta: <strong>${item.correctAnswer}</strong>)`;
+                    return `<strong>Teórica Q${String(item.num).padStart(2, '0')}:</strong> ${item.question}<br><br>${statusTxt}.<br>${item.explanation}`;
+                }
+            }
+
+            const prMatch = q.match(/\bpr[áa]tica\s*0*([1-6])\b/);
+            if (prMatch) {
+                const num = parseInt(prMatch[1], 10);
+                const item = practicalQuestions.find(p => p.num === num);
+                if (item) {
+                    const cleanExp = item.explanation.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+                    return `<strong>Prática ${item.num} (${item.points}):</strong> ${item.title}<br><strong>Resposta esperada:</strong> <code>${item.correctAnswer}</code><br><br>${cleanExp}`;
+                }
+            }
+
             if (q.includes("mando") || q.includes("mandaloriano") || q.includes("grogu") || q.includes("luke") || q.includes("skywalker") || q.includes("jedi") || q.includes("yoda") || q.includes("easter")) {
                 return "<strong>Easter Egg da Galáxia:</strong> Din Djarin segue o Caminho com um ciclo <code>while (tem_beskar)</code>; Luke Skywalker treina com <code>if (concentracao == TRUE)</code>; e o Mestre Yoda lembra: <em>“Fazer ou não fazer. Não existe tentar.”</em> — tal como inicializar bem um acumulador antes do ciclo! Que a Força esteja com você.";
             }
-            if (q.includes("q02") || q.includes("contador")) {
+            if (q.includes("contador")) {
                 return "Na <strong>Q02</strong>, o contador correto é <code>contador ← contador + 1</code> (soma uma constante fixa a cada volta). Já <code>contador * 2</code> multiplica por 2 a cada passo, o que não é um contador linear.";
             }
-            if (q.includes("array") || q.includes("q01") || q.includes("q10")) {
+            if (q.includes("array")) {
                 return "Um <strong>array indexado</strong> usa índices numéricos (ex.: <code>0, 1, 2</code>) e pode guardar <strong>dados de qualquer tipo</strong> (Q01). Um <strong>array associativo</strong> usa chaves textuais como <code>nomes[\"professora\"] ← \"Joana\"</code> (Q10).";
             }
             if (q.includes("acumulador") || q.includes("iterador")) {
@@ -1656,7 +1691,7 @@ fim_procedimento</pre>
                 return "Um <strong>algoritmo</strong> é uma sequência lógica de passos (entrada, processamento e saída) usando variáveis com tipos primitivos (<code>Integer</code>, <code>Real</code>, <code>String</code>, <code>Boolean</code>), estruturas sequenciais, decisões (<code>if</code>), ciclos (<code>for</code>/<code>while</code>), arrays e subprogramas. Veja o <strong>Módulo VII — Resumo Completo de Algoritmia</strong> na aba <em>Aula Magistral, Resumo &amp; Apontamentos</em>.";
             }
 
-            return "Em algoritmia, tudo parte de variáveis bem tipadas, estruturas de decisão (<code>if</code>) e repetição (<code>for</code>/<code>while</code>), operadores lógicos/relacionais e modularização com funções (<code>retornar</code>). Podes perguntar sobre qualquer questão (ex.: <em>Q02, Q10, Q20, Prática 1</em>), testar <em>Mando / Luke</em> ou abrir o <strong>Módulo VII</strong> na aba de estudos.";
+            return "Em algoritmia, tudo parte de variáveis bem tipadas, estruturas de decisão (<code>if</code>) e repetição (<code>for</code>/<code>while</code>), operadores lógicos/relacionais e modularização com funções (<code>retornar</code>). Podes perguntar sobre qualquer questão (ex.: <em>Q01..Q20, Prática 1..6</em>), testar <em>Mando / Luke</em> ou abrir o <strong>Módulo VII</strong> na aba de estudos.";
         }
 
         function askHolocronPreset(text) {
