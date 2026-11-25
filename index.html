@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#070B14">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <title>Arquivos Académicos de Algoritmia &amp; Programação — Conselho Jedi de Engenharia de Software</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -99,13 +101,13 @@
 
         .sw-easter-spot:hover,
         .sw-easter-spot:active {
-            transform: scale(1.1);
+            transform: scale(1.08);
             box-shadow: 0 0 12px rgba(251, 191, 36, 0.6);
         }
 
         .holocron-dock {
-            bottom: calc(0.875rem + env(safe-area-inset-bottom, 0px));
-            right: calc(0.875rem + env(safe-area-inset-right, 0px));
+            bottom: calc(0.85rem + env(safe-area-inset-bottom, 0px));
+            right: calc(0.85rem + env(safe-area-inset-right, 0px));
         }
 
         @media (min-width: 640px) {
@@ -119,10 +121,17 @@
             pre {
                 font-size: 11px !important;
                 padding: 0.75rem !important;
-                border-radius: 0.65rem !important;
+                border-radius: 0.75rem !important;
             }
             .question-card, .module-card {
-                border-radius: 1rem !important;
+                border-radius: 1.15rem !important;
+            }
+            table th, table td {
+                padding-left: 0.5rem !important;
+                padding-right: 0.5rem !important;
+                padding-top: 0.45rem !important;
+                padding-bottom: 0.45rem !important;
+                font-size: 11px !important;
             }
         }
     </style>
@@ -130,7 +139,7 @@
 <body class="bg-academic-paper text-slate-800 antialiased selection:bg-amber-200 selection:text-slate-950 pb-24 sm:pb-12">
 
     <!-- Notificação / Toast Interativo -->
-    <div id="force-toast" class="fixed top-16 sm:bottom-6 sm:top-auto right-3 left-3 sm:left-auto z-50 hidden max-w-md bg-slate-950/95 text-white border border-amber-400/70 rounded-2xl px-4 py-3 shadow-2xl text-xs sm:text-sm items-center gap-3 backdrop-blur-md">
+    <div id="force-toast" class="fixed top-14 sm:bottom-6 sm:top-auto right-3 left-3 sm:left-auto z-50 hidden max-w-md bg-slate-950/95 text-white border border-amber-400/70 rounded-2xl px-4 py-3 shadow-2xl text-xs sm:text-sm items-center gap-3 backdrop-blur-md">
         <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 shrink-0 animate-ping"></span>
         <span id="force-toast-text" class="flex-1 text-slate-100 leading-snug font-medium">Que a Força esteja com você!</span>
         <button type="button" onclick="hideToast()" class="text-slate-400 hover:text-amber-300 font-mono cursor-pointer px-2 py-1 rounded-lg shrink-0" title="Fechar aviso">✕</button>
@@ -138,7 +147,7 @@
 
     <!-- Assistente IA Holocron — Posição Dedicada Mobile / Android & Responsiva -->
     <div class="holocron-dock fixed z-40 no-print flex flex-col items-end">
-        <div id="holocron-ai-panel" class="hidden mb-2.5 w-[calc(100vw-1.75rem)] sm:w-[26rem] max-w-md bg-white border-2 border-slate-900 rounded-2xl shadow-2xl overflow-hidden text-slate-800">
+        <div id="holocron-ai-panel" class="hidden mb-2 w-[calc(100vw-1.75rem)] sm:w-[26rem] max-w-md bg-white border-2 border-slate-900 rounded-3xl shadow-2xl overflow-hidden text-slate-800">
             <div class="bg-slate-950 text-white px-3.5 sm:px-4 py-3 flex items-center justify-between gap-2 border-b border-amber-500/40">
                 <div class="flex items-center gap-2 min-w-0">
                     <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shrink-0"></span>
@@ -148,83 +157,84 @@
             </div>
 
             <div class="p-2.5 bg-slate-50 border-b border-slate-200 flex items-center gap-1.5 overflow-x-auto sm:flex-wrap text-[11px]">
-                <button type="button" onclick="askHolocronPreset('Qual a diferença entre array indexado e associativo?')" class="shrink-0 px-2.5 py-1.5 rounded-lg bg-white hover:bg-indigo-50 border border-slate-300 text-slate-700 font-medium cursor-pointer">Arrays</button>
-                <button type="button" onclick="askHolocronPreset('Qual a diferença entre contador, acumulador e iterador?')" class="shrink-0 px-2.5 py-1.5 rounded-lg bg-white hover:bg-indigo-50 border border-slate-300 text-slate-700 font-medium cursor-pointer">Contador vs Acumulador</button>
-                <button type="button" onclick="askHolocronPreset('Como funciona o ciclo while vs for e o teste de mesa?')" class="shrink-0 px-2.5 py-1.5 rounded-lg bg-white hover:bg-indigo-50 border border-slate-300 text-slate-700 font-medium cursor-pointer">Ciclos &amp; Teste de Mesa</button>
-                <button type="button" onclick="askHolocronPreset('Como funcionam operadores AND, OR, != e funções com retornar?')" class="shrink-0 px-2.5 py-1.5 rounded-lg bg-white hover:bg-indigo-50 border border-slate-300 text-slate-700 font-medium cursor-pointer">Operadores &amp; Funções</button>
-                <button type="button" onclick="askHolocronPreset('Easter egg Mandaloriano e Luke Skywalker')" class="shrink-0 px-2.5 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-950 font-semibold cursor-pointer">Easter Eggs SW</button>
+                <button type="button" onclick="askHolocronPreset('Qual a diferença entre array indexado e associativo?')" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-white hover:bg-indigo-50 border border-slate-300 text-slate-700 font-medium cursor-pointer">Arrays</button>
+                <button type="button" onclick="askHolocronPreset('Qual a diferença entre contador, acumulador e iterador?')" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-white hover:bg-indigo-50 border border-slate-300 text-slate-700 font-medium cursor-pointer">Contador vs Acumulador</button>
+                <button type="button" onclick="askHolocronPreset('Como funciona o ciclo while vs for e o teste de mesa?')" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-white hover:bg-indigo-50 border border-slate-300 text-slate-700 font-medium cursor-pointer">Ciclos &amp; Teste de Mesa</button>
+                <button type="button" onclick="askHolocronPreset('Como funcionam operadores AND, OR, != e funções com retornar?')" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-white hover:bg-indigo-50 border border-slate-300 text-slate-700 font-medium cursor-pointer">Operadores &amp; Funções</button>
+                <button type="button" onclick="askHolocronPreset('Easter egg Mandaloriano e Luke Skywalker')" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-950 font-semibold cursor-pointer">Easter Eggs SW</button>
             </div>
 
             <div id="holocron-ai-messages" class="p-3.5 max-h-[42dvh] sm:max-h-72 overflow-y-auto space-y-2.5 text-xs sm:text-sm leading-relaxed bg-white">
-                <div class="p-3 rounded-xl bg-slate-100 text-slate-800 border border-slate-200">
+                <div class="p-3 rounded-2xl bg-slate-100 text-slate-800 border border-slate-200">
                     Olá! Sou a <strong>IA Holocron</strong>. Pergunta-me qualquer coisa sobre algoritmia, fluxogramas Flowgorithm, variáveis, ciclos, arrays, operadores ou sobre as questões desta prova.
                 </div>
             </div>
 
             <form onsubmit="handleHolocronSubmit(event)" class="p-2.5 bg-slate-50 border-t border-slate-200 flex items-center gap-2">
-                <input type="text" id="holocron-ai-input" placeholder="Ex: por que errei a Q02 ou Luke / Mando..." class="flex-1 min-w-0 px-3 py-2.5 bg-white border border-slate-300 rounded-xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600">
-                <button type="submit" class="px-3.5 py-2.5 bg-slate-950 hover:bg-slate-800 text-amber-300 font-bold text-xs sm:text-sm rounded-xl cursor-pointer shrink-0">
+                <input type="text" id="holocron-ai-input" placeholder="Ex: por que errei a Q02 ou Luke / Mando..." class="flex-1 min-w-0 px-3 py-2.5 bg-white border border-slate-300 rounded-2xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600">
+                <button type="submit" class="px-3.5 py-2.5 bg-slate-950 hover:bg-slate-800 text-amber-300 font-bold text-xs sm:text-sm rounded-2xl cursor-pointer shrink-0">
                     Enviar
                 </button>
             </form>
         </div>
 
-        <div class="inline-flex items-center gap-1.5 p-1.5 rounded-2xl bg-slate-950/95 border border-amber-400/50 shadow-2xl backdrop-blur-md">
-            <button type="button" onclick="triggerRandomStarWarsEgg('holocron_orb')" class="sw-easter-spot w-9 h-9 rounded-xl bg-indigo-950 hover:bg-indigo-900 text-cyan-300 border border-cyan-400/40 text-sm" title="Ponto Aleatório da Galáxia">
+        <div class="inline-flex items-center gap-1 p-1 sm:p-1.5 rounded-2xl bg-slate-950/95 border border-amber-400/50 shadow-2xl backdrop-blur-md">
+            <button type="button" onclick="triggerRandomStarWarsEgg('holocron_orb')" class="sw-easter-spot w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-indigo-950 hover:bg-indigo-900 text-cyan-300 border border-cyan-400/40 text-xs sm:text-sm" title="Ponto Aleatório da Galáxia">
                 ✦
             </button>
-            <button type="button" onclick="toggleHolocronAI()" id="holocron-ai-toggle" class="inline-flex items-center gap-2 px-3.5 h-9 rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 text-xs sm:text-sm font-extrabold transition-all cursor-pointer">
+            <button type="button" onclick="toggleHolocronAI()" id="holocron-ai-toggle" class="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 h-8 sm:h-9 rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 text-[11px] sm:text-sm font-extrabold transition-all cursor-pointer">
                 <span class="w-2 h-2 rounded-full bg-slate-950 animate-pulse shrink-0"></span>
                 <span>IA Holocron</span>
             </button>
         </div>
     </div>
 
-    <!-- Barra Superior Institucional (Patente Visível em Mobile e Desktop) -->
+    <!-- Barra Superior Estilo App (Patente Sempre Completa e Sem Corte) -->
     <div class="bg-slate-950 text-white border-b border-amber-500/35">
-        <div class="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between gap-2 text-[10px] sm:text-xs font-medium tracking-wide uppercase text-slate-300">
-            <div class="flex items-center gap-1.5 sm:gap-2 min-w-0 shrink">
-                <button type="button" onclick="triggerForceBlessing()" class="flex items-center gap-1.5 hover:text-amber-300 transition-colors cursor-pointer text-left min-w-0" title="Clique para invocar a Força">
-                    <svg class="w-4 h-4 text-amber-400 shrink-0" viewBox="0 0 64 64" fill="currentColor" aria-hidden="true">
+        <div class="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-2 flex flex-col xs:flex-row sm:flex-row items-stretch sm:items-center justify-between gap-1.5 sm:gap-3 text-[10px] sm:text-xs font-medium tracking-wide uppercase text-slate-300">
+            <div class="flex items-center justify-between sm:justify-start gap-2">
+                <button type="button" onclick="triggerForceBlessing()" class="flex items-center gap-1.5 hover:text-amber-300 transition-colors cursor-pointer text-left" title="Clique para invocar a Força">
+                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400 shrink-0" viewBox="0 0 64 64" fill="currentColor" aria-hidden="true">
                         <path d="M32 3L25 17L12 13L19 26L5 29L18 36L10 48L24 44L22 58L32 47L42 58L40 44L54 48L46 36L59 29L45 26L52 13L39 17L32 3ZM32 15L36 24L45 22L39 29L46 34L37 35L39 44L32 38L25 44L27 35L18 34L25 29L19 22L28 24L32 15Z"/>
                     </svg>
-                    <span class="truncate max-w-[92px] sm:max-w-none">Coruscant</span>
+                    <span>Coruscant</span>
                 </button>
-                <button type="button" onclick="triggerRandomStarWarsEgg('topbar_beacon')" class="sw-easter-spot w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-amber-500/15 text-amber-300 border border-amber-400/40 text-xs" title="Sinal Aleatório de Tatooine / Mandalore">
+                <button type="button" onclick="triggerRandomStarWarsEgg('topbar_beacon')" class="sw-easter-spot w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-amber-500/15 text-amber-300 border border-amber-400/40 text-[10px] sm:text-xs" title="Sinal Aleatório de Tatooine / Mandalore">
                     ❖
                 </button>
             </div>
-            <div class="font-mono text-amber-300/95 flex items-center gap-1.5 sm:gap-2 min-w-0">
+
+            <div class="font-mono text-amber-300/95 flex items-center justify-between sm:justify-end gap-2 border-t border-slate-800/80 pt-1.5 sm:border-t-0 sm:pt-0">
                 <button type="button" onclick="switchMainTab('simulator')" class="hidden md:inline hover:underline cursor-pointer shrink-0">ALG-PROG-2026</button>
                 <span class="hidden md:inline text-slate-600">|</span>
-                <button type="button" onclick="cycleRankPreview()" id="header-current-rank" class="inline text-cyan-300 hover:text-amber-300 transition-colors cursor-pointer truncate max-w-[190px] sm:max-w-none font-semibold" title="Clique para inspecionar as patentes Jedi">PATENTE ATUAL: PADAWAN INICIANTE</button>
+                <button type="button" onclick="cycleRankPreview()" id="header-current-rank" class="w-full sm:w-auto text-left sm:text-right text-cyan-300 hover:text-amber-300 transition-colors cursor-pointer leading-snug font-semibold whitespace-normal break-words" title="Clique para inspecionar as patentes Jedi">PATENTE ATUAL: PADAWAN INICIANTE</button>
             </div>
         </div>
     </div>
 
-    <!-- Cabeçalho Académico Executivo -->
-    <header class="jedi-archive-bg text-white border-b-2 border-amber-500/45 shadow-xl">
-        <div class="max-w-6xl mx-auto px-3.5 sm:px-6 lg:px-8 py-6 sm:py-10">
+    <!-- Cabeçalho Académico Executivo (App Mobile & Desktop) -->
+    <header class="jedi-archive-bg text-white border-b-2 border-amber-500/45 shadow-xl sm:rounded-b-3xl">
+        <div class="max-w-6xl mx-auto px-3.5 sm:px-6 lg:px-8 py-5 sm:py-10">
             <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5 sm:gap-6">
-                <div class="space-y-3 max-w-3xl min-w-0">
+                <div class="space-y-2.5 sm:space-y-3 max-w-3xl min-w-0">
                     <div class="flex items-center gap-2 flex-wrap">
-                        <button type="button" onclick="triggerLightsaberEasterEgg()" class="sw-easter-spot w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-br from-amber-500/25 to-cyan-500/15 border border-amber-400/60 text-amber-400 hover:bg-amber-500/30 shadow-md" title="Ativar Sabre de Luz de Luke Skywalker">
+                        <button type="button" onclick="triggerLightsaberEasterEgg()" class="sw-easter-spot w-9 h-9 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-br from-amber-500/25 to-cyan-500/15 border border-amber-400/60 text-amber-400 hover:bg-amber-500/30 shadow-md" title="Ativar Sabre de Luz de Luke Skywalker">
                             <svg class="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 64 64" fill="currentColor">
                                 <path d="M32 3L25 17L12 13L19 26L5 29L18 36L10 48L24 44L22 58L32 47L42 58L40 44L54 48L46 36L59 29L45 26L52 13L39 17L32 3ZM32 16L35.5 24L44 22.5L38.5 29L45 34L36.5 35L38 43L32 37.5L26 43L27.5 35L19 34L25.5 29L20 22.5L28.5 24L32 16Z"/>
                             </svg>
                         </button>
 
-                        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/15 border border-amber-400/40 text-amber-300 text-[10px] sm:text-xs font-semibold tracking-wider uppercase">
+                        <div class="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-full bg-amber-500/15 border border-amber-400/40 text-amber-300 text-[9.5px] sm:text-xs font-semibold tracking-wider uppercase">
                             <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shrink-0"></span>
                             <span>Conselho Jedi • Que a Força esteja com você</span>
                         </div>
 
-                        <button type="button" onclick="triggerRandomStarWarsEgg('badge_vader')" class="sw-easter-spot w-8 h-8 rounded-full bg-rose-500/20 text-rose-300 border border-rose-400/40 text-xs" title="Transmissão Aleatória da Galáxia">
+                        <button type="button" onclick="triggerRandomStarWarsEgg('badge_vader')" class="sw-easter-spot w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-rose-500/20 text-rose-300 border border-rose-400/40 text-xs" title="Transmissão Aleatória da Galáxia">
                             ⚔
                         </button>
                     </div>
 
-                    <h1 class="font-serif text-2xl sm:text-3xl lg:text-4xl font-black text-white leading-tight tracking-tight">
+                    <h1 class="font-serif text-xl sm:text-3xl lg:text-4xl font-black text-white leading-tight tracking-tight">
                         Arquivos Académicos de Algoritmia &amp; Programação
                     </h1>
                     <p class="text-slate-300 text-xs sm:text-base lg:text-lg leading-relaxed">
@@ -232,21 +242,21 @@
                     </p>
                 </div>
 
-                <!-- Grade de Botões Responsiva -->
+                <!-- Grade de Botões Estilo App -->
                 <div class="no-print shrink-0 grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
-                    <button type="button" onclick="switchMainTab('simulator')" class="col-span-2 sm:col-auto inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 text-xs sm:text-sm font-extrabold shadow-lg transition-all cursor-pointer">
+                    <button type="button" onclick="switchMainTab('simulator')" class="col-span-2 sm:col-auto inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 text-xs sm:text-sm font-extrabold shadow-lg transition-all cursor-pointer">
                         <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                         <span>Iniciar Prova Infinita</span>
                     </button>
-                    <button type="button" onclick="triggerMandalorianEasterEgg()" class="inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-indigo-950/90 hover:bg-indigo-900 text-cyan-300 border border-cyan-400/40 text-xs sm:text-sm font-semibold transition-colors cursor-pointer" title="Easter Egg do Mandaloriano & Grogu">
+                    <button type="button" onclick="triggerMandalorianEasterEgg()" class="inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-2xl bg-indigo-950/90 hover:bg-indigo-900 text-cyan-300 border border-cyan-400/40 text-xs sm:text-sm font-semibold transition-colors cursor-pointer" title="Easter Egg do Mandaloriano & Grogu">
                         <span>✦</span>
                         <span>Mando / Grogu</span>
                     </button>
                     <div class="flex items-center gap-2">
-                        <button type="button" onclick="triggerRandomStarWarsEgg('header_droid')" class="sw-easter-spot px-3 py-2.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-amber-300 border border-amber-500/30 text-xs font-mono font-bold shrink-0" title="Ponto Aleatório R2-D2 / Obi-Wan">
+                        <button type="button" onclick="triggerRandomStarWarsEgg('header_droid')" class="sw-easter-spot px-2.5 sm:px-3 py-2.5 rounded-2xl bg-slate-900/90 hover:bg-slate-800 text-amber-300 border border-amber-500/30 text-xs font-mono font-bold shrink-0" title="Ponto Aleatório R2-D2 / Obi-Wan">
                             🎲 SW
                         </button>
-                        <button type="button" onclick="window.print()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-slate-100 border border-slate-600 text-xs sm:text-sm font-medium transition-colors cursor-pointer">
+                        <button type="button" onclick="window.print()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-2xl bg-slate-800/90 hover:bg-slate-700 text-slate-100 border border-slate-600 text-xs sm:text-sm font-medium transition-colors cursor-pointer">
                             <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
                             <span>PDF</span>
                         </button>
@@ -255,17 +265,17 @@
             </div>
 
             <!-- Painel de Resumo de Desempenho -->
-            <div class="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
+            <div class="mt-5 sm:mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                 <button type="button" onclick="switchMainTab('review'); setFilter('errors');" class="text-left holo-card-glass hover:border-amber-400/60 border border-slate-700/80 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition-all cursor-pointer">
                     <div class="flex items-center justify-between w-full gap-2">
-                        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Avaliação Diagnóstica</span>
+                        <span class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-400">Avaliação Diagnóstica</span>
                         <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30 shrink-0">26,25%</span>
                     </div>
-                    <div class="mt-3 flex items-baseline gap-2">
+                    <div class="mt-2.5 sm:mt-3 flex items-baseline gap-2">
                         <span class="font-serif text-2xl sm:text-3xl font-bold text-white">5,25</span>
                         <span class="text-xs font-medium text-slate-400">/ 20 valores</span>
                     </div>
-                    <div class="mt-3 w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                    <div class="mt-2.5 sm:mt-3 w-full bg-slate-800 rounded-full h-2 overflow-hidden">
                         <div class="bg-amber-500 h-2 rounded-full" style="width: 26.25%"></div>
                     </div>
                     <p class="mt-2 text-xs text-slate-400">Clique para ver os <strong class="text-amber-300">17 erros</strong> &rarr;</p>
@@ -273,14 +283,14 @@
 
                 <button type="button" onclick="switchMainTab('review'); setFilter('theory');" class="text-left holo-card-glass hover:border-cyan-400/60 border border-slate-700/80 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition-all cursor-pointer">
                     <div class="flex items-center justify-between w-full gap-2">
-                        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Componente Teórica</span>
+                        <span class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-400">Componente Teórica</span>
                         <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-sky-500/20 text-sky-300 border border-sky-500/30 shrink-0">Peso: 50%</span>
                     </div>
-                    <div class="mt-3 flex items-baseline gap-2">
+                    <div class="mt-2.5 sm:mt-3 flex items-baseline gap-2">
                         <span class="font-serif text-2xl sm:text-3xl font-bold text-white">8</span>
                         <span class="text-xs font-medium text-slate-400">/ 20 pts (40%)</span>
                     </div>
-                    <div class="mt-3 w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                    <div class="mt-2.5 sm:mt-3 w-full bg-slate-800 rounded-full h-2 overflow-hidden">
                         <div class="bg-cyan-400 h-2 rounded-full" style="width: 40%"></div>
                     </div>
                     <p class="mt-2 text-xs text-slate-400">8 corretas • 12 para revisão &rarr;</p>
@@ -288,14 +298,14 @@
 
                 <button type="button" onclick="switchMainTab('review'); setFilter('practical');" class="text-left holo-card-glass hover:border-amber-400/60 border border-slate-700/80 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition-all cursor-pointer">
                     <div class="flex items-center justify-between w-full gap-2">
-                        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Componente Prática</span>
+                        <span class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-400">Componente Prática</span>
                         <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-sky-500/20 text-sky-300 border border-sky-500/30 shrink-0">Peso: 50%</span>
                     </div>
-                    <div class="mt-3 flex items-baseline gap-2">
+                    <div class="mt-2.5 sm:mt-3 flex items-baseline gap-2">
                         <span class="font-serif text-2xl sm:text-3xl font-bold text-white">10</span>
                         <span class="text-xs font-medium text-slate-400">/ 80 pts (12,5%)</span>
                     </div>
-                    <div class="mt-3 w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                    <div class="mt-2.5 sm:mt-3 w-full bg-slate-800 rounded-full h-2 overflow-hidden">
                         <div class="bg-amber-500 h-2 rounded-full" style="width: 12.5%"></div>
                     </div>
                     <p class="mt-2 text-xs text-slate-400">1 correta • 5 de fluxograma &rarr;</p>
@@ -303,7 +313,7 @@
 
                 <div class="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-950 border border-amber-500/45 rounded-2xl p-4 sm:p-5 flex flex-col justify-between">
                     <div class="flex items-center justify-between gap-2">
-                        <span class="text-xs font-bold uppercase tracking-wider text-amber-300">Estatuto na Ordem</span>
+                        <span class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-amber-300">Estatuto na Ordem</span>
                         <div class="flex items-center gap-1.5 shrink-0">
                             <button type="button" onclick="triggerRandomStarWarsEgg('order_card')" class="sw-easter-spot w-6 h-6 rounded-full bg-amber-400/15 text-amber-300 border border-amber-400/40 text-xs" title="Segredo do Conselho Jedi">★</button>
                             <span id="dash-sim-count" class="font-mono text-xs text-cyan-300">0 Provas</span>
@@ -324,28 +334,28 @@
         </div>
     </header>
 
-    <!-- Navegação Principal das 4 Secções -->
+    <!-- Navegação Principal Estilo App (4 Secções) -->
     <nav class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm no-print" aria-label="Navegação Principal dos Arquivos">
         <div class="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8">
-            <div class="flex overflow-x-auto py-2.5 gap-2 items-center">
-                <button type="button" onclick="switchMainTab('review')" id="main-tab-review" class="main-tab-btn shrink-0 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all bg-slate-950 text-amber-300 border border-amber-500/40 shadow-xs cursor-pointer flex items-center gap-2">
+            <div class="flex overflow-x-auto py-2 gap-1.5 sm:gap-2 items-center">
+                <button type="button" onclick="switchMainTab('review')" id="main-tab-review" class="main-tab-btn shrink-0 px-3 sm:px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold transition-all bg-slate-950 text-amber-300 border border-amber-500/40 shadow-xs cursor-pointer flex items-center gap-1.5 sm:gap-2">
                     <span class="font-mono text-xs opacity-80">I.</span>
                     <span>Revisão &amp; Correção (26)</span>
                 </button>
-                <button type="button" onclick="switchMainTab('lecture')" id="main-tab-lecture" class="main-tab-btn shrink-0 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 border border-transparent cursor-pointer flex items-center gap-2">
+                <button type="button" onclick="switchMainTab('lecture')" id="main-tab-lecture" class="main-tab-btn shrink-0 px-3 sm:px-4 py-2 rounded-2xl text-xs sm:text-sm font-semibold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 border border-transparent cursor-pointer flex items-center gap-1.5 sm:gap-2">
                     <span class="font-mono text-xs opacity-80">II.</span>
                     <span>Aula Magistral, Resumo &amp; Apontamentos</span>
                 </button>
-                <button type="button" onclick="switchMainTab('simulator')" id="main-tab-simulator" class="main-tab-btn shrink-0 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 border border-transparent cursor-pointer flex items-center gap-2">
+                <button type="button" onclick="switchMainTab('simulator')" id="main-tab-simulator" class="main-tab-btn shrink-0 px-3 sm:px-4 py-2 rounded-2xl text-xs sm:text-sm font-semibold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 border border-transparent cursor-pointer flex items-center gap-1.5 sm:gap-2">
                     <span class="font-mono text-xs opacity-80">III.</span>
                     <span>Simulador de Provas Infinitas</span>
                     <span class="px-1.5 py-0.5 text-[10px] font-mono font-bold rounded bg-amber-500 text-slate-950">JEDI</span>
                 </button>
-                <button type="button" onclick="switchMainTab('diagnosis')" id="main-tab-diagnosis" class="main-tab-btn shrink-0 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 border border-transparent cursor-pointer flex items-center gap-2">
+                <button type="button" onclick="switchMainTab('diagnosis')" id="main-tab-diagnosis" class="main-tab-btn shrink-0 px-3 sm:px-4 py-2 rounded-2xl text-xs sm:text-sm font-semibold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 border border-transparent cursor-pointer flex items-center gap-1.5 sm:gap-2">
                     <span class="font-mono text-xs opacity-80">IV.</span>
                     <span>Diagnóstico Final &amp; Plano de Estudo</span>
                 </button>
-                <button type="button" onclick="triggerRandomStarWarsEgg('nav_millennium')" class="sw-easter-spot w-9 h-9 rounded-full bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 text-sm font-bold" title="Ponto Aleatório Millennium Falcon">
+                <button type="button" onclick="triggerRandomStarWarsEgg('nav_millennium')" class="sw-easter-spot w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 text-sm font-bold" title="Ponto Aleatório Millennium Falcon">
                     🚀
                 </button>
             </div>
@@ -355,39 +365,39 @@
     <!-- ===================================================================== -->
     <!-- SECÇÃO 1: REVISÃO & CORREÇÃO COMENTADA DA PROVA REALIZADA (26 QUESTÕES) -->
     <!-- ===================================================================== -->
-    <main id="section-tab-review" class="tab-section max-w-6xl mx-auto px-3.5 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-8 sm:space-y-10">
+    <main id="section-tab-review" class="tab-section max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-10 space-y-6 sm:space-y-10">
 
-        <div class="bg-white border border-slate-200 rounded-2xl p-3.5 sm:p-4 shadow-xs flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 no-print">
-            <div class="flex flex-wrap items-center gap-1.5" role="tablist" aria-label="Filtrar questões da prova realizada">
-                <button type="button" onclick="setFilter('all')" id="btn-all" class="filter-btn active px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all bg-academic-indigo text-white shadow-xs cursor-pointer">
-                    Todas as Questões (26)
+        <div class="bg-white border border-slate-200 rounded-2xl p-3 sm:p-4 shadow-xs flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-2.5 sm:gap-3 no-print">
+            <div class="flex flex-nowrap lg:flex-wrap overflow-x-auto pb-1 lg:pb-0 items-center gap-1.5" role="tablist" aria-label="Filtrar questões da prova realizada">
+                <button type="button" onclick="setFilter('all')" id="btn-all" class="filter-btn active shrink-0 px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all bg-academic-indigo text-white shadow-xs cursor-pointer">
+                    Todas (26)
                 </button>
-                <button type="button" onclick="setFilter('correct')" id="btn-correct" class="filter-btn px-3 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer">
-                    Apenas Acertos (9)
+                <button type="button" onclick="setFilter('correct')" id="btn-correct" class="filter-btn shrink-0 px-3 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer">
+                    Acertos (9)
                 </button>
-                <button type="button" onclick="setFilter('errors')" id="btn-errors" class="filter-btn px-3 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer">
-                    Apenas Erros / Revisão Prioritária (17)
+                <button type="button" onclick="setFilter('errors')" id="btn-errors" class="filter-btn shrink-0 px-3 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer">
+                    Erros / Revisão (17)
                 </button>
-                <button type="button" onclick="setFilter('theory')" id="btn-theory" class="filter-btn px-3 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer">
-                    Parte Teórica (20)
+                <button type="button" onclick="setFilter('theory')" id="btn-theory" class="filter-btn shrink-0 px-3 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer">
+                    Teórica (20)
                 </button>
-                <button type="button" onclick="setFilter('practical')" id="btn-practical" class="filter-btn px-3 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer">
-                    Parte Prática — Flowgorithm (6)
+                <button type="button" onclick="setFilter('practical')" id="btn-practical" class="filter-btn shrink-0 px-3 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer">
+                    Prática Flowgorithm (6)
                 </button>
             </div>
 
             <div class="relative w-full lg:w-72 flex items-center gap-2">
                 <div class="relative flex-1">
-                    <input type="text" id="searchInput" oninput="filterContent()" placeholder="Pesquisar conceito (ex: while, array, return)..." class="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent">
-                    <svg class="w-4 h-4 text-slate-400 absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    <input type="text" id="searchInput" oninput="filterContent()" placeholder="Pesquisar conceito (ex: while, array, return)..." class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent">
+                    <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                 </div>
-                <button type="button" onclick="resetSearchAndFilter()" class="px-3 py-2.5 text-xs font-semibold rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 cursor-pointer shrink-0" title="Limpar filtro e busca">
+                <button type="button" onclick="resetSearchAndFilter()" class="px-3 py-2 text-xs font-semibold rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 cursor-pointer shrink-0" title="Limpar filtro e busca">
                     Limpar
                 </button>
             </div>
         </div>
 
-        <section id="section-theory" class="space-y-6">
+        <section id="section-theory" class="space-y-5 sm:space-y-6">
             <div class="border-b-2 border-slate-900 pb-3 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
                 <div>
                     <span class="text-xs font-bold uppercase tracking-widest text-amber-700">Registo de Arquivo • Parte I</span>
@@ -400,23 +410,23 @@
             </div>
 
             <div id="theory-correct-group" class="space-y-4">
-                <div class="flex items-center justify-between px-4 py-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-950 text-xs sm:text-sm font-bold">
-                    <span>Respostas Corretas na Parte Teórica (8 Questões)</span>
-                    <span class="font-mono text-xs bg-emerald-200/80 px-2 py-0.5 rounded shrink-0">ACERTOS</span>
+                <div class="flex items-center justify-between px-3.5 sm:px-4 py-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-950 text-xs sm:text-sm font-bold gap-2">
+                    <span>Respostas Corretas na Parte Teórica (8)</span>
+                    <span class="font-mono text-[11px] sm:text-xs bg-emerald-200/80 px-2 py-0.5 rounded shrink-0">ACERTOS</span>
                 </div>
                 <div id="theory-correct-container" class="space-y-4 sm:space-y-5"></div>
             </div>
 
             <div id="theory-errors-group" class="space-y-4 pt-2">
-                <div class="flex items-center justify-between px-4 py-2.5 rounded-xl bg-amber-50 border border-amber-300 text-amber-950 text-xs sm:text-sm font-bold">
-                    <span>Respostas Incorretas / Revisão Prioritária na Parte Teórica (12 Questões)</span>
-                    <span class="font-mono text-xs bg-amber-200/80 px-2 py-0.5 rounded shrink-0">ERROS</span>
+                <div class="flex items-center justify-between px-3.5 sm:px-4 py-2.5 rounded-xl bg-amber-50 border border-amber-300 text-amber-950 text-xs sm:text-sm font-bold gap-2">
+                    <span>Revisão Prioritária na Parte Teórica (12)</span>
+                    <span class="font-mono text-[11px] sm:text-xs bg-amber-200/80 px-2 py-0.5 rounded shrink-0">ERROS</span>
                 </div>
                 <div id="theory-errors-container" class="space-y-4 sm:space-y-5"></div>
             </div>
         </section>
 
-        <section id="section-practical" class="space-y-6 pt-4">
+        <section id="section-practical" class="space-y-5 sm:space-y-6 pt-3 sm:pt-4">
             <div class="border-b-2 border-slate-900 pb-3 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
                 <div>
                     <span class="text-xs font-bold uppercase tracking-widest text-amber-700">Registo de Arquivo • Parte II</span>
@@ -445,8 +455,8 @@
                     <p>2. Se <code class="font-mono">Option = 1</code> ou <code class="font-mono">2</code>, chama <code class="font-mono">ObterValor(Option)</code>; se <code class="font-mono">Option = 1</code> calcula <code class="font-mono">Valor * Valor</code> (Quadrado), senão calcula <code class="font-mono">Valor * Valor * 3.14159</code> (Círculo) e faz <code class="font-mono">Return Real Resultado</code>.</p>
                 </div>
 
-                <div class="p-3 sm:p-6 bg-[#E6F2F5]/60 overflow-x-auto flex justify-center">
-                    <svg viewBox="0 0 880 540" class="w-full max-w-4xl h-auto bg-white border border-slate-300 rounded-xl shadow-inner" role="img" aria-label="Fluxograma Flowgorithm com funções Main e ObterValor">
+                <div class="p-2.5 sm:p-6 bg-[#E6F2F5]/60 overflow-x-auto flex justify-center">
+                    <svg viewBox="0 0 880 540" class="w-full min-w-[540px] max-w-4xl h-auto bg-white border border-slate-300 rounded-xl shadow-inner" role="img" aria-label="Fluxograma Flowgorithm com funções Main e ObterValor">
                         <defs>
                             <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
                                 <path d="M 0 1 L 10 5 L 0 9 z" fill="#334155" />
@@ -554,29 +564,29 @@
                     </svg>
                 </div>
 
-                <div class="bg-slate-50 border-t border-slate-200 px-4 sm:px-5 py-3 flex flex-wrap items-center gap-2 sm:gap-3 text-xs text-slate-600">
-                    <span class="font-semibold text-slate-800">Simbologia Flowgorithm (clique para filtrar):</span>
-                    <button type="button" onclick="searchAndFocus('variáveis')" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-100 hover:bg-amber-200 text-amber-950 cursor-pointer"><span class="w-2.5 h-2.5 rounded-xs bg-amber-300 border border-amber-600"></span> Declaração / Atribuição</button>
-                    <button type="button" onclick="searchAndFocus('while')" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-orange-100 hover:bg-orange-200 text-orange-950 cursor-pointer"><span class="w-2.5 h-2.5 rounded-xs bg-orange-300 border border-orange-600"></span> Hexágono = Ciclo While</button>
-                    <button type="button" onclick="searchAndFocus('losango')" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-rose-100 hover:bg-rose-200 text-rose-950 cursor-pointer"><span class="w-2.5 h-2.5 rotate-45 bg-rose-300 border border-rose-600"></span> Losango = Decisão If</button>
-                    <button type="button" onclick="searchAndFocus('retornar')" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-purple-100 hover:bg-purple-200 text-purple-950 cursor-pointer"><span class="w-2.5 h-2.5 rounded-full bg-purple-300 border border-purple-600"></span> Terminal / Retorno</button>
+                <div class="bg-slate-50 border-t border-slate-200 px-3.5 sm:px-5 py-3 flex flex-nowrap sm:flex-wrap overflow-x-auto items-center gap-2 text-xs text-slate-600">
+                    <span class="font-semibold text-slate-800 shrink-0">Simbologia Flowgorithm:</span>
+                    <button type="button" onclick="searchAndFocus('variáveis')" class="shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-100 hover:bg-amber-200 text-amber-950 cursor-pointer"><span class="w-2.5 h-2.5 rounded-xs bg-amber-300 border border-amber-600"></span> Declaração / Atribuição</button>
+                    <button type="button" onclick="searchAndFocus('while')" class="shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-orange-100 hover:bg-orange-200 text-orange-950 cursor-pointer"><span class="w-2.5 h-2.5 rounded-xs bg-orange-300 border border-orange-600"></span> Hexágono = Ciclo While</button>
+                    <button type="button" onclick="searchAndFocus('losango')" class="shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-rose-100 hover:bg-rose-200 text-rose-950 cursor-pointer"><span class="w-2.5 h-2.5 rotate-45 bg-rose-300 border border-rose-600"></span> Losango = Decisão If</button>
+                    <button type="button" onclick="searchAndFocus('retornar')" class="shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-purple-100 hover:bg-purple-200 text-purple-950 cursor-pointer"><span class="w-2.5 h-2.5 rounded-full bg-purple-300 border border-purple-600"></span> Terminal / Retorno</button>
                 </div>
             </div>
 
             <div id="practical-correct-group" class="space-y-4">
-                <div class="flex items-center justify-between px-4 py-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-950 text-xs sm:text-sm font-bold">
-                    <span>Respostas Corretas na Parte Prática (1 Questão)</span>
-                    <span class="font-mono text-xs bg-emerald-200/80 px-2 py-0.5 rounded shrink-0">ACERTOS</span>
+                <div class="flex items-center justify-between px-3.5 sm:px-4 py-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-950 text-xs sm:text-sm font-bold gap-2">
+                    <span>Respostas Corretas na Parte Prática (1)</span>
+                    <span class="font-mono text-[11px] sm:text-xs bg-emerald-200/80 px-2 py-0.5 rounded shrink-0">ACERTOS</span>
                 </div>
-                <div id="practical-correct-container" class="space-y-5 sm:space-y-6"></div>
+                <div id="practical-correct-container" class="space-y-4 sm:space-y-6"></div>
             </div>
 
             <div id="practical-errors-group" class="space-y-4 pt-2">
-                <div class="flex items-center justify-between px-4 py-2.5 rounded-xl bg-amber-50 border border-amber-300 text-amber-950 text-xs sm:text-sm font-bold">
-                    <span>Respostas Incorretas / Revisão Prioritária na Parte Prática (5 Questões)</span>
-                    <span class="font-mono text-xs bg-amber-200/80 px-2 py-0.5 rounded shrink-0">ERROS</span>
+                <div class="flex items-center justify-between px-3.5 sm:px-4 py-2.5 rounded-xl bg-amber-50 border border-amber-300 text-amber-950 text-xs sm:text-sm font-bold gap-2">
+                    <span>Revisão Prioritária na Parte Prática (5)</span>
+                    <span class="font-mono text-[11px] sm:text-xs bg-amber-200/80 px-2 py-0.5 rounded shrink-0">ERROS</span>
                 </div>
-                <div id="practical-errors-container" class="space-y-5 sm:space-y-6"></div>
+                <div id="practical-errors-container" class="space-y-4 sm:space-y-6"></div>
             </div>
         </section>
     </main>
@@ -584,12 +594,12 @@
     <!-- ===================================================================== -->
     <!-- SECÇÃO 2: AULA MAGISTRAL, RESUMO COMPLETO & APONTAMENTOS EXECUTIVOS -->
     <!-- ===================================================================== -->
-    <main id="section-tab-lecture" class="tab-section hidden max-w-6xl mx-auto px-3.5 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-8">
+    <main id="section-tab-lecture" class="tab-section hidden max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-10 space-y-6 sm:space-y-8">
 
         <div class="jedi-archive-bg text-white rounded-2xl p-5 sm:p-8 border border-amber-500/40 shadow-lg">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div class="space-y-2 max-w-3xl">
-                    <span class="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-400/30 font-mono text-[11px] sm:text-xs uppercase tracking-wider flex-wrap">
+                    <span class="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-400/30 font-mono text-[10px] sm:text-xs uppercase tracking-wider flex-wrap">
                         <span>Cátedra de Algoritmia Estruturada • Que a Força esteja com você</span>
                         <button type="button" onclick="triggerRandomStarWarsEgg('lecture_naboo')" class="sw-easter-spot w-6 h-6 rounded-full bg-amber-400/20 text-amber-200 text-xs" title="Ponto Aleatório de Naboo">✨</button>
                     </span>
@@ -611,7 +621,7 @@
             </div>
         </div>
 
-        <div class="space-y-6 sm:space-y-8">
+        <div class="space-y-5 sm:space-y-8">
             <article id="mod-arrays" class="module-card bg-white border border-slate-200 rounded-2xl shadow-xs overflow-hidden">
                 <div class="bg-slate-950 text-white px-4 sm:px-6 py-3.5 sm:py-4 flex flex-wrap items-center justify-between gap-2 border-b border-amber-500/30">
                     <div class="flex items-center gap-2.5 sm:gap-3">
@@ -940,12 +950,12 @@ fim_procedimento</pre>
     <!-- ===================================================================== -->
     <!-- SECÇÃO 3: SIMULADOR DE PROVAS INFINITAS (SEM REPETIÇÃO & RANK JEDI)   -->
     <!-- ===================================================================== -->
-    <main id="section-tab-simulator" class="tab-section hidden max-w-6xl mx-auto px-3.5 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-8">
+    <main id="section-tab-simulator" class="tab-section hidden max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-10 space-y-6 sm:space-y-8">
 
         <div class="jedi-archive-bg text-white rounded-2xl p-5 sm:p-8 border-2 border-amber-500/40 shadow-lg">
             <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                 <div class="space-y-2 max-w-3xl">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/15 border border-sky-400/40 text-sky-300 text-[11px] sm:text-xs font-mono uppercase tracking-wider flex-wrap">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/15 border border-sky-400/40 text-sky-300 text-[10px] sm:text-xs font-mono uppercase tracking-wider flex-wrap">
                         <span>Protocolo de Avaliação Contínua • Banco Sem Repetição &amp; Easter Eggs Star Wars</span>
                         <button type="button" onclick="triggerRandomStarWarsEgg('sim_coruscant')" class="sw-easter-spot w-6 h-6 rounded-full bg-cyan-400/20 text-cyan-200 text-xs" title="Ponto Aleatório de Coruscant">🛸</button>
                     </div>
@@ -979,7 +989,7 @@ fim_procedimento</pre>
 
         <div id="sim-result-panel" class="hidden rounded-2xl border-2 p-5 sm:p-8 shadow-lg transition-all"></div>
 
-        <form id="sim-exam-form" onsubmit="gradeSimulatedExam(event)" class="space-y-6">
+        <form id="sim-exam-form" onsubmit="gradeSimulatedExam(event)" class="space-y-5 sm:space-y-6">
             <div class="flex flex-wrap items-center justify-between gap-2 bg-white border border-slate-200 rounded-2xl px-4 sm:px-5 py-3 shadow-xs">
                 <span class="text-xs sm:text-sm font-semibold text-slate-700">
                     Progresso desta Prova: <strong id="sim-progress-text" class="text-slate-950 font-mono">0 / 10</strong> respondidas
@@ -992,7 +1002,7 @@ fim_procedimento</pre>
                 </div>
             </div>
 
-            <div id="sim-questions-list" class="space-y-5 sm:space-y-6"></div>
+            <div id="sim-questions-list" class="space-y-4 sm:space-y-6"></div>
 
             <div id="sim-submit-container" class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xs">
                 <p class="text-xs sm:text-sm text-slate-600">
@@ -1026,10 +1036,10 @@ fim_procedimento</pre>
     <!-- ===================================================================== -->
     <!-- SECÇÃO 4: DIAGNÓSTICO FINAL — ONDE ERROU & PLANO DE ESTUDOS           -->
     <!-- ===================================================================== -->
-    <main id="section-tab-diagnosis" class="tab-section hidden max-w-6xl mx-auto px-3.5 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-8">
+    <main id="section-tab-diagnosis" class="tab-section hidden max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-10 space-y-6 sm:space-y-8">
 
         <div class="jedi-archive-bg text-white rounded-2xl p-5 sm:p-8 border border-amber-500/40 shadow-md">
-            <span class="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-400/30 font-mono text-[11px] sm:text-xs uppercase tracking-wider mb-2 flex-wrap">
+            <span class="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-400/30 font-mono text-[10px] sm:text-xs uppercase tracking-wider mb-2 flex-wrap">
                 <span>Relatório Analítico do Conselho • Diagnóstico de Competências</span>
                 <button type="button" onclick="triggerRandomStarWarsEgg('diag_mustafar')" class="sw-easter-spot w-6 h-6 rounded-full bg-rose-500/20 text-rose-200 text-xs" title="Ponto Aleatório de Mustafar">🔥</button>
             </span>
@@ -1046,10 +1056,10 @@ fim_procedimento</pre>
                 Mapa de Domínio por Área Temática (Clique para ir à revisão)
             </h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 text-xs sm:text-sm">
-                <button type="button" onclick="switchMainTab('review'); searchAndFocus('ciclo');" class="text-left p-3.5 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-200 transition-colors space-y-1.5 cursor-pointer">
+                <button type="button" onclick="switchMainTab('review'); searchAndFocus('ciclo');" class="text-left p-3.5 rounded-xl hover:bg-slate-50 border border-slate-100 hover:border-slate-200 transition-colors space-y-1.5 cursor-pointer">
                     <div class="flex justify-between font-semibold gap-2">
                         <span class="text-slate-950">1. Ciclos (For vs. While) &amp; Acumuladores</span>
-                        <span class="text-emerald-700 font-mono shrink-0">71% (5/7 acertos)</span>
+                        <span class="text-emerald-700 font-mono shrink-0">71% (5/7)</span>
                     </div>
                     <div class="w-full bg-slate-200 rounded-full h-2.5">
                         <div class="bg-emerald-600 h-2.5 rounded-full" style="width: 71%"></div>
@@ -1057,10 +1067,10 @@ fim_procedimento</pre>
                     <p class="text-xs text-slate-500">Ponto forte! Acertou Q03, Q04, Q12, Q15, Q16. Rever apenas Q05 e Q06.</p>
                 </button>
 
-                <button type="button" onclick="switchMainTab('review'); searchAndFocus('if');" class="text-left p-3.5 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-200 transition-colors space-y-1.5 cursor-pointer">
+                <button type="button" onclick="switchMainTab('review'); searchAndFocus('if');" class="text-left p-3.5 rounded-xl hover:bg-slate-50 border border-slate-100 hover:border-slate-200 transition-colors space-y-1.5 cursor-pointer">
                     <div class="flex justify-between font-semibold gap-2">
-                        <span class="text-slate-950">2. Estrutura Sequencial, Decisão (If) &amp; Validação</span>
-                        <span class="text-sky-700 font-mono shrink-0">75% (3/4 acertos)</span>
+                        <span class="text-slate-950">2. Sequência, Decisão (If) &amp; Validação</span>
+                        <span class="text-sky-700 font-mono shrink-0">75% (3/4)</span>
                     </div>
                     <div class="w-full bg-slate-200 rounded-full h-2.5">
                         <div class="bg-sky-600 h-2.5 rounded-full" style="width: 75%"></div>
@@ -1068,21 +1078,21 @@ fim_procedimento</pre>
                     <p class="text-xs text-slate-500">Acertou Q08, Q13, Q14. Rever apenas a finalidade da validação na Q18.</p>
                 </button>
 
-                <button type="button" onclick="switchMainTab('review'); setFilter('practical');" class="text-left p-3.5 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-200 transition-colors space-y-1.5 cursor-pointer">
+                <button type="button" onclick="switchMainTab('review'); setFilter('practical');" class="text-left p-3.5 rounded-xl hover:bg-slate-50 border border-slate-100 hover:border-slate-200 transition-colors space-y-1.5 cursor-pointer">
                     <div class="flex justify-between font-semibold gap-2">
-                        <span class="text-slate-950">3. Leitura de Fluxogramas &amp; Teste de Mesa</span>
-                        <span class="text-rose-700 font-mono shrink-0">17% (1/6 acertos)</span>
+                        <span class="text-slate-950">3. Fluxogramas &amp; Teste de Mesa</span>
+                        <span class="text-rose-700 font-mono shrink-0">17% (1/6)</span>
                     </div>
                     <div class="w-full bg-slate-200 rounded-full h-2.5">
                         <div class="bg-rose-600 h-2.5 rounded-full" style="width: 17%"></div>
                     </div>
-                    <p class="text-xs text-slate-500"><strong>Prioridade Máxima (vale 50% da prova):</strong> Perdeu 70 pontos nas Práticas 1, 2, 4, 5 e 6.</p>
+                    <p class="text-xs text-slate-500"><strong>Prioridade Máxima (50% da prova):</strong> Perdeu 70 pts nas Práticas 1, 2, 4, 5 e 6.</p>
                 </button>
 
-                <button type="button" onclick="switchMainTab('review'); searchAndFocus('operador');" class="text-left p-3.5 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-200 transition-colors space-y-1.5 cursor-pointer">
+                <button type="button" onclick="switchMainTab('review'); searchAndFocus('operador');" class="text-left p-3.5 rounded-xl hover:bg-slate-50 border border-slate-100 hover:border-slate-200 transition-colors space-y-1.5 cursor-pointer">
                     <div class="flex justify-between font-semibold gap-2">
-                        <span class="text-slate-950">4. Operadores Lógicos, Arrays &amp; Funções</span>
-                        <span class="text-amber-700 font-mono shrink-0">0% (0/7 acertos)</span>
+                        <span class="text-slate-950">4. Operadores, Arrays &amp; Funções</span>
+                        <span class="text-amber-700 font-mono shrink-0">0% (0/7)</span>
                     </div>
                     <div class="w-full bg-slate-200 rounded-full h-2.5">
                         <div class="bg-amber-500 h-2.5 rounded-full" style="width: 4%"></div>
@@ -1142,11 +1152,11 @@ fim_procedimento</pre>
     </main>
 
     <!-- Rodapé Académico -->
-    <footer class="bg-slate-950 text-slate-400 border-t border-amber-500/30 mt-12 py-6">
+    <footer class="bg-slate-950 text-slate-400 border-t border-amber-500/30 mt-10 sm:mt-12 py-6">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-center sm:text-left">
             <div class="flex items-center gap-2 flex-wrap justify-center sm:justify-start">
                 <svg class="w-4 h-4 text-amber-400 shrink-0" viewBox="0 0 64 64" fill="currentColor">
-                    <path d="M32 3L25 17L12 13L19 26L5 29L18 36L10 48L24 44L22 58L32 47L42 58L40 44L54 48L46 36L59 29L45 26L52 13L39 17L32 3Z"/>
+                    <path d="M32 3L25 17L12 13L19 26L5 29L18 36L10 48L24 44L22 58L32 47L42 58L40 44L54 48L46 36L59 29L45 26L52 13L39 17L32 3ZM32 15L36 24L45 22L39 29L46 34L37 35L39 44L32 38L25 44L27 35L18 34L25 29L19 22L28 24L32 15Z"/>
                 </svg>
                 <span>Arquivos Académicos de Algoritmia &amp; Programação • Conselho Jedi de Engenharia de Software</span>
                 <button type="button" onclick="triggerRandomStarWarsEgg('footer_endor')" class="sw-easter-spot w-7 h-7 rounded-full bg-amber-500/15 text-amber-300 border border-amber-400/40 text-xs" title="Ponto Aleatório de Endor">🌲</button>
@@ -1895,7 +1905,7 @@ fim_procedimento</pre>
                     : "";
 
                 const optionsHtml = item.opts.map((optText, oIdx) => `
-                    <label id="sim_lbl_${item.index}_${oIdx}" class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-all">
+                    <label id="sim_lbl_${item.index}_${oIdx}" class="flex items-start gap-3 p-3 sm:p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-all">
                         <input type="radio" name="sim_q_${item.index}" value="${oIdx}" required onchange="updateSimProgress()" class="mt-0.5 w-4 h-4 text-indigo-800 border-slate-300 focus:ring-indigo-700 shrink-0">
                         <span class="text-xs sm:text-sm text-slate-800 font-medium">${optText}</span>
                     </label>
@@ -2185,16 +2195,16 @@ fim_procedimento</pre>
                    </span>`;
 
             const answerComparison = q.isCorrect
-                ? `<div class="p-3.5 rounded-xl bg-emerald-50/70 border border-emerald-200 text-xs sm:text-sm">
+                ? `<div class="p-3 sm:p-3.5 rounded-xl bg-emerald-50/70 border border-emerald-200 text-xs sm:text-sm">
                      <span class="block text-xs font-bold uppercase tracking-wider text-emerald-800 mb-1">Sua Resposta (Correta)</span>
                      <span class="font-medium text-emerald-950">${q.correctAnswer}</span>
                    </div>`
                 : `<div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs sm:text-sm">
-                     <div class="p-3.5 rounded-xl bg-rose-50/70 border border-rose-200">
+                     <div class="p-3 sm:p-3.5 rounded-xl bg-rose-50/70 border border-rose-200">
                          <span class="block text-xs font-bold uppercase tracking-wider text-rose-800 mb-1">Sua Resposta Assinalada</span>
                          <span class="font-medium text-rose-950">${q.userAnswer}</span>
                      </div>
-                     <div class="p-3.5 rounded-xl bg-emerald-50/80 border border-emerald-300">
+                     <div class="p-3 sm:p-3.5 rounded-xl bg-emerald-50/80 border border-emerald-300">
                          <span class="block text-xs font-bold uppercase tracking-wider text-emerald-800 mb-1">Gabarito / Resposta Correta</span>
                          <span class="font-semibold text-emerald-950">${q.correctAnswer}</span>
                      </div>
@@ -2206,17 +2216,17 @@ fim_procedimento</pre>
                          data-correct="${q.isCorrect}"
                          data-search="${(q.question + ' ' + q.correctAnswer + ' ' + q.explanation).toLowerCase()}">
                     <div class="flex flex-wrap items-start justify-between gap-2 sm:gap-3 mb-3">
-                        <div class="flex items-center gap-2.5">
+                        <div class="flex items-center gap-2">
                             <span class="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-slate-950 text-amber-300 font-mono text-xs font-bold">Q${String(q.num).padStart(2, '0')}</span>
                             <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Questão Teórica</span>
                         </div>
                         ${statusBadge}
                     </div>
-                    <h3 class="text-sm sm:text-lg font-bold text-slate-950 leading-snug mb-4">${q.question}</h3>
+                    <h3 class="text-sm sm:text-lg font-bold text-slate-950 leading-snug mb-3.5 sm:mb-4">${q.question}</h3>
                     ${answerComparison}
-                    <div id="exp_th_${q.num}" class="mt-4 pt-3.5 border-t border-slate-100">
-                        <div class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 leading-relaxed">
-                            <button type="button" onclick="toggleExpBox('exp_body_th_${q.num}')" class="shrink-0 mt-0.5 px-2.5 py-1 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-900 font-semibold text-xs border border-indigo-200 cursor-pointer">Fundamentação</button>
+                    <div id="exp_th_${q.num}" class="mt-3.5 sm:mt-4 pt-3 sm:pt-3.5 border-t border-slate-100">
+                        <div class="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-2.5 text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            <button type="button" onclick="toggleExpBox('exp_body_th_${q.num}')" class="self-start shrink-0 px-2.5 py-1 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-900 font-semibold text-xs border border-indigo-200 cursor-pointer">Fundamentação</button>
                             <p id="exp_body_th_${q.num}">${q.explanation}</p>
                         </div>
                     </div>
@@ -2243,16 +2253,16 @@ fim_procedimento</pre>
                    </span>`;
 
             const answerComparison = q.isCorrect
-                ? `<div class="p-3.5 rounded-xl bg-emerald-50/70 border border-emerald-200 text-xs sm:text-sm">
+                ? `<div class="p-3 sm:p-3.5 rounded-xl bg-emerald-50/70 border border-emerald-200 text-xs sm:text-sm">
                      <span class="block text-xs font-bold uppercase tracking-wider text-emerald-800 mb-1">Sua Resposta (Correta)</span>
                      <span class="font-mono font-semibold text-emerald-950">${q.correctAnswer}</span>
                    </div>`
                 : `<div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs sm:text-sm">
-                     <div class="p-3.5 rounded-xl bg-rose-50/70 border border-rose-200">
+                     <div class="p-3 sm:p-3.5 rounded-xl bg-rose-50/70 border border-rose-200">
                          <span class="block text-xs font-bold uppercase tracking-wider text-rose-800 mb-1">Sua Resposta Submetida</span>
                          <span class="font-mono text-xs sm:text-sm text-rose-950 break-words">${q.userAnswer}</span>
                      </div>
-                     <div class="p-3.5 rounded-xl bg-emerald-50/80 border border-emerald-300">
+                     <div class="p-3 sm:p-3.5 rounded-xl bg-emerald-50/80 border border-emerald-300">
                          <span class="block text-xs font-bold uppercase tracking-wider text-emerald-800 mb-1">Solução Esperada</span>
                          <span class="font-mono font-bold text-emerald-950">${q.correctAnswer}</span>
                      </div>
@@ -2264,16 +2274,16 @@ fim_procedimento</pre>
                          data-correct="${q.isCorrect}"
                          data-search="${(q.title + ' ' + q.question + ' ' + q.correctAnswer).toLowerCase()}">
                     <div class="flex flex-wrap items-start justify-between gap-2 sm:gap-3 mb-3">
-                        <div class="flex items-center gap-2.5 flex-wrap">
+                        <div class="flex items-center gap-2 flex-wrap">
                             <span class="inline-flex items-center justify-center px-2.5 h-7 rounded-lg bg-indigo-900 text-amber-300 font-mono text-xs font-bold">PRÁTICA ${q.num}</span>
                             <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">${q.points} • ${q.title}</span>
                         </div>
                         ${statusBadge}
                     </div>
-                    <h3 class="text-sm sm:text-lg font-bold text-slate-950 leading-snug mb-4">${q.question}</h3>
+                    <h3 class="text-sm sm:text-lg font-bold text-slate-950 leading-snug mb-3.5 sm:mb-4">${q.question}</h3>
                     ${answerComparison}
-                    <div class="mt-4 pt-4 border-t border-slate-100">
-                        <button type="button" onclick="toggleExpBox('exp_body_pr_${q.num}')" class="text-xs font-bold uppercase tracking-wider text-indigo-900 hover:text-indigo-700 mb-2 flex items-center gap-1.5 cursor-pointer">
+                    <div class="mt-3.5 sm:mt-4 pt-3.5 sm:pt-4 border-t border-slate-100">
+                        <button type="button" onclick="toggleExpBox('exp_body_pr_${q.num}')" class="text-xs font-bold uppercase tracking-wider text-indigo-900 hover:text-indigo-700 mb-2 flex items-center gap-1.5 cursor-pointer text-left">
                             <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             <span>Resolução Passo a Passo (Clique para recolher/expandir)</span>
                         </button>
@@ -2357,12 +2367,12 @@ fim_procedimento</pre>
             if (targetSec) targetSec.classList.remove('hidden');
 
             document.querySelectorAll('.main-tab-btn').forEach(btn => {
-                btn.className = "main-tab-btn shrink-0 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 border border-transparent cursor-pointer flex items-center gap-2";
+                btn.className = "main-tab-btn shrink-0 px-3 sm:px-4 py-2 rounded-2xl text-xs sm:text-sm font-semibold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 border border-transparent cursor-pointer flex items-center gap-1.5 sm:gap-2";
             });
 
             const activeBtn = document.getElementById(`main-tab-${tabName}`);
             if (activeBtn) {
-                activeBtn.className = "main-tab-btn shrink-0 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all bg-slate-950 text-amber-300 border border-amber-500/40 shadow-xs cursor-pointer flex items-center gap-2";
+                activeBtn.className = "main-tab-btn shrink-0 px-3 sm:px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold transition-all bg-slate-950 text-amber-300 border border-amber-500/40 shadow-xs cursor-pointer flex items-center gap-1.5 sm:gap-2";
             }
 
             if (tabName === 'simulator' && activeExamQuestions.length === 0) {
