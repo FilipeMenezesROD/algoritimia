@@ -99,8 +99,21 @@
 
         .sw-easter-spot:hover,
         .sw-easter-spot:active {
-            transform: scale(1.12);
+            transform: scale(1.1);
             box-shadow: 0 0 12px rgba(251, 191, 36, 0.6);
+        }
+
+        /* Dock dedicado ao IA Holocron para Android / Mobile / Desktop */
+        .holocron-dock {
+            bottom: calc(0.875rem + env(safe-area-inset-bottom, 0px));
+            right: calc(0.875rem + env(safe-area-inset-right, 0px));
+        }
+
+        @media (min-width: 640px) {
+            .holocron-dock {
+                bottom: 1.5rem;
+                right: 1.5rem;
+            }
         }
 
         @media (max-width: 640px) {
@@ -115,56 +128,57 @@
         }
     </style>
 </head>
-<body class="bg-academic-paper text-slate-800 antialiased selection:bg-amber-200 selection:text-slate-950 pb-28 sm:pb-12">
+<body class="bg-academic-paper text-slate-800 antialiased selection:bg-amber-200 selection:text-slate-950 pb-24 sm:pb-12">
 
-    <!-- Notificação / Toast Interativo (Acima do dock mobile) -->
-    <div id="force-toast" class="fixed bottom-24 sm:bottom-6 right-3 left-3 sm:left-auto z-50 hidden max-w-md bg-slate-950/95 text-white border border-amber-400/70 rounded-2xl px-4 py-3 shadow-2xl text-xs sm:text-sm items-center gap-3 backdrop-blur-md">
+    <!-- Notificação / Toast Interativo -->
+    <div id="force-toast" class="fixed top-16 sm:bottom-6 sm:top-auto right-3 left-3 sm:left-auto z-50 hidden max-w-md bg-slate-950/95 text-white border border-amber-400/70 rounded-2xl px-4 py-3 shadow-2xl text-xs sm:text-sm items-center gap-3 backdrop-blur-md">
         <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 shrink-0 animate-ping"></span>
         <span id="force-toast-text" class="flex-1 text-slate-100 leading-snug font-medium">Que a Força esteja com você!</span>
         <button type="button" onclick="hideToast()" class="text-slate-400 hover:text-amber-300 font-mono cursor-pointer px-2 py-1 rounded-lg shrink-0" title="Fechar aviso">✕</button>
     </div>
 
-    <!-- Assistente IA Holocron (Dock Limpo no Telemóvel) -->
-    <div class="fixed bottom-3 left-3 right-3 sm:bottom-5 sm:left-5 sm:right-auto z-40 no-print">
-        <div class="flex items-center justify-between sm:justify-start gap-2">
-            <button type="button" onclick="toggleHolocronAI()" id="holocron-ai-toggle" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-4 h-11 rounded-2xl bg-slate-950 hover:bg-slate-900 text-amber-300 border border-amber-400/60 shadow-xl text-xs sm:text-sm font-bold transition-all cursor-pointer">
-                <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse shrink-0"></span>
-                <span>IA Holocron</span>
-            </button>
-            <button type="button" onclick="triggerRandomStarWarsEgg('holocron_orb')" class="sw-easter-spot w-11 h-11 rounded-2xl bg-indigo-950 hover:bg-indigo-900 text-cyan-300 border border-cyan-400/50 text-base shadow-xl" title="Ponto Aleatório da Galáxia">
-                ✦
-            </button>
-        </div>
-
-        <div id="holocron-ai-panel" class="hidden mt-2.5 w-full sm:w-[92vw] max-w-md bg-white border-2 border-slate-900 rounded-2xl shadow-2xl overflow-hidden text-slate-800">
-            <div class="bg-slate-950 text-white px-4 py-3 flex items-center justify-between border-b border-amber-500/40">
+    <!-- Assistente IA Holocron — Posição Dedicada Mobile / Android & Responsiva -->
+    <div class="holocron-dock fixed z-40 no-print flex flex-col items-end">
+        <div id="holocron-ai-panel" class="hidden mb-2.5 w-[calc(100vw-1.75rem)] sm:w-[26rem] max-w-md bg-white border-2 border-slate-900 rounded-2xl shadow-2xl overflow-hidden text-slate-800">
+            <div class="bg-slate-950 text-white px-3.5 sm:px-4 py-3 flex items-center justify-between gap-2 border-b border-amber-500/40">
                 <div class="flex items-center gap-2 min-w-0">
                     <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shrink-0"></span>
-                    <span class="font-serif text-xs sm:text-sm font-bold text-amber-300 truncate">IA Holocron — Tutor de Algoritmia</span>
+                    <span class="font-serif text-xs sm:text-sm font-bold text-amber-300 truncate">IA Holocron • Tutor Mobile</span>
                 </div>
-                <button type="button" onclick="toggleHolocronAI()" class="text-slate-300 hover:text-white font-mono text-xs cursor-pointer px-2 py-1 shrink-0" title="Fechar IA">✕</button>
+                <button type="button" onclick="toggleHolocronAI()" class="text-slate-300 hover:text-white font-mono text-xs cursor-pointer px-2 py-1 rounded-lg shrink-0" title="Fechar IA">✕</button>
             </div>
 
-            <div class="p-2.5 sm:p-3 bg-slate-50 border-b border-slate-200 flex flex-wrap gap-1.5 text-[11px]">
-                <button type="button" onclick="askHolocronPreset('Qual a diferença entre array indexado e associativo?')" class="px-2.5 py-1.5 rounded-lg bg-white hover:bg-indigo-50 border border-slate-300 text-slate-700 font-medium cursor-pointer">Arrays</button>
-                <button type="button" onclick="askHolocronPreset('Qual a diferença entre contador, acumulador e iterador?')" class="px-2.5 py-1.5 rounded-lg bg-white hover:bg-indigo-50 border border-slate-300 text-slate-700 font-medium cursor-pointer">Contador vs Acumulador</button>
-                <button type="button" onclick="askHolocronPreset('Como funciona o ciclo while vs for e o teste de mesa?')" class="px-2.5 py-1.5 rounded-lg bg-white hover:bg-indigo-50 border border-slate-300 text-slate-700 font-medium cursor-pointer">Ciclos &amp; Teste de Mesa</button>
-                <button type="button" onclick="askHolocronPreset('Como funcionam operadores AND, OR, != e funções com retornar?')" class="px-2.5 py-1.5 rounded-lg bg-white hover:bg-indigo-50 border border-slate-300 text-slate-700 font-medium cursor-pointer">Operadores &amp; Funções</button>
-                <button type="button" onclick="askHolocronPreset('Easter egg Mandaloriano e Luke Skywalker')" class="px-2.5 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-950 font-semibold cursor-pointer">Easter Eggs SW</button>
+            <div class="p-2.5 bg-slate-50 border-b border-slate-200 flex items-center gap-1.5 overflow-x-auto sm:flex-wrap text-[11px]">
+                <button type="button" onclick="askHolocronPreset('Qual a diferença entre array indexado e associativo?')" class="shrink-0 px-2.5 py-1.5 rounded-lg bg-white hover:bg-indigo-50 border border-slate-300 text-slate-700 font-medium cursor-pointer">Arrays</button>
+                <button type="button" onclick="askHolocronPreset('Qual a diferença entre contador, acumulador e iterador?')" class="shrink-0 px-2.5 py-1.5 rounded-lg bg-white hover:bg-indigo-50 border border-slate-300 text-slate-700 font-medium cursor-pointer">Contador vs Acumulador</button>
+                <button type="button" onclick="askHolocronPreset('Como funciona o ciclo while vs for e o teste de mesa?')" class="shrink-0 px-2.5 py-1.5 rounded-lg bg-white hover:bg-indigo-50 border border-slate-300 text-slate-700 font-medium cursor-pointer">Ciclos &amp; Teste de Mesa</button>
+                <button type="button" onclick="askHolocronPreset('Como funcionam operadores AND, OR, != e funções com retornar?')" class="shrink-0 px-2.5 py-1.5 rounded-lg bg-white hover:bg-indigo-50 border border-slate-300 text-slate-700 font-medium cursor-pointer">Operadores &amp; Funções</button>
+                <button type="button" onclick="askHolocronPreset('Easter egg Mandaloriano e Luke Skywalker')" class="shrink-0 px-2.5 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-950 font-semibold cursor-pointer">Easter Eggs SW</button>
             </div>
 
-            <div id="holocron-ai-messages" class="p-3.5 sm:p-4 max-h-60 sm:max-h-72 overflow-y-auto space-y-3 text-xs sm:text-sm leading-relaxed bg-white">
+            <div id="holocron-ai-messages" class="p-3.5 max-h-[42dvh] sm:max-h-72 overflow-y-auto space-y-2.5 text-xs sm:text-sm leading-relaxed bg-white">
                 <div class="p-3 rounded-xl bg-slate-100 text-slate-800 border border-slate-200">
                     Olá! Sou a <strong>IA Holocron</strong>. Pergunta-me qualquer coisa sobre algoritmia, fluxogramas Flowgorithm, variáveis, ciclos, arrays, operadores ou sobre as questões desta prova.
                 </div>
             </div>
 
-            <form onsubmit="handleHolocronSubmit(event)" class="p-2.5 sm:p-3 bg-slate-50 border-t border-slate-200 flex items-center gap-2">
+            <form onsubmit="handleHolocronSubmit(event)" class="p-2.5 bg-slate-50 border-t border-slate-200 flex items-center gap-2">
                 <input type="text" id="holocron-ai-input" placeholder="Ex: por que errei a Q02 ou Luke / Mando..." class="flex-1 min-w-0 px-3 py-2.5 bg-white border border-slate-300 rounded-xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600">
                 <button type="submit" class="px-3.5 py-2.5 bg-slate-950 hover:bg-slate-800 text-amber-300 font-bold text-xs sm:text-sm rounded-xl cursor-pointer shrink-0">
-                    Perguntar
+                    Enviar
                 </button>
             </form>
+        </div>
+
+        <!-- Barra Flutuante Compacta no Canto Inferior Direito -->
+        <div class="inline-flex items-center gap-1.5 p-1.5 rounded-2xl bg-slate-950/95 border border-amber-400/50 shadow-2xl backdrop-blur-md">
+            <button type="button" onclick="triggerRandomStarWarsEgg('holocron_orb')" class="sw-easter-spot w-9 h-9 rounded-xl bg-indigo-950 hover:bg-indigo-900 text-cyan-300 border border-cyan-400/40 text-sm" title="Ponto Aleatório da Galáxia">
+                ✦
+            </button>
+            <button type="button" onclick="toggleHolocronAI()" id="holocron-ai-toggle" class="inline-flex items-center gap-2 px-3.5 h-9 rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 text-xs sm:text-sm font-extrabold transition-all cursor-pointer">
+                <span class="w-2 h-2 rounded-full bg-slate-950 animate-pulse shrink-0"></span>
+                <span>IA Holocron</span>
+            </button>
         </div>
     </div>
 
@@ -195,10 +209,9 @@
         <div class="max-w-6xl mx-auto px-3.5 sm:px-6 lg:px-8 py-6 sm:py-10">
             <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5 sm:gap-6">
                 <div class="space-y-3 max-w-3xl min-w-0">
-                    <!-- Linha Superior: Ícone Sabre + Badge Limpo (Sem cortar texto!) -->
-                    <div class="flex items-center gap-2.5 flex-wrap">
-                        <button type="button" onclick="triggerLightsaberEasterEgg()" class="sw-easter-spot w-11 h-11 rounded-2xl bg-gradient-to-br from-amber-500/25 to-cyan-500/15 border border-amber-400/60 text-amber-400 hover:bg-amber-500/30 shadow-md" title="Ativar Sabre de Luz de Luke Skywalker">
-                            <svg class="w-6 h-6" viewBox="0 0 64 64" fill="currentColor">
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <button type="button" onclick="triggerLightsaberEasterEgg()" class="sw-easter-spot w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-br from-amber-500/25 to-cyan-500/15 border border-amber-400/60 text-amber-400 hover:bg-amber-500/30 shadow-md" title="Ativar Sabre de Luz de Luke Skywalker">
+                            <svg class="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 64 64" fill="currentColor">
                                 <path d="M32 3L25 17L12 13L19 26L5 29L18 36L10 48L24 44L22 58L32 47L42 58L40 44L54 48L46 36L59 29L45 26L52 13L39 17L32 3ZM32 16L35.5 24L44 22.5L38.5 29L45 34L36.5 35L38 43L32 37.5L26 43L27.5 35L19 34L25.5 29L20 22.5L28.5 24L32 16Z"/>
                             </svg>
                         </button>
@@ -221,7 +234,7 @@
                     </p>
                 </div>
 
-                <!-- Grade de Botões Responsiva no Telemóvel (2 colunas limpas em ecrãs pequenos) -->
+                <!-- Grade de Botões Responsiva -->
                 <div class="no-print shrink-0 grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                     <button type="button" onclick="switchMainTab('simulator')" class="col-span-2 sm:col-auto inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 text-xs sm:text-sm font-extrabold shadow-lg transition-all cursor-pointer">
                         <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
