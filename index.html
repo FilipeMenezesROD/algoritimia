@@ -103,7 +103,6 @@
             box-shadow: 0 0 12px rgba(251, 191, 36, 0.6);
         }
 
-        /* Dock dedicado ao IA Holocron para Android / Mobile / Desktop */
         .holocron-dock {
             bottom: calc(0.875rem + env(safe-area-inset-bottom, 0px));
             right: calc(0.875rem + env(safe-area-inset-right, 0px));
@@ -170,7 +169,6 @@
             </form>
         </div>
 
-        <!-- Barra Flutuante Compacta no Canto Inferior Direito -->
         <div class="inline-flex items-center gap-1.5 p-1.5 rounded-2xl bg-slate-950/95 border border-amber-400/50 shadow-2xl backdrop-blur-md">
             <button type="button" onclick="triggerRandomStarWarsEgg('holocron_orb')" class="sw-easter-spot w-9 h-9 rounded-xl bg-indigo-950 hover:bg-indigo-900 text-cyan-300 border border-cyan-400/40 text-sm" title="Ponto Aleatório da Galáxia">
                 ✦
@@ -182,24 +180,24 @@
         </div>
     </div>
 
-    <!-- Barra Superior Institucional -->
+    <!-- Barra Superior Institucional (Patente Visível em Mobile e Desktop) -->
     <div class="bg-slate-950 text-white border-b border-amber-500/35">
-        <div class="max-w-6xl mx-auto px-3.5 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between gap-2 text-[11px] sm:text-xs font-medium tracking-wide uppercase text-slate-300">
-            <div class="flex items-center gap-2 min-w-0 flex-1">
-                <button type="button" onclick="triggerForceBlessing()" class="flex items-center gap-2 hover:text-amber-300 transition-colors cursor-pointer text-left min-w-0" title="Clique para invocar a Força">
+        <div class="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between gap-2 text-[10px] sm:text-xs font-medium tracking-wide uppercase text-slate-300">
+            <div class="flex items-center gap-1.5 sm:gap-2 min-w-0 shrink">
+                <button type="button" onclick="triggerForceBlessing()" class="flex items-center gap-1.5 hover:text-amber-300 transition-colors cursor-pointer text-left min-w-0" title="Clique para invocar a Força">
                     <svg class="w-4 h-4 text-amber-400 shrink-0" viewBox="0 0 64 64" fill="currentColor" aria-hidden="true">
                         <path d="M32 3L25 17L12 13L19 26L5 29L18 36L10 48L24 44L22 58L32 47L42 58L40 44L54 48L46 36L59 29L45 26L52 13L39 17L32 3ZM32 15L36 24L45 22L39 29L46 34L37 35L39 44L32 38L25 44L27 35L18 34L25 29L19 22L28 24L32 15Z"/>
                     </svg>
-                    <span class="truncate">Arquivos de Coruscant</span>
+                    <span class="truncate max-w-[92px] sm:max-w-none">Coruscant</span>
                 </button>
-                <button type="button" onclick="triggerRandomStarWarsEgg('topbar_beacon')" class="sw-easter-spot w-7 h-7 rounded-full bg-amber-500/15 text-amber-300 border border-amber-400/40 text-xs" title="Sinal Aleatório de Tatooine / Mandalore">
+                <button type="button" onclick="triggerRandomStarWarsEgg('topbar_beacon')" class="sw-easter-spot w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-amber-500/15 text-amber-300 border border-amber-400/40 text-xs" title="Sinal Aleatório de Tatooine / Mandalore">
                     ❖
                 </button>
             </div>
-            <div class="font-mono text-amber-300/95 flex items-center gap-2 shrink-0">
-                <button type="button" onclick="switchMainTab('simulator')" class="hover:underline cursor-pointer">ALG-PROG-2026</button>
-                <span class="hidden sm:inline text-slate-600">|</span>
-                <button type="button" onclick="cycleRankPreview()" id="header-current-rank" class="hidden sm:inline text-cyan-300 hover:text-amber-300 transition-colors cursor-pointer" title="Clique para inspecionar as patentes Jedi">PATENTE ATUAL: PADAWAN INICIANTE</button>
+            <div class="font-mono text-amber-300/95 flex items-center gap-1.5 sm:gap-2 min-w-0">
+                <button type="button" onclick="switchMainTab('simulator')" class="hidden md:inline hover:underline cursor-pointer shrink-0">ALG-PROG-2026</button>
+                <span class="hidden md:inline text-slate-600">|</span>
+                <button type="button" onclick="cycleRankPreview()" id="header-current-rank" class="inline text-cyan-300 hover:text-amber-300 transition-colors cursor-pointer truncate max-w-[190px] sm:max-w-none font-semibold" title="Clique para inspecionar as patentes Jedi">PATENTE ATUAL: PADAWAN INICIANTE</button>
             </div>
         </div>
     </div>
