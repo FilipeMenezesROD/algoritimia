@@ -165,12 +165,13 @@
                 <button type="button" onclick="askHolocronPreset('Explica os bichinhos e blocos do Flowgorithm')" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-white hover:bg-indigo-50 border border-slate-300 text-slate-700 font-medium cursor-pointer">Bichinhos do Flow</button>
                 <button type="button" onclick="askHolocronPreset('Como funcionam operadores AND, OR, != e funções com retornar?')" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-white hover:bg-indigo-50 border border-slate-300 text-slate-700 font-medium cursor-pointer">Operadores &amp; Funções</button>
                 <button type="button" onclick="askHolocronPreset('Explica os fluxogramas Prática 1 a 6')" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-950 font-semibold cursor-pointer">Práticas 1-6</button>
+                <button type="button" onclick="askHolocronPreset('O que tem no formação iefp.zip?')" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-cyan-50 hover:bg-cyan-100 border border-cyan-300 text-cyan-950 font-semibold cursor-pointer">Formação IEFP</button>
                 <button type="button" onclick="askHolocronPreset('Easter egg Mandaloriano e Luke Skywalker')" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-950 font-semibold cursor-pointer">Easter Eggs SW</button>
             </div>
 
             <div id="holocron-ai-messages" class="p-3.5 max-h-[44dvh] sm:max-h-80 overflow-y-auto space-y-2.5 text-xs sm:text-sm leading-relaxed bg-white">
                 <div class="p-3 rounded-2xl bg-slate-100 text-slate-800 border border-slate-200">
-                    Olá! Sou a <strong>IA Holocron</strong>. Pergunta-me sobre qualquer questão (<code class="font-mono text-indigo-800">Q01</code> a <code class="font-mono text-indigo-800">Q20</code> ou <code class="font-mono text-indigo-800">Prática 1</code> a <code class="font-mono text-indigo-800">6</code>), <strong>logaritmos</strong>, <strong>bichinhos do Flowgorithm</strong>, arrays, simulados ou <em>Star Wars</em>.
+                    Olá! Sou a <strong>IA Holocron</strong>. Pergunta-me sobre qualquer questão (<code class="font-mono text-indigo-800">Q01</code> a <code class="font-mono text-indigo-800">Q20</code> ou <code class="font-mono text-indigo-800">Prática 1</code> a <code class="font-mono text-indigo-800">6</code>), <strong>logaritmos</strong>, <strong>bichinhos do Flowgorithm</strong>, arrays, simulados, <strong>formação IEFP</strong> ou <em>Star Wars</em>.
                 </div>
             </div>
 
@@ -336,7 +337,7 @@
         </div>
     </header>
 
-    <!-- Navegação Principal Estilo App (4 Secções Clicáveis) -->
+    <!-- Navegação Principal Estilo App (5 Secções Clicáveis) -->
     <nav class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm no-print" aria-label="Navegação Principal dos Arquivos">
         <div class="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8">
             <div class="flex overflow-x-auto py-2 gap-1.5 sm:gap-2 items-center">
@@ -356,6 +357,11 @@
                 <button type="button" onclick="switchMainTab('diagnosis')" id="main-tab-diagnosis" class="main-tab-btn shrink-0 px-3 sm:px-4 py-2 rounded-2xl text-xs sm:text-sm font-semibold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 border border-transparent cursor-pointer flex items-center gap-1.5 sm:gap-2">
                     <span class="font-mono text-xs opacity-80">IV.</span>
                     <span>Diagnóstico &amp; Plano</span>
+                </button>
+                <button type="button" onclick="switchMainTab('iefp')" id="main-tab-iefp" class="main-tab-btn shrink-0 px-3 sm:px-4 py-2 rounded-2xl text-xs sm:text-sm font-semibold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 border border-transparent cursor-pointer flex items-center gap-1.5 sm:gap-2">
+                    <span class="font-mono text-xs opacity-80">V.</span>
+                    <span>Formação IEFP (ZIP)</span>
+                    <span class="px-1.5 py-0.5 text-[10px] font-mono font-bold rounded bg-cyan-400 text-slate-950">HUB</span>
                 </button>
                 <button type="button" onclick="triggerRandomStarWarsEgg('nav_millennium')" class="sw-easter-spot w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 text-sm font-bold" title="Ponto Aleatório Millennium Falcon">
                     🚀
@@ -645,10 +651,10 @@
                         </div>
                         <p class="text-xs sm:text-sm">
                             <strong>Exemplos diretos:</strong><br>
-                            • <code class="font-mono">log<sub>2</sub>(8) = 3</code> porque <code class="font-mono">2<sup>3</sup> = 8</code>.<br>
-                            • <code class="font-mono">log<sub>10</sub>(100) = 2</code> porque <code class="font-mono">10<sup>2</sup> = 100</code>.<br>
-                            • <code class="font-mono">log<sub>5</sub>(1) = 0</code> porque qualquer base elevada a <code class="font-mono">0</code> dá <code class="font-mono">1</code>.<br>
-                            • <code class="font-mono">log<sub>7</sub>(7) = 1</code> porque <code class="font-mono">7<sup>1</sup> = 7</code>.
+- <code class="font-mono">log<sub>2</sub>(8) = 3</code> porque <code class="font-mono">2<sup>3</sup> = 8</code>.<br>
+- <code class="font-mono">log<sub>10</sub>(100) = 2</code> porque <code class="font-mono">10<sup>2</sup> = 100</code>.<br>
+- <code class="font-mono">log<sub>5</sub>(1) = 0</code> porque qualquer base elevada a <code class="font-mono">0</code> dá <code class="font-mono">1</code>.<br>
+- <code class="font-mono">log<sub>7</sub>(7) = 1</code> porque <code class="font-mono">7<sup>1</sup> = 7</code>.
                         </p>
                     </div>
 
@@ -758,9 +764,9 @@
                         <div class="p-4 rounded-xl bg-amber-50/60 border border-amber-200 space-y-2">
                             <h4 class="font-bold text-amber-950">Como Não Errar Questões de Fluxograma na Prova</h4>
                             <p class="text-xs sm:text-sm">
-                                1. Contou variáveis? Conte cada nome separado por vírgula nos blocos de declaração.<br>
-                                2. Perguntou “quais ciclos”? Conte apenas os hexágonos (<code class="font-mono">For</code>, <code class="font-mono">While</code>, <code class="font-mono">Do</code>), ignorando losangos (<code class="font-mono">If</code>).<br>
-                                3. Perguntou “qual o tipo primitivo”? Responda <code class="font-mono">Integer</code>, <code class="font-mono">Real</code>, <code class="font-mono">String</code> ou <code class="font-mono">Boolean</code>.
+1. Contou variáveis? Conte cada nome separado por vírgula nos blocos de declaração.<br>
+2. Perguntou “quais ciclos”? Conte apenas os hexágonos (<code class="font-mono">For</code>, <code class="font-mono">While</code>, <code class="font-mono">Do</code>), ignorando losangos (<code class="font-mono">If</code>).<br>
+3. Perguntou “qual o tipo primitivo”? Responda <code class="font-mono">Integer</code>, <code class="font-mono">Real</code>, <code class="font-mono">String</code> ou <code class="font-mono">Boolean</code>.
                             </p>
                         </div>
                     </div>
@@ -1130,6 +1136,66 @@ nomes["aluno"]      ← "Filipe"
                     Pratique <code class="font-mono">!=</code>, <code class="font-mono">AND</code>, <code class="font-mono">OR</code>, <code class="font-mono">retornar</code> em funções, propriedades dos logaritmos (<code class="font-mono">log<sub>a</sub>(b) = x ⇔ a<sup>x</sup> = b</code>) e os dois simulados de 12 questões inéditas.
                 </p>
             </div>
+        </div>
+    </main>
+
+    <!-- ===================================================================== -->
+    <!-- SECÇÃO 5: PLATAFORMA DE ESTUDOS — FORMAÇÃO IEFP (ZIP)                -->
+    <!-- ===================================================================== -->
+    <main id="section-tab-iefp" class="tab-section hidden max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-10 space-y-6 sm:space-y-8">
+
+        <div class="jedi-archive-bg text-white rounded-2xl p-5 sm:p-8 border-2 border-cyan-400/40 shadow-lg">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                <div class="space-y-2 max-w-3xl">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/15 border border-cyan-400/40 text-cyan-300 text-[10px] sm:text-xs font-mono uppercase tracking-wider flex-wrap">
+                        <span>Arquivo Central • formação iefp.zip</span>
+                        <span class="text-amber-300">1.929 Entradas • ~8,06 MB</span>
+                    </div>
+                    <h2 class="font-serif text-xl sm:text-3xl font-bold text-white">
+                        Plataforma de Estudos: Todo o Conteúdo de Formação IEFP
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                        Organização completa de tudo o que consta no pacote <code class="font-mono text-cyan-300">formação iefp.zip</code>: <strong>Organização &amp; Scrum</strong>, <strong>Sistemas de Informação &amp; LAB00</strong>, <strong>Banco de Dados &amp; SQL</strong>, e <strong>Git &amp; GitHub</strong>. Marque o que já revisou e pesquise por módulo ou ficheiro.
+                    </p>
+                </div>
+
+                <div class="bg-slate-900/90 border border-slate-700 rounded-2xl p-4 shrink-0 w-full lg:w-auto lg:min-w-[240px] space-y-2 text-xs">
+                    <div class="font-bold uppercase tracking-wider text-amber-300 border-b border-slate-700 pb-1.5">
+                        Progresso no ZIP IEFP
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">Módulos / Ficheiros:</span>
+                        <span id="iefp-total-items" class="font-mono font-bold text-white">0</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">Marcados como Estudados:</span>
+                        <span id="iefp-done-count" class="font-mono font-bold text-emerald-400">0</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">Objetos .git no ZIP:</span>
+                        <span class="font-mono font-bold text-cyan-300">Incluídos na contagem</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+                <div class="flex flex-nowrap sm:flex-wrap overflow-x-auto pb-1 sm:pb-0 gap-1.5" id="iefp-category-filters">
+                    <button type="button" onclick="setIefpCategory('all')" id="iefp-cat-all" class="iefp-cat-btn shrink-0 px-3 py-2 rounded-xl text-xs font-bold bg-amber-400 text-slate-950 cursor-pointer">Todos</button>
+                    <button type="button" onclick="setIefpCategory('org')" id="iefp-cat-org" class="iefp-cat-btn shrink-0 px-3 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-200 hover:bg-slate-700 cursor-pointer">Organização &amp; Scrum</button>
+                    <button type="button" onclick="setIefpCategory('si')" id="iefp-cat-si" class="iefp-cat-btn shrink-0 px-3 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-200 hover:bg-slate-700 cursor-pointer">Sistemas de Informação &amp; LAB00</button>
+                    <button type="button" onclick="setIefpCategory('bd')" id="iefp-cat-bd" class="iefp-cat-btn shrink-0 px-3 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-200 hover:bg-slate-700 cursor-pointer">Banco de Dados &amp; SQL</button>
+                    <button type="button" onclick="setIefpCategory('git')" id="iefp-cat-git" class="iefp-cat-btn shrink-0 px-3 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-200 hover:bg-slate-700 cursor-pointer">Git &amp; GitHub</button>
+                </div>
+
+                <input type="text" id="iefpSearchInput" oninput="renderIefpCatalog()" placeholder="Filtrar ficheiro ou tema (ex: Scrum, LAB00, SQL, 3FN, Git)..." class="w-full sm:w-72 px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-600 text-xs sm:text-sm text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400">
+            </div>
+        </div>
+
+        <div id="iefp-catalog-container" class="space-y-5"></div>
+
+        <div class="bg-amber-50 border border-amber-300 rounded-2xl p-4 sm:p-5 text-xs sm:text-sm text-amber-950 space-y-1">
+            <p class="font-bold">Nota sobre o conteúdo extraído de <code class="font-mono">formação iefp.zip</code>:</p>
+            <p>O pacote contém 1.929 entradas (incluindo diretórios e objetos internos de repositórios Git em <code class="font-mono">bdd/.git</code>, <code class="font-mono">Trabalho Banco de dados/.git</code> e <code class="font-mono">turma-sjm-git-filipe-gabriel-thalia/.git</code>). Caso queira que eu incorpore o texto integral de algum <code class="font-mono">.docx</code>, <code class="font-mono">.pptx</code>, <code class="font-mono">.pdf</code> ou <code class="font-mono">.sql</code> específico aqui dentro, é só colar ou pedir o módulo desejado!</p>
         </div>
     </main>
 
@@ -1608,7 +1674,7 @@ nomes["aluno"]      ← "Filipe"
             const container = document.getElementById("holocron-ai-messages");
             container.innerHTML = `
                 <div class="p-3 rounded-2xl bg-slate-100 text-slate-800 border border-slate-200">
-                    Conversa limpa! Pergunta-me sobre qualquer questão (<code class="font-mono text-indigo-800">Q01</code> a <code class="font-mono text-indigo-800">Q20</code> ou <code class="font-mono text-indigo-800">Prática 1</code> a <code class="font-mono text-indigo-800">6</code>), <strong>logaritmos</strong>, <strong>bichinhos do Flowgorithm</strong>, arrays, simulados ou <em>Star Wars</em>.
+                    Conversa limpa! Pergunta-me sobre qualquer questão (<code class="font-mono text-indigo-800">Q01</code> a <code class="font-mono text-indigo-800">Q20</code> ou <code class="font-mono text-indigo-800">Prática 1</code> a <code class="font-mono text-indigo-800">6</code>), <strong>logaritmos</strong>, <strong>bichinhos do Flowgorithm</strong>, arrays, simulados, <strong>formação IEFP</strong> ou <em>Star Wars</em>.
                 </div>
             `;
         }
@@ -1649,6 +1715,9 @@ nomes["aluno"]      ← "Filipe"
                 }
             }
 
+            if (q.includes("iefp") || q.includes("zip") || q.includes("scrum") || q.includes("sql") || q.includes("git")) {
+                return "<strong>Formação IEFP (ZIP):</strong> Reúne 4 grandes áreas: <em>Organização &amp; Scrum</em> (guia Scrum, app barbearia, gestão), <em>Sistemas de Informação &amp; LAB00</em> (requisitos, TechHelp, TecnoRepara, fichas 1–5, fluxogramas LAB00_D1 a D5, bdd.drawio), <em>Banco de Dados &amp; SQL</em> (UC00603, JOIN/conjuntos, PostgreSQL, 1FN–4FN, OFICINA_STRK, TRABAI 2, infográfico SQL 1–100) e <em>Git &amp; GitHub</em> (guias e projeto final da turma SJM). Abra a aba <strong>V. Formação IEFP (ZIP)</strong>!";
+            }
             if (q.includes("log") || q.includes("logaritm")) {
                 return "<strong>Logaritmos:</strong> log<sub>a</sub>(b) = x significa a<sup>x</sup> = b. Ex.: log<sub>2</sub>(8) = 3 porque 2<sup>3</sup> = 8. Produto vira soma, divisão vira subtração e potência vai para a frente. Veja o <strong>Tutorial Completo de Logaritmos</strong> na aba II!";
             }
@@ -1677,7 +1746,7 @@ nomes["aluno"]      ← "Filipe"
                 return "Uma <strong>função</strong> recebe parâmetros e <strong>devolve um valor</strong> usando a palavra-chave <code>retornar</code> (<code>Return</code>) (Q11, Q17). Um <strong>procedimento</strong> executa ações sem devolver valor.";
             }
 
-            return "Em algoritmia, tudo parte de variáveis declaradas com tipo (<code>Integer</code>, <code>Real</code>, <code>String</code>, <code>Boolean</code>), estruturas de decisão (<code>if</code>) e repetição (<code>for</code>/<code>while</code>), arrays, operadores e funções (<code>retornar</code>). Podes abrir a aba <strong>Simulados (12Q + 100% SW)</strong> para testar com 12 perguntas em cada simulado!";
+            return "Em algoritmia, tudo parte de variáveis declaradas com tipo (<code>Integer</code>, <code>Real</code>, <code>String</code>, <code>Boolean</code>), estruturas de decisão (<code>if</code>) e repetição (<code>for</code>/<code>while</code>), arrays, operadores e funções (<code>retornar</code>). Podes abrir a aba <strong>Simulados (12Q + 100% SW)</strong> ou a aba <strong>V. Formação IEFP (ZIP)</strong>!";
         }
 
         function askHolocronPreset(text) {
@@ -2345,6 +2414,170 @@ nomes["aluno"]      ← "Filipe"
             document.getElementById('section-practical').style.display = (visiblePracticalCorrect + visiblePracticalErrors) > 0 ? 'block' : 'none';
         }
 
+        /* ===================================================================== */
+        /* PLATAFORMA DE ESTUDOS: CATÁLOGO DO ZIP "formação iefp.zip"           */
+        /* ===================================================================== */
+        const STORAGE_IEFP_DONE_KEY = "iefp_zip_studied_v1";
+        let iefpStudiedIds = JSON.parse(localStorage.getItem(STORAGE_IEFP_DONE_KEY) || "[]");
+        let activeIefpCategory = "all";
+
+        const iefpZipSections = [
+            {
+                id: "org",
+                title: "Analisar as funções e estrutura da organização",
+                subtitle: "Gestão, organização do trabalho, estrutura organizacional e metodologias ágeis Scrum.",
+                items: [
+                    { id: "org-1", name: "Estrutur.docx", meta: "15.4 KB • Estrutura organizacional" },
+                    { id: "org-2", name: "Fundamentos_de_Gestao_e_Organizacao_do_Trabalho.docx", meta: "41.9 KB • Fundamentos de gestão" },
+                    { id: "org-3", name: "Organizacao_e_Gestao_Empresarial_Guia_Estudo.docx", meta: "32.9 KB • Guia de estudo empresarial" },
+                    { id: "org-4", name: "resumo par aprova estudar/Gestão e Organização do Trabalho.pptx", meta: "137.3 KB • Apresentação para prova" },
+                    { id: "org-5", name: "Resumo_Scrum_Guide_PT_BR.docx", meta: "39.1 KB • Papéis, eventos e artefactos Scrum" },
+                    { id: "org-6", name: "Scrum_Pratico_App_Barbearia_Ciclo_Completo.docx", meta: "40.0 KB • Caso prático Scrum completo" },
+                    { id: "org-7", name: "Novo Documento do Microsoft Word.docx & (2).docx", meta: "13.6 KB / 15.7 KB • Apontamentos auxiliares" }
+                ]
+            },
+            {
+                id: "si",
+                title: "Analisar e planear sistemas de informação",
+                subtitle: "Sistemas de informação, engenharia de requisitos, modelação BDD/draw.io, fichas de trabalho e fluxogramas LAB00.",
+                items: [
+                    { id: "si-1", name: "Compreender sistemas si.docx", meta: "42.3 KB • Conceitos de SI" },
+                    { id: "si-2", name: "Engenharia de requisitos.docx & engenharia_de_requisitos_techhelp.docx", meta: "22.1 KB / 32.2 KB • Requisitos e caso TechHelp" },
+                    { id: "si-3", name: "Guia_de_Estudo_SI_TecnoRepara.docx", meta: "43.2 KB • Guia TecnoRepara" },
+                    { id: "si-4", name: "Sistemas_de_Informacao_e_Requisitos.docx", meta: "35.2 KB • Síntese SI & Requisitos" },
+                    { id: "si-5", name: "fluxograma.docx & Novo Documento do Microsoft Word.docx", meta: "13.9 KB / 15.8 KB • Fluxogramas e notas" },
+                    { id: "si-6", name: "estudo/Fundamentos de Sistemas de Informação e Engenharia de Requisitos.pptx", meta: "150.2 KB • Slides de estudo" },
+                    { id: "si-7", name: "estudo/bdd/bdd.drawio (+ repositório .git)", meta: "3.4 KB • Diagrama BDD e histórico Git" },
+                    { id: "si-8", name: "Trabalhos/Ficha de trabalho 1 - Teste Diagnostico.docx", meta: "143.9 KB • Teste diagnóstico" },
+                    { id: "si-9", name: "Trabalhos/Ficha de trabalho 2 - Compreender um Sistema de Informação.docx", meta: "58.0 KB • Ficha 2" },
+                    { id: "si-10", name: "Trabalhos/Ficha de trabalho 3 - Levantamento AS-IS - Dinâmica.docx", meta: "149.3 KB • Levantamento AS-IS" },
+                    { id: "si-11", name: "Trabalhos/Ficha de trabalho 5 - Engenharia de requisitos do problema ao que o sistema deve fazer.docx", meta: "160.7 KB • Ficha 5" },
+                    { id: "si-12", name: "Trabalhos/Fluxograma trabalho/LAB00_D1_Sequencia.fprg", meta: "1.2 KB • Flowgorithm Sequência" },
+                    { id: "si-13", name: "Trabalhos/Fluxograma trabalho/LAB00_D2_Decisao.fprg", meta: "1.3 KB • Flowgorithm Decisão" },
+                    { id: "si-14", name: "Trabalhos/Fluxograma trabalho/LAB00_D3_Repeticao.fprg", meta: "1.6 KB • Flowgorithm Repetição" },
+                    { id: "si-15", name: "Trabalhos/Fluxograma trabalho/LAB00_D4_Excecoes.fprg", meta: "1.8 KB • Flowgorithm Exceções" },
+                    { id: "si-16", name: "Trabalhos/Fluxograma trabalho/LAB00_D5, extensão.fprg", meta: "2.6 KB • Flowgorithm Extensão" }
+                ]
+            },
+            {
+                id: "bd",
+                title: "Banco de dados",
+                subtitle: "UC00603, PostgreSQL, SQL JOINs e conjuntos, normalização (1FN a 4FN), modelação ER, OFICINA_STRK, TRABAI 2 e repositório Git.",
+                items: [
+                    { id: "bd-1", name: "603/Explicacao_Consultas_SQL_JOIN_e_Conjuntos.docx", meta: "43.0 KB • JOINs, UNION, INTERSECT, EXCEPT" },
+                    { id: "bd-2", name: "603/UC00603_Aula_05_Exercicios_corrigido.pdf", meta: "111.6 KB • Exercícios corrigidos Aula 05" },
+                    { id: "bd-3", name: "603/UC00603_Manual_PostgreSQL_Aulas_1_a_8.pdf", meta: "373.2 KB • Manual PostgreSQL (Aulas 1 a 8)" },
+                    { id: "bd-4", name: "Fundamentos_de_Bases_de_Dados.docx & .pptx", meta: "31.5 KB / 84.9 KB • Fundamentos BD" },
+                    { id: "bd-5", name: "Bases de Dados Relacionais.pptx & Guia de Estudo_ Bases de Dados Relacionais.pptx", meta: "142.5 KB / 122.8 KB • Modelo relacional" },
+                    { id: "bd-6", name: "Modelacao_Dados_Entidades_Relacionamentos.docx", meta: "30.9 KB • Entidades e relacionamentos" },
+                    { id: "bd-7", name: "Normalizacao_Dados_Linguagem_Simples.docx", meta: "32.7 KB • Normalização simplificada" },
+                    { id: "bd-8", name: "modelação relacional trabai/1FN.SQL, 2FN.SQL, 3FN.SQL, 4FN.SQL", meta: "Scripts SQL • Formas normais 1FN a 4FN" },
+                    { id: "bd-9", name: "6003 teste/estudos info/infogr_fico_interativo_sql_do_1_ao_100.html", meta: "37.6 KB • Infográfico interativo SQL 1–100" },
+                    { id: "bd-10", name: "6003 teste/OFICINA_STRK/ (00_preparar_base 1.sql, STRK_OFICINA.SQL)", meta: "Scripts SQL • Base e oficina STRK" },
+                    { id: "bd-11", name: "6003 teste/TRABAI 2/ (00_preparar_base.sql, 01_caderno_aluno_100_exercicios.sql, LEIA-ME.txt, TREINO2.SQL)", meta: "Caderno 100 exercícios SQL e treino" },
+                    { id: "bd-12", name: "6003 teste/teste/ & teste.sql & Excercios-aula2 (1).sql", meta: "02_base_treino.sql, 03_exercicios_aula3.sql, exer3.sql, exes4.sql, treino.sql" },
+                    { id: "bd-13", name: "HOTEL ZION_LS.sql & trabalho avaliativo/ (avaliativoofiicna.sql, STRK_OFICINA.sql)", meta: "Scripts SQL de avaliação e hotel" },
+                    { id: "bd-14", name: "Trabalho Banco de dados/.git/ & strk, db/", meta: "Repositório Git e estrutura strk, db" }
+                ]
+            },
+            {
+                id: "git",
+                title: "Gitrub (Git & GitHub)",
+                subtitle: "Comandos essenciais de Git/GitHub, guias práticos e projeto final colaborativo em equipa.",
+                items: [
+                    { id: "git-1", name: "Guia_Completo_Comandos_Git_GitHub.docx", meta: "40.6 KB • Referência completa de comandos" },
+                    { id: "git-2", name: "Guia_Pratico_Git_e_GitHub.docx", meta: "39.7 KB • Fluxo prático Git & GitHub" },
+                    { id: "git-3", name: "PROJETO FINAL/turma-sjm-git-filipe-gabriel-thalia/ (.git & branches)", meta: "Repositório colaborativo (main, Filipe-Branch, gabriel, Thalia)" }
+                ]
+            }
+        ];
+
+        function setIefpCategory(cat) {
+            activeIefpCategory = cat;
+            document.querySelectorAll('.iefp-cat-btn').forEach(btn => {
+                btn.className = "iefp-cat-btn shrink-0 px-3 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-200 hover:bg-slate-700 cursor-pointer";
+            });
+            const activeBtn = document.getElementById(`iefp-cat-${cat}`);
+            if (activeBtn) {
+                activeBtn.className = "iefp-cat-btn shrink-0 px-3 py-2 rounded-xl text-xs font-bold bg-amber-400 text-slate-950 cursor-pointer";
+            }
+            renderIefpCatalog();
+        }
+
+        function toggleIefpStudied(itemId) {
+            if (iefpStudiedIds.includes(itemId)) {
+                iefpStudiedIds = iefpStudiedIds.filter(id => id !== itemId);
+            } else {
+                iefpStudiedIds.push(itemId);
+            }
+            localStorage.setItem(STORAGE_IEFP_DONE_KEY, JSON.stringify(iefpStudiedIds));
+            renderIefpCatalog();
+        }
+
+        function renderIefpCatalog() {
+            const container = document.getElementById("iefp-catalog-container");
+            if (!container) return;
+
+            const query = (document.getElementById("iefpSearchInput")?.value || "").toLowerCase().trim();
+            let totalItems = 0;
+            let studiedCount = 0;
+
+            iefpZipSections.forEach(sec => {
+                sec.items.forEach(it => {
+                    totalItems++;
+                    if (iefpStudiedIds.includes(it.id)) studiedCount++;
+                });
+            });
+
+            document.getElementById("iefp-total-items").textContent = totalItems;
+            document.getElementById("iefp-done-count").textContent = studiedCount;
+
+            const filteredSections = iefpZipSections
+                .filter(sec => activeIefpCategory === "all" || sec.id === activeIefpCategory)
+                .map(sec => {
+                    const matchedItems = sec.items.filter(it => {
+                        if (!query) return true;
+                        return (sec.title + " " + it.name + " " + it.meta).toLowerCase().includes(query);
+                    });
+                    return { ...sec, matchedItems };
+                })
+                .filter(sec => sec.matchedItems.length > 0);
+
+            if (filteredSections.length === 0) {
+                container.innerHTML = `<div class="bg-white border border-slate-200 rounded-2xl p-6 text-center text-sm text-slate-500">Nenhum ficheiro ou módulo encontrado para "${query}".</div>`;
+                return;
+            }
+
+            container.innerHTML = filteredSections.map(sec => `
+                <article class="bg-white border border-slate-200 rounded-2xl shadow-xs overflow-hidden">
+                    <div class="bg-slate-950 text-white px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-2 border-b border-cyan-500/30">
+                        <div>
+                            <h3 class="font-serif text-base sm:text-xl font-bold text-amber-300">${sec.title}</h3>
+                            <p class="text-xs text-slate-300 mt-0.5">${sec.subtitle}</p>
+                        </div>
+                        <span class="px-2.5 py-1 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 font-mono text-xs font-bold">${sec.matchedItems.length} item(ns)</span>
+                    </div>
+                    <div class="p-4 sm:p-6 divide-y divide-slate-100">
+                        ${sec.matchedItems.map(item => {
+                            const isDone = iefpStudiedIds.includes(item.id);
+                            return `
+                                <div class="py-3 first:pt-0 last:pb-0 flex items-start sm:items-center justify-between gap-3">
+                                    <label class="flex items-start sm:items-center gap-3 cursor-pointer flex-1 min-w-0">
+                                        <input type="checkbox" ${isDone ? 'checked' : ''} onchange="toggleIefpStudied('${item.id}')" class="mt-1 sm:mt-0 w-4 h-4 rounded border-slate-300 text-indigo-800 focus:ring-indigo-700 shrink-0">
+                                        <div class="min-w-0">
+                                            <div class="font-mono text-xs sm:text-sm font-bold break-words ${isDone ? 'line-through text-slate-400' : 'text-slate-950'}">${item.name}</div>
+                                            <div class="text-xs text-slate-500 mt-0.5">${item.meta}</div>
+                                        </div>
+                                    </label>
+                                    <span class="shrink-0 px-2.5 py-0.5 rounded-full text-[11px] font-mono font-semibold ${isDone ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600'}">${isDone ? 'REVISTO' : 'PENDENTE'}</span>
+                                </div>
+                            `;
+                        }).join("")}
+                    </div>
+                </article>
+            `).join("");
+        }
+
         function switchMainTab(tabName) {
             document.querySelectorAll('.tab-section').forEach(sec => sec.classList.add('hidden'));
             const targetSec = document.getElementById(`section-tab-${tabName}`);
@@ -2363,6 +2596,10 @@ nomes["aluno"]      ← "Filipe"
                 rebuildActiveSimulado(false);
             }
 
+            if (tabName === 'iefp') {
+                renderIefpCatalog();
+            }
+
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -2371,6 +2608,7 @@ nomes["aluno"]      ← "Filipe"
             renderPractical();
             updateHeaderAndHistoryUI();
             rebuildActiveSimulado(false);
+            renderIefpCatalog();
         });
     </script>
 </body>
