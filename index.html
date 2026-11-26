@@ -1185,65 +1185,7 @@ nomes["aluno"]      ← "Filipe"
         </div>
     </main>
 
-    <!-- ===================================================================== -->
-    <!-- SECÇÃO 6: PLATAFORMA DE ESTUDOS — FORMAÇÃO IEFP (ZIP)                -->
-    <!-- ===================================================================== -->
-    <main id="section-tab-iefp" class="tab-section hidden max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-10 space-y-6 sm:space-y-8">
 
-        <div class="jedi-archive-bg text-white rounded-2xl p-5 sm:p-8 border-2 border-cyan-400/40 shadow-lg">
-            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-                <div class="space-y-2 max-w-3xl">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/15 border border-cyan-400/40 text-cyan-300 text-[10px] sm:text-xs font-mono uppercase tracking-wider flex-wrap">
-                        <span>Arquivo Central • formação iefp.zip</span>
-                        <span class="text-amber-300">1.929 Entradas • ~8,06 MB</span>
-                    </div>
-                    <h2 class="font-serif text-xl sm:text-3xl font-bold text-white">
-                        Plataforma de Estudos: Todo o Conteúdo de Formação IEFP
-                    </h2>
-                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                        Organização completa de tudo o que consta no pacote <code class="font-mono text-cyan-300">formação iefp.zip</code>: <strong>Organização &amp; Scrum</strong>, <strong>Sistemas de Informação &amp; LAB00</strong>, <strong>Banco de Dados &amp; SQL</strong>, e <strong>Git &amp; GitHub</strong>. Marque o que já revisou e pesquise por módulo ou ficheiro.
-                    </p>
-                </div>
-
-                <div class="bg-slate-900/90 border border-slate-700 rounded-2xl p-4 shrink-0 w-full lg:w-auto lg:min-w-[240px] space-y-2 text-xs">
-                    <div class="font-bold uppercase tracking-wider text-amber-300 border-b border-slate-700 pb-1.5">
-                        Progresso no ZIP IEFP
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-slate-400">Módulos / Ficheiros:</span>
-                        <span id="iefp-total-items" class="font-mono font-bold text-white">0</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-slate-400">Marcados como Estudados:</span>
-                        <span id="iefp-done-count" class="font-mono font-bold text-emerald-400">0</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-slate-400">Objetos .git no ZIP:</span>
-                        <span class="font-mono font-bold text-cyan-300">Incluídos na contagem</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-                <div class="flex flex-nowrap sm:flex-wrap overflow-x-auto pb-1 sm:pb-0 gap-1.5" id="iefp-category-filters">
-                    <button type="button" onclick="setIefpCategory('all')" id="iefp-cat-all" class="iefp-cat-btn shrink-0 px-3 py-2 rounded-xl text-xs font-bold bg-amber-400 text-slate-950 cursor-pointer">Todos</button>
-                    <button type="button" onclick="setIefpCategory('org')" id="iefp-cat-org" class="iefp-cat-btn shrink-0 px-3 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-200 hover:bg-slate-700 cursor-pointer">Organização &amp; Scrum</button>
-                    <button type="button" onclick="setIefpCategory('si')" id="iefp-cat-si" class="iefp-cat-btn shrink-0 px-3 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-200 hover:bg-slate-700 cursor-pointer">Sistemas de Informação &amp; LAB00</button>
-                    <button type="button" onclick="setIefpCategory('bd')" id="iefp-cat-bd" class="iefp-cat-btn shrink-0 px-3 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-200 hover:bg-slate-700 cursor-pointer">Banco de Dados &amp; SQL</button>
-                    <button type="button" onclick="setIefpCategory('git')" id="iefp-cat-git" class="iefp-cat-btn shrink-0 px-3 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-200 hover:bg-slate-700 cursor-pointer">Git &amp; GitHub</button>
-                </div>
-
-                <input type="text" id="iefpSearchInput" oninput="renderIefpCatalog()" placeholder="Filtrar ficheiro ou tema (ex: Scrum, LAB00, SQL, 3FN, Git)..." class="w-full sm:w-72 px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-600 text-xs sm:text-sm text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400">
-            </div>
-        </div>
-
-        <div id="iefp-catalog-container" class="space-y-5"></div>
-
-        <div class="bg-amber-50 border border-amber-300 rounded-2xl p-4 sm:p-5 text-xs sm:text-sm text-amber-950 space-y-1">
-            <p class="font-bold">Nota sobre o conteúdo extraído de <code class="font-mono">formação iefp.zip</code>:</p>
-            <p>O pacote contém 1.929 entradas (incluindo diretórios e objetos internos de repositórios Git em <code class="font-mono">bdd/.git</code>, <code class="font-mono">Trabalho Banco de dados/.git</code> e <code class="font-mono">turma-sjm-git-filipe-gabriel-thalia/.git</code>). Caso queira que eu incorpore o texto integral de algum <code class="font-mono">.docx</code>, <code class="font-mono">.pptx</code>, <code class="font-mono">.pdf</code> ou <code class="font-mono">.sql</code> específico aqui dentro, é só colar ou pedir o módulo desejado!</p>
-        </div>
-    </main>
 
     <!-- Rodapé Académico -->
     <footer class="bg-slate-950 text-slate-400 border-t border-amber-500/30 mt-10 sm:mt-12 py-6">
