@@ -164,19 +164,19 @@
                 <button type="button" onclick="askHolocronPreset('Explica o tutorial de logaritmos e propriedades')" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-white hover:bg-indigo-50 border border-slate-300 text-slate-700 font-medium cursor-pointer">Logaritmos</button>
                 <button type="button" onclick="askHolocronPreset('Explica os bichinhos e blocos do Flowgorithm')" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-white hover:bg-indigo-50 border border-slate-300 text-slate-700 font-medium cursor-pointer">Bichinhos do Flow</button>
                 <button type="button" onclick="askHolocronPreset('Como funcionam operadores AND, OR, != e funções com retornar?')" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-white hover:bg-indigo-50 border border-slate-300 text-slate-700 font-medium cursor-pointer">Operadores &amp; Funções</button>
-                <button type="button" onclick="askHolocronPreset('Explica UC 600, Gantt, front/back e modelo OSI')" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-950 font-semibold cursor-pointer">UC 600 &amp; Redes</button>
+                <button type="button" onclick="askHolocronPreset('Explica os fluxogramas Prática 1 a 6')" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-950 font-semibold cursor-pointer">Práticas 1-6</button>
                 <button type="button" onclick="askHolocronPreset('O que tem no formação iefp.zip?')" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-cyan-50 hover:bg-cyan-100 border border-cyan-300 text-cyan-950 font-semibold cursor-pointer">Formação IEFP</button>
                 <button type="button" onclick="askHolocronPreset('Easter egg Mandaloriano e Luke Skywalker')" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-950 font-semibold cursor-pointer">Easter Eggs SW</button>
             </div>
 
             <div id="holocron-ai-messages" class="p-3.5 max-h-[44dvh] sm:max-h-80 overflow-y-auto space-y-2.5 text-xs sm:text-sm leading-relaxed bg-white">
                 <div class="p-3 rounded-2xl bg-slate-100 text-slate-800 border border-slate-200">
-                    Olá! Sou a <strong>IA Holocron</strong>. Pergunta-me sobre qualquer questão (<code class="font-mono text-indigo-800">Q01</code> a <code class="font-mono text-indigo-800">Q20</code> ou <code class="font-mono text-indigo-800">Prática 1</code> a <code class="font-mono text-indigo-800">6</code>), <strong>logaritmos</strong>, <strong>bichinhos do Flowgorithm</strong>, arrays, simulados, <strong>UC 600 (Organização, Gantt &amp; Redes OSI)</strong>, <strong>formação IEFP</strong> ou <em>Star Wars</em>.
+                    Olá! Sou a <strong>IA Holocron</strong>. Pergunta-me sobre qualquer questão (<code class="font-mono text-indigo-800">Q01</code> a <code class="font-mono text-indigo-800">Q20</code> ou <code class="font-mono text-indigo-800">Prática 1</code> a <code class="font-mono text-indigo-800">6</code>), <strong>logaritmos</strong>, <strong>bichinhos do Flowgorithm</strong>, arrays, simulados, <strong>formação IEFP</strong>, <strong>resumos (BD, SI, Git, Inglês, Matemática, UC 600)</strong> ou <em>Star Wars</em>.
                 </div>
             </div>
 
             <form onsubmit="handleHolocronSubmit(event)" class="p-2.5 bg-slate-50 border-t border-slate-200 flex items-center gap-2">
-                <input type="text" id="holocron-ai-input" placeholder="Ex: logaritmo, flow, gantt, osi, rede, luke..." class="flex-1 min-w-0 px-3 py-2.5 bg-white border border-slate-300 rounded-2xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600">
+                <input type="text" id="holocron-ai-input" placeholder="Ex: logaritmo, flow, array, prática 4, Luke..." class="flex-1 min-w-0 px-3 py-2.5 bg-white border border-slate-300 rounded-2xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600">
                 <button type="submit" class="px-3.5 py-2.5 bg-slate-950 hover:bg-slate-800 text-amber-300 font-bold text-xs sm:text-sm rounded-2xl cursor-pointer shrink-0">
                     Enviar
                 </button>
@@ -243,7 +243,7 @@
                         Arquivos Académicos de Algoritmia &amp; Programação
                     </h1>
                     <p class="text-slate-300 text-xs sm:text-base lg:text-lg leading-relaxed">
-                        Revisão Comentada da Avaliação, Aula Magistral, Tutorial de Logaritmos, Guia Completo do Flowgorithm &amp; Arrays, UC 600 (Organização, Gantt &amp; Redes OSI) e Simulados (Geral + 100% Star Wars).
+                        Revisão Comentada da Avaliação, Aula Magistral, Tutorial de Logaritmos, Guia Completo do Flowgorithm &amp; Arrays e Simulados (Geral + 100% Star Wars).
                     </p>
                 </div>
 
@@ -253,9 +253,13 @@
                         <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                         <span>Ir para os Simulados (12Q + SW)</span>
                     </button>
-                    <button type="button" onclick="switchMainTab('uc600')" class="inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-2xl bg-amber-950/90 hover:bg-amber-900 text-amber-300 border border-amber-400/50 text-xs sm:text-sm font-bold transition-colors cursor-pointer">
-                        <span>📡</span>
-                        <span>UC 600 &amp; Redes</span>
+                    <button type="button" onclick="switchMainTab('summaries')" class="inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-2xl bg-cyan-950/90 hover:bg-cyan-900 text-cyan-200 border border-cyan-400/40 text-xs sm:text-sm font-semibold transition-colors cursor-pointer" title="Abrir Caderno de Resumos Completo">
+                        <span>📚</span>
+                        <span>Resumos (BD, SI, Git...)</span>
+                    </button>
+                    <button type="button" onclick="triggerMandalorianEasterEgg()" class="inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-2xl bg-indigo-950/90 hover:bg-indigo-900 text-cyan-300 border border-cyan-400/40 text-xs sm:text-sm font-semibold transition-colors cursor-pointer" title="Easter Egg do Mandaloriano & Grogu">
+                        <span>✦</span>
+                        <span>Mando / Grogu</span>
                     </button>
                     <div class="flex items-center gap-2">
                         <button type="button" onclick="triggerRandomStarWarsEgg('header_droid')" class="sw-easter-spot px-2.5 sm:px-3 py-2.5 rounded-2xl bg-slate-900/90 hover:bg-slate-800 text-amber-300 border border-amber-500/30 text-xs font-mono font-bold shrink-0" title="Ponto Aleatório R2-D2 / Obi-Wan">
@@ -286,32 +290,32 @@
                     <p class="mt-2 text-xs text-slate-400">Clique para ver os <strong class="text-amber-300">17 erros</strong> &rarr;</p>
                 </button>
 
-                <button type="button" onclick="switchMainTab('uc600');" class="text-left holo-card-glass hover:border-amber-400/60 border border-slate-700/80 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition-all cursor-pointer">
+                <button type="button" onclick="switchMainTab('lecture'); jumpToLectureMod('mod-logaritmos');" class="text-left holo-card-glass hover:border-cyan-400/60 border border-slate-700/80 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition-all cursor-pointer">
                     <div class="flex items-center justify-between w-full gap-2">
-                        <span class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-amber-300">UC 600 • Org &amp; Redes</span>
-                        <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30 shrink-0">NOVO</span>
+                        <span class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-400">Tutorial Logaritmos</span>
+                        <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-sky-500/20 text-sky-300 border border-sky-500/30 shrink-0">LOG &amp; ALG</span>
                     </div>
                     <div class="mt-2.5 sm:mt-3 flex items-baseline gap-2">
-                        <span class="font-serif text-xl sm:text-2xl font-bold text-white">Gantt, Scrum &amp; OSI</span>
+                        <span class="font-serif text-xl sm:text-2xl font-bold text-white">Base, Regras &amp; Passos</span>
                     </div>
                     <div class="mt-2.5 sm:mt-3 w-full bg-slate-800 rounded-full h-2 overflow-hidden">
-                        <div class="bg-amber-400 h-2 rounded-full" style="width: 95%"></div>
+                        <div class="bg-cyan-400 h-2 rounded-full" style="width: 85%"></div>
                     </div>
-                    <p class="mt-2 text-xs text-slate-400">Organização, Front/Back &amp; <strong class="text-amber-300">Redes</strong> &rarr;</p>
+                    <p class="mt-2 text-xs text-slate-400">Tudo o que funciona nos <strong class="text-cyan-300">logaritmos</strong> &rarr;</p>
                 </button>
 
-                <button type="button" onclick="switchMainTab('lecture'); jumpToLectureMod('mod-bichinhos-flow');" class="text-left holo-card-glass hover:border-cyan-400/60 border border-slate-700/80 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition-all cursor-pointer">
+                <button type="button" onclick="switchMainTab('lecture'); jumpToLectureMod('mod-bichinhos-flow');" class="text-left holo-card-glass hover:border-amber-400/60 border border-slate-700/80 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition-all cursor-pointer">
                     <div class="flex items-center justify-between w-full gap-2">
-                        <span class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-400">Flow, Arrays &amp; Log</span>
-                        <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-sky-500/20 text-sky-300 border border-sky-500/30 shrink-0">GUIA</span>
+                        <span class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-400">Flow, Arrays &amp; Declaração</span>
+                        <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30 shrink-0">GUIA COMPLETO</span>
                     </div>
                     <div class="mt-2.5 sm:mt-3 flex items-baseline gap-2">
                         <span class="font-serif text-xl sm:text-2xl font-bold text-white">Blocos &amp; Vetores</span>
                     </div>
                     <div class="mt-2.5 sm:mt-3 w-full bg-slate-800 rounded-full h-2 overflow-hidden">
-                        <div class="bg-cyan-400 h-2 rounded-full" style="width: 90%"></div>
+                        <div class="bg-amber-500 h-2 rounded-full" style="width: 90%"></div>
                     </div>
-                    <p class="mt-2 text-xs text-slate-400">Logaritmos, <strong class="text-cyan-300">bichinhos do Flow</strong> &amp; arrays &rarr;</p>
+                    <p class="mt-2 text-xs text-slate-400">Todos os <strong class="text-amber-300">bichinhos do Flow</strong> &amp; arrays &rarr;</p>
                 </button>
 
                 <div class="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-950 border border-amber-500/45 rounded-2xl p-4 sm:p-5 flex flex-col justify-between">
@@ -363,10 +367,10 @@
                     <span>Formação IEFP (ZIP)</span>
                     <span class="px-1.5 py-0.5 text-[10px] font-mono font-bold rounded bg-cyan-400 text-slate-950">HUB</span>
                 </button>
-                <button type="button" onclick="switchMainTab('uc600')" id="main-tab-uc600" class="main-tab-btn shrink-0 px-3 sm:px-4 py-2 rounded-2xl text-xs sm:text-sm font-semibold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 border border-transparent cursor-pointer flex items-center gap-1.5 sm:gap-2">
+                <button type="button" onclick="switchMainTab('summaries')" id="main-tab-summaries" class="main-tab-btn shrink-0 px-3 sm:px-4 py-2 rounded-2xl text-xs sm:text-sm font-semibold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 border border-transparent cursor-pointer flex items-center gap-1.5 sm:gap-2">
                     <span class="font-mono text-xs opacity-80">VI.</span>
-                    <span>UC 600 • Org &amp; Redes</span>
-                    <span class="px-1.5 py-0.5 text-[10px] font-mono font-bold rounded bg-amber-400 text-slate-950">OSI+GANT</span>
+                    <span>Resumos Completos</span>
+                    <span class="px-1.5 py-0.5 text-[10px] font-mono font-bold rounded bg-emerald-400 text-slate-950">NOVO</span>
                 </button>
                 <button type="button" onclick="triggerRandomStarWarsEgg('nav_millennium')" class="sw-easter-spot w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 text-sm font-bold" title="Ponto Aleatório Millennium Falcon">
                     🚀
@@ -1205,226 +1209,52 @@ nomes["aluno"]      ← "Filipe"
     </main>
 
     <!-- ===================================================================== -->
-    <!-- SECÇÃO 6: UC 600 — FUNÇÕES, ESTRUTURA DA ORGANIZAÇÃO & REDES (OSI)  -->
+    <!-- SECÇÃO 6: PLATAFORMA DE RESUMOS COMPLETOS (BD, SI, GIT, INGLÊS, MAT, UC 600) -->
     <!-- ===================================================================== -->
-    <main id="section-tab-uc600" class="tab-section hidden max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-10 space-y-6 sm:space-y-8">
+    <main id="section-tab-summaries" class="tab-section hidden max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-10 space-y-6 sm:space-y-8">
 
-        <div class="jedi-archive-bg text-white rounded-2xl p-5 sm:p-8 border-2 border-amber-400/50 shadow-lg">
-            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-5">
+        <div class="jedi-archive-bg text-white rounded-2xl p-5 sm:p-8 border-2 border-emerald-400/40 shadow-lg">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                 <div class="space-y-2 max-w-3xl">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-300 text-[10px] sm:text-xs font-mono uppercase tracking-wider flex-wrap">
-                        <span>UC 600 • Analisar as Funções e Estrutura da Organização &amp; Redes</span>
-                        <span class="text-cyan-300">OSI + redes.docx + Projetos/Gantt</span>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-400/40 text-emerald-300 text-[10px] sm:text-xs font-mono uppercase tracking-wider flex-wrap">
+                        <span>Plataforma de Resumos &amp; Apontamentos • Que a Força esteja com você</span>
+                        <span class="text-amber-300">6 Grandes Áreas</span>
                     </div>
                     <h2 class="font-serif text-xl sm:text-3xl font-bold text-white">
-                        Organização, Comunicação, Projetos (Gantt &amp; Front/Back) e Redes de Computadores
+                        Caderno de Resumos: Banco de Dados, SI, Git, Inglês, Matemática &amp; UC 600
                     </h2>
                     <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                        Síntese completa de tudo o que estudou na UC 600 e nos ficheiros anexados: pilares organizacionais, níveis de gestão, SMART, tipologias e formas jurídicas, teorias e Scrum, comunicação e projetos (com exemplo completo de <strong>Frontend &amp; Backend</strong>, regra de ouro de que <strong>o Frontend nunca pode atrasar</strong> e <strong>Gráfico de Gantt</strong>), além do <strong>Modelo OSI de 7 Camadas</strong> e do resumo de <strong>Redes</strong> melhorado.
+                        Todos os resumos e materiais que enviou organizados numa plataforma de estudo rápida, pesquisável e interativa.
                     </p>
                 </div>
-                <div class="no-print shrink-0 flex flex-wrap gap-2">
-                    <button type="button" onclick="document.getElementById('uc600-projetos-gantt').scrollIntoView({behavior:'smooth'})" class="px-3.5 py-2.5 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs sm:text-sm rounded-xl cursor-pointer">
-                        Projetos &amp; Gantt &darr;
-                    </button>
-                    <button type="button" onclick="document.getElementById('uc600-redes-osi').scrollIntoView({behavior:'smooth'})" class="px-3.5 py-2.5 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs sm:text-sm rounded-xl cursor-pointer">
-                        Redes &amp; OSI &darr;
-                    </button>
+
+                <div class="bg-slate-900/90 border border-slate-700 rounded-2xl p-4 shrink-0 w-full lg:w-auto lg:min-w-[230px] space-y-1.5 text-xs">
+                    <div class="font-bold uppercase tracking-wider text-amber-300 border-b border-slate-700 pb-1.5">
+                        Índice de Estudo
+                    </div>
+                    <div class="text-slate-300">• Base de Dados (1FN–3FN, SQL, JOINs)</div>
+                    <div class="text-slate-300">• Sistemas de Informação &amp; UML</div>
+                    <div class="text-slate-300">• Git &amp; GitHub + Inglês Técnico</div>
+                    <div class="text-slate-300">• Matemática + UC 600 &amp; Scrum</div>
                 </div>
+            </div>
+
+            <div class="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+                <div class="flex flex-nowrap sm:flex-wrap overflow-x-auto pb-1 sm:pb-0 gap-1.5" id="summary-cat-filters">
+                    <button type="button" onclick="setSummaryCategory('all')" id="sum-cat-all" class="sum-cat-btn shrink-0 px-3 py-2 rounded-xl text-xs font-bold bg-amber-400 text-slate-950 cursor-pointer">Todos</button>
+                    <button type="button" onclick="setSummaryCategory('bd')" id="sum-cat-bd" class="sum-cat-btn shrink-0 px-3 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-200 hover:bg-slate-700 cursor-pointer">Base de Dados &amp; SQL</button>
+                    <button type="button" onclick="setSummaryCategory('si')" id="sum-cat-si" class="sum-cat-btn shrink-0 px-3 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-200 hover:bg-slate-700 cursor-pointer">Sistemas de Informação</button>
+                    <button type="button" onclick="setSummaryCategory('git')" id="sum-cat-git" class="sum-cat-btn shrink-0 px-3 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-200 hover:bg-slate-700 cursor-pointer">Git &amp; GitHub</button>
+                    <button type="button" onclick="setSummaryCategory('eng')" id="sum-cat-eng" class="sum-cat-btn shrink-0 px-3 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-200 hover:bg-slate-700 cursor-pointer">Inglês Informático</button>
+                    <button type="button" onclick="setSummaryCategory('math')" id="sum-cat-math" class="sum-cat-btn shrink-0 px-3 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-200 hover:bg-slate-700 cursor-pointer">Matemática Aplicada</button>
+                    <button type="button" onclick="setSummaryCategory('uc600')" id="sum-cat-uc600" class="sum-cat-btn shrink-0 px-3 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-200 hover:bg-slate-700 cursor-pointer">UC 600 &amp; Scrum</button>
+                </div>
+
+                <input type="text" id="summarySearchInput" oninput="renderSummariesCatalog()" placeholder="Pesquisar resumo (ex: 3FN, JOIN, RGPD, branch, Present Perfect, matriz, Scrum)..." class="w-full sm:w-80 px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-600 text-xs sm:text-sm text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-400">
             </div>
         </div>
 
-        <!-- 1. Organização, Gestão, SMART, Tipologias, Formas Jurídicas & Scrum -->
-        <article class="module-card bg-white border border-slate-200 rounded-2xl shadow-xs overflow-hidden">
-            <div class="bg-slate-950 text-white px-4 sm:px-6 py-3.5 border-b border-amber-500/30 flex items-center justify-between">
-                <h3 class="font-serif text-base sm:text-xl font-bold text-amber-300">1. Organização vs. Empresa, Pilares, Gestão, SMART, Tipologias e Scrum</h3>
-                <span class="font-mono text-xs text-cyan-300">UC 600 • GESTÃO</span>
-            </div>
-            <div class="p-4 sm:p-6 space-y-5 text-xs sm:text-sm text-slate-700 leading-relaxed">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
-                        <h4 class="font-bold text-slate-950">Organização vs. Empresa &amp; 4 Pilares</h4>
-                        <p><strong>Organização:</strong> conjunto coordenado de pessoas, tecnologias e recursos para atingir objetivos comuns (ex.: sala de aula pedagógica). <strong>Empresa:</strong> organização de atividade económica organizada, com fins lucrativos no mercado (foco em ROI, vendas e quota).</p>
-                        <p><strong>4 Pilares:</strong> 1) <strong>Pessoas</strong>, 2) <strong>Estrutura</strong>, 3) <strong>Objetivos</strong> (missão/visão/metas), 4) <strong>Recursos</strong> (materiais, financeiros, tecnológicos, informacionais).</p>
-                        <p><strong>Fluxo Sistémico:</strong> <code class="font-mono">Input → Processo → Output → Feedback</code> (ex.: requisito/dados → análise/código/testes → software/entrega → avaliação/bugs/backlog).</p>
-                    </div>
-                    <div class="p-4 rounded-xl bg-amber-50/60 border border-amber-200 space-y-2">
-                        <h4 class="font-bold text-slate-950">Níveis de Gestão &amp; Objetivos SMART</h4>
-                        <p><strong>Estratégico:</strong> longo prazo, visão global (CEO/Direção). <strong>Tático:</strong> médio prazo, por departamento (Gerentes/Chefes). <strong>Operacional:</strong> curto prazo, execução diária (Técnicos/Operadores).</p>
-                        <p><strong>SMART:</strong> <strong>S</strong>pecific (Específico), <strong>M</strong>easurable (Mensurável), <strong>A</strong>chievable (Atingível), <strong>R</strong>elevant (Relevante), <strong>T</strong>ime-bound (Prazo definido).</p>
-                        <p><strong>Ex.: Patilux</strong> (pet care) e <strong>Barbearia Style</strong> (caso prático Scrum: Product Owner, Scrum Master, Developers; 3 pilares: Transparência, Inspeção, Adaptação; eventos: Sprint, Planning, Daily 15 min, Review, Retrospective; artefactos: Product Backlog, Sprint Backlog, Incremento/DoD).</p>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="p-4 rounded-xl bg-indigo-50/50 border border-indigo-200 space-y-1.5">
-                        <h4 class="font-bold text-indigo-950">Setores e Dimensão (UE)</h4>
-                        <p><strong>Setores:</strong> Primário (extração/agro), Secundário (indústria/construção), Terciário (serviços/comércio/TI), Quaternário (conhecimento/I&amp;D).</p>
-                        <p><strong>Dimensão UE:</strong> Micro (&lt;10 trab., ≤2M€), Pequena (&lt;50, ≤10M€), Média (&lt;250, ≤50M€), Grande (≥250, &gt;50M€).</p>
-                    </div>
-                    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
-                        <h4 class="font-bold text-slate-950">Formas Jurídicas em Portugal</h4>
-                        <p><strong>ENI:</strong> titular único, responsabilidade ilimitada. <strong>Unipessoal por Quotas:</strong> 1 sócio, património separado. <strong>Sociedade por Quotas (Lda.):</strong> 2+ sócios, quotas limitadas. <strong>S.A.:</strong> mín. 5 sócios, capital em ações.</p>
-                    </div>
-                    <div class="p-4 rounded-xl bg-emerald-50/50 border border-emerald-200 space-y-1.5">
-                        <h4 class="font-bold text-emerald-950">Evolução, Modelos &amp; Stakeholders</h4>
-                        <p><strong>Eras:</strong> Artesanato, Industrialização, Produção em Massa, Economia do Conhecimento. <strong>Teorias:</strong> Taylor/Fordismo, Fayol, Weber, Contingencial. <strong>Estruturas:</strong> Mecanicista vs. Orgânica. <strong>Stakeholders:</strong> internos e externos; RSC/ESG.</p>
-                    </div>
-                </div>
-            </div>
-        </article>
-
-        <!-- 2. Comunicação, Projetos, Onde Entram Front-End & Back-End, Regra do Front & Gantt -->
-        <article id="uc600-projetos-gantt" class="module-card bg-white border-2 border-amber-400/60 rounded-2xl shadow-sm overflow-hidden">
-            <div class="bg-slate-950 text-white px-4 sm:px-6 py-3.5 border-b border-amber-500/30 flex items-center justify-between">
-                <h3 class="font-serif text-base sm:text-xl font-bold text-amber-300">2. Comunicação Organizacional, Projetos (Front &amp; Back) e Gráfico de Gantt</h3>
-                <span class="font-mono text-xs text-amber-300">ESTRUTUR.DOCX</span>
-            </div>
-            <div class="p-4 sm:p-6 space-y-5 text-xs sm:text-sm text-slate-700 leading-relaxed">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
-                        <h4 class="font-bold text-slate-950">Comunicação Organizacional &amp; Pontos de Falha</h4>
-                        <p><strong>Pontos de falha nos processos:</strong> esperas, retrabalho e duplicação.</p>
-                        <p><strong>Direções da comunicação:</strong> <strong>Descendente</strong> (topo → base), <strong>Ascendente</strong> (base → topo), <strong>Horizontal</strong> (mesmo nível/equipas) e <strong>Diagonal</strong> (entre áreas/níveis distintos).</p>
-                        <p><strong>Canais &amp; Dica de trabalho:</strong> pergunte sempre qual é o canal adequado! Pode ser <strong>formal</strong> ou <strong>informal</strong>, <strong>assíncrona</strong> (ex.: e-mail) ou <strong>síncrona</strong> (ex.: telefonema/reunião). <strong>Nota:</strong> o <strong>WhatsApp não é um canal formal</strong>.</p>
-                    </div>
-                    <div class="p-4 rounded-xl bg-amber-50/70 border border-amber-300 space-y-2">
-                        <h4 class="font-bold text-amber-950">Projetos, Front-End &amp; Back-End (Regra de Ouro)</h4>
-                        <p><strong>Projeto:</strong> algo que acontece <strong>uma vez</strong>, com etapas, recursos, início e fim, e <em>timelines</em> (prazos de entrega).</p>
-                        <p><strong>Onde entram Back-End e Front-End:</strong> o <strong>Back-End</strong> trata regras de negócio, APIs, autenticação e base de dados; o <strong>Front-End</strong> trata interface, usabilidade e integração visual com o utilizador.</p>
-                        <p class="p-2.5 rounded-lg bg-rose-50 border border-rose-300 text-rose-950 font-bold">
-                            ⚠️ Regra crítica: O FRONT-END NUNCA PODE SE ATRASAR — atrasos na interface travam testes visuais, validação com o cliente e entrega final do projeto!
-                        </p>
-                    </div>
-                </div>
-
-                <div class="p-4 rounded-xl bg-indigo-50/50 border border-indigo-200 space-y-3">
-                    <h4 class="font-bold text-indigo-950">O Que Significa Gráfico de Gantt &amp; Exemplo Completo (Dias 1 a 8)</h4>
-                    <p>
-                        <strong>Significado de Gantt:</strong> é um gráfico de barras horizontal que mostra as tarefas de um projeto ao longo do tempo (dias/semanas), evidenciando início, duração, paralelismo e dependências entre etapas.
-                    </p>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full text-xs font-mono border border-slate-300 rounded-lg overflow-hidden bg-white">
-                            <thead class="bg-slate-950 text-white">
-                                <tr>
-                                    <th class="px-3 py-2 text-left">Tarefa / Camada</th>
-                                    <th class="px-2 py-2 text-center">D1</th>
-                                    <th class="px-2 py-2 text-center">D2</th>
-                                    <th class="px-2 py-2 text-center">D3</th>
-                                    <th class="px-2 py-2 text-center">D4</th>
-                                    <th class="px-2 py-2 text-center">D5</th>
-                                    <th class="px-2 py-2 text-center">D6</th>
-                                    <th class="px-2 py-2 text-center">D7</th>
-                                    <th class="px-2 py-2 text-center">D8</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-200">
-                                <tr>
-                                    <td class="px-3 py-2 font-sans font-semibold text-slate-900">T1: Levantamento &amp; Planeamento (Base/Requisitos)</td>
-                                    <td class="bg-indigo-500 text-white text-center">■</td>
-                                    <td class="bg-indigo-500 text-white text-center">■</td>
-                                    <td class="text-center text-slate-300">·</td>
-                                    <td class="text-center text-slate-300">·</td>
-                                    <td class="text-center text-slate-300">·</td>
-                                    <td class="text-center text-slate-300">·</td>
-                                    <td class="text-center text-slate-300">·</td>
-                                    <td class="text-center text-slate-300">·</td>
-                                </tr>
-                                <tr>
-                                    <td class="px-3 py-2 font-sans font-semibold text-slate-900">T2: Front-End UI/Layout (Nunca pode atrasar!)</td>
-                                    <td class="text-center text-slate-300">·</td>
-                                    <td class="bg-amber-400 text-slate-950 font-bold text-center">■</td>
-                                    <td class="bg-amber-400 text-slate-950 font-bold text-center">■</td>
-                                    <td class="bg-amber-400 text-slate-950 font-bold text-center">■</td>
-                                    <td class="bg-amber-400 text-slate-950 font-bold text-center">■</td>
-                                    <td class="text-center text-slate-300">·</td>
-                                    <td class="text-center text-slate-300">·</td>
-                                    <td class="text-center text-slate-300">·</td>
-                                </tr>
-                                <tr>
-                                    <td class="px-3 py-2 font-sans font-semibold text-slate-900">T3: Back-End API &amp; Base de Dados</td>
-                                    <td class="text-center text-slate-300">·</td>
-                                    <td class="text-center text-slate-300">·</td>
-                                    <td class="bg-cyan-600 text-white text-center">■</td>
-                                    <td class="bg-cyan-600 text-white text-center">■</td>
-                                    <td class="bg-cyan-600 text-white text-center">■</td>
-                                    <td class="bg-cyan-600 text-white text-center">■</td>
-                                    <td class="text-center text-slate-300">·</td>
-                                    <td class="text-center text-slate-300">·</td>
-                                </tr>
-                                <tr>
-                                    <td class="px-3 py-2 font-sans font-semibold text-slate-900">T4: Integração Front + Back</td>
-                                    <td class="text-center text-slate-300">·</td>
-                                    <td class="text-center text-slate-300">·</td>
-                                    <td class="text-center text-slate-300">·</td>
-                                    <td class="text-center text-slate-300">·</td>
-                                    <td class="text-center text-slate-300">·</td>
-                                    <td class="bg-purple-600 text-white text-center">■</td>
-                                    <td class="bg-purple-600 text-white text-center">■</td>
-                                    <td class="text-center text-slate-300">·</td>
-                                </tr>
-                                <tr>
-                                    <td class="px-3 py-2 font-sans font-semibold text-slate-900">T5: Testes Finais &amp; Entrega</td>
-                                    <td class="text-center text-slate-300">·</td>
-                                    <td class="text-center text-slate-300">·</td>
-                                    <td class="text-center text-slate-300">·</td>
-                                    <td class="text-center text-slate-300">·</td>
-                                    <td class="text-center text-slate-300">·</td>
-                                    <td class="text-center text-slate-300">·</td>
-                                    <td class="text-center text-slate-300">·</td>
-                                    <td class="bg-emerald-600 text-white text-center">■</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </article>
-
-        <!-- 3. Redes de Computadores (redes.docx Melhorado) + Modelo OSI (7 Camadas) -->
-        <article id="uc600-redes-osi" class="module-card bg-white border-2 border-cyan-500/50 rounded-2xl shadow-sm overflow-hidden">
-            <div class="bg-slate-950 text-white px-4 sm:px-6 py-3.5 border-b border-cyan-500/40 flex items-center justify-between">
-                <h3 class="font-serif text-base sm:text-xl font-bold text-cyan-300">3. Redes de Computadores (Guia Melhorado) &amp; Modelo OSI (7 Camadas)</h3>
-                <span class="font-mono text-xs text-amber-300">REDES.DOCX + OSI</span>
-            </div>
-            <div class="p-4 sm:p-6 space-y-5 text-xs sm:text-sm text-slate-700 leading-relaxed">
-                <div class="p-4 rounded-xl bg-cyan-50/70 border border-cyan-200 space-y-2">
-                    <h4 class="font-bold text-slate-950">Fundamentos de Redes de Computadores (Versão Estruturada e Melhorada)</h4>
-                    <ul class="list-disc list-inside space-y-1.5">
-                        <li><strong>O que é uma rede de computadores:</strong> conjunto de dispositivos interligados para partilhar recursos, dados e serviços.</li>
-                        <li><strong>Equipamentos e Hosts:</strong> começa pelos equipamentos; os <strong>hosts</strong> (PCs, portáteis, smartphones, servidores, impressoras) produzem e consomem informação.</li>
-                        <li><strong>Meios de transmissão:</strong> meios físicos (cabos de cobre/par trançado, fibra ótica) ou sem fios (Wi-Fi) transportam os sinais.</li>
-                        <li><strong>Protocolos:</strong> conjuntos de regras comuns que permitem aos dispositivos comunicar e trocar informação sem falhas.</li>
-                        <li><strong>Serviços de rede:</strong> acesso a ficheiros, aplicações, autenticação, impressão e internet. <strong>Importante:</strong> um serviço pode ser <strong>interno (LAN/intranet)</strong> e não depender da internet.</li>
-                        <li><strong>Switch vs. Router:</strong> o <strong>switch</strong> interliga dispositivos dentro da mesma rede local (<strong>LAN</strong>) usando endereços MAC; o <strong>router</strong> encaminha tráfego entre redes diferentes usando endereços IP.</li>
-                    </ul>
-                </div>
-
-                <div class="overflow-x-auto">
-                    <h4 class="font-bold text-slate-950 mb-2">Modelo de Referência OSI (ISO, 1984 — 7 Camadas)</h4>
-                    <table class="min-w-full text-xs sm:text-sm border border-slate-300 rounded-xl overflow-hidden">
-                        <thead class="bg-slate-950 text-white">
-                            <tr>
-                                <th class="px-3 py-2 text-left">Camada</th>
-                                <th class="px-3 py-2 text-left">Função Principal</th>
-                                <th class="px-3 py-2 text-left">PDU</th>
-                                <th class="px-3 py-2 text-left">Protocolos / Dispositivos / Exemplos</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-200 bg-white">
-                            <tr><td class="px-3 py-2 font-bold">7. Aplicação</td><td class="px-3 py-2">Interface de rede para serviços de software/utilizador</td><td class="px-3 py-2 font-mono">Dados</td><td class="px-3 py-2">HTTP/HTTPS, SMTP, FTP, DNS (Web/Cloud Apps)</td></tr>
-                            <tr><td class="px-3 py-2 font-bold">6. Apresentação</td><td class="px-3 py-2">Tradução de sintaxe/semântica, compressão e criptografia</td><td class="px-3 py-2 font-mono">Dados</td><td class="px-3 py-2">SSL/TLS, JPEG, MP3, ASCII, UTF-8</td></tr>
-                            <tr><td class="px-3 py-2 font-bold">5. Sessão</td><td class="px-3 py-2">Estabelece, gere e sincroniza diálogos e checkpoints</td><td class="px-3 py-2 font-mono">Dados</td><td class="px-3 py-2">SQL, RPC, NetBIOS (Simplex, Half/Full-Duplex)</td></tr>
-                            <tr><td class="px-3 py-2 font-bold">4. Transporte</td><td class="px-3 py-2">Entrega fim-a-fim, portas, fiabilidade (TCP) ou rapidez (UDP)</td><td class="px-3 py-2 font-mono">Segmento / Datagrama</td><td class="px-3 py-2">TCP (e-mails/arquivos), UDP (streaming/VoIP), Portas</td></tr>
-                            <tr><td class="px-3 py-2 font-bold">3. Rede</td><td class="px-3 py-2">Endereçamento lógico (IP) e roteamento entre redes</td><td class="px-3 py-2 font-mono">Pacote</td><td class="px-3 py-2">Roteadores (Routers), Endereço IP</td></tr>
-                            <tr><td class="px-3 py-2 font-bold">2. Enlace</td><td class="px-3 py-2">Acesso ao meio, endereçamento físico (MAC), LLC e MAC</td><td class="px-3 py-2 font-mono">Quadro (Frame)</td><td class="px-3 py-2">Switches, NIC, Ethernet (802.3), Wi-Fi (802.11)</td></tr>
-                            <tr><td class="px-3 py-2 font-bold">1. Física</td><td class="px-3 py-2">Transmissão de bits puros (0s e 1s) pelo meio físico</td><td class="px-3 py-2 font-mono">Bits</td><td class="px-3 py-2">Cabos, Hubs, Modems, conectores e sinais</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </article>
-
+        <div id="summaries-catalog-container" class="space-y-6"></div>
     </main>
 
     <!-- Rodapé Académico -->
@@ -1902,7 +1732,7 @@ nomes["aluno"]      ← "Filipe"
             const container = document.getElementById("holocron-ai-messages");
             container.innerHTML = `
                 <div class="p-3 rounded-2xl bg-slate-100 text-slate-800 border border-slate-200">
-                    Conversa limpa! Pergunta-me sobre qualquer questão (<code class="font-mono text-indigo-800">Q01</code> a <code class="font-mono text-indigo-800">Q20</code> ou <code class="font-mono text-indigo-800">Prática 1</code> a <code class="font-mono text-indigo-800">6</code>), <strong>logaritmos</strong>, <strong>bichinhos do Flowgorithm</strong>, arrays, simulados, <strong>UC 600 (Organização, Gantt &amp; Redes OSI)</strong>, <strong>formação IEFP</strong> ou <em>Star Wars</em>.
+                    Conversa limpa! Pergunta-me sobre qualquer questão (<code class="font-mono text-indigo-800">Q01</code> a <code class="font-mono text-indigo-800">Q20</code> ou <code class="font-mono text-indigo-800">Prática 1</code> a <code class="font-mono text-indigo-800">6</code>), <strong>logaritmos</strong>, <strong>bichinhos do Flowgorithm</strong>, arrays, simulados, <strong>formação IEFP</strong>, <strong>resumos</strong> ou <em>Star Wars</em>.
                 </div>
             `;
         }
@@ -1943,14 +1773,11 @@ nomes["aluno"]      ← "Filipe"
                 }
             }
 
-            if (q.includes("gantt") || q.includes("projeto") || q.includes("front") || q.includes("back") || q.includes("comunica") || q.includes("whatsapp") || q.includes("uc 600") || q.includes("uc600")) {
-                return "<strong>UC 600 (Projetos, Gantt &amp; Comunicação):</strong> Um projeto é único e tem início, fim e etapas; o <strong>gráfico de Gantt</strong> mostra tarefas ao longo do tempo. <strong>Front-End nunca pode atrasar</strong>! Na comunicação, pergunte sempre o canal (formal/informal, síncrona/assíncrona — WhatsApp não é formal) e atenção às direções (descendente, ascendente, horizontal, diagonal).";
+            if (q.includes("resumo") || q.includes("1fn") || q.includes("2fn") || q.includes("3fn") || q.includes("join") || q.includes("scrum") || q.includes("matriz") || q.includes("grafo") || q.includes("perfect")) {
+                return "Os resumos completos de <strong>Base de Dados (1FN–3FN, SQL JOINs &amp; Conjuntos)</strong>, <strong>Sistemas de Informação &amp; UML</strong>, <strong>Git &amp; GitHub</strong>, <strong>Inglês Informático</strong>, <strong>Matemática Aplicada (Bases, Binário C2, Conjuntos, Portas Lógicas, Estatística, Combinatória, Matrizes, Grafos)</strong> e <strong>UC 600 &amp; Scrum</strong> estão na aba <strong>VI. Resumos Completos</strong>!";
             }
-            if (q.includes("osi") || q.includes("rede") || q.includes("switch") || q.includes("router") || q.includes("tcp") || q.includes("udp") || q.includes("camada")) {
-                return "<strong>Redes &amp; Modelo OSI:</strong> Hosts produzem/consomem dados, <strong>switch</strong> liga na LAN (MAC) e <strong>router</strong> encaminha entre redes (IP). Serviços podem ser internos sem depender da internet. Camadas OSI: 7 Aplicação, 6 Apresentação, 5 Sessão, 4 Transporte (TCP/UDP), 3 Rede (IP), 2 Enlace (MAC/Frame), 1 Física (Bits).";
-            }
-            if (q.includes("iefp") || q.includes("zip") || q.includes("scrum") || q.includes("sql") || q.includes("git")) {
-                return "<strong>Formação IEFP (ZIP):</strong> Reúne 4 grandes áreas: <em>Organização &amp; Scrum</em> (guia Scrum, app barbearia, gestão), <em>Sistemas de Informação &amp; LAB00</em> (requisitos, TechHelp, TecnoRepara, fichas 1–5, fluxogramas LAB00_D1 a D5, bdd.drawio), <em>Banco de Dados &amp; SQL</em> (UC00603, JOIN/conjuntos, PostgreSQL, 1FN–4FN, OFICINA_STRK, TRABAI 2, infográfico SQL 1–100) e <em>Git &amp; GitHub</em> (guias e projeto final da turma SJM). Abra a aba <strong>V. Formação IEFP (ZIP)</strong> ou <strong>VI. UC 600 &amp; Redes</strong>!";
+            if (q.includes("iefp") || q.includes("zip") || q.includes("sql") || q.includes("git")) {
+                return "<strong>Formação IEFP (ZIP):</strong> Reúne 4 grandes áreas: <em>Organização &amp; Scrum</em> (guia Scrum, app barbearia, gestão), <em>Sistemas de Informação &amp; LAB00</em> (requisitos, TechHelp, TecnoRepara, fichas 1–5, fluxogramas LAB00_D1 a D5, bdd.drawio), <em>Banco de Dados &amp; SQL</em> (UC00603, JOIN/conjuntos, PostgreSQL, 1FN–4FN, OFICINA_STRK, TRABAI 2, infográfico SQL 1–100) e <em>Git &amp; GitHub</em> (guias e projeto final da turma SJM). Abra a aba <strong>V. Formação IEFP (ZIP)</strong>!";
             }
             if (q.includes("log") || q.includes("logaritm")) {
                 return "<strong>Logaritmos:</strong> log<sub>a</sub>(b) = x significa a<sup>x</sup> = b. Ex.: log<sub>2</sub>(8) = 3 porque 2<sup>3</sup> = 8. Produto vira soma, divisão vira subtração e potência vai para a frente. Veja o <strong>Tutorial Completo de Logaritmos</strong> na aba II!";
@@ -1980,7 +1807,7 @@ nomes["aluno"]      ← "Filipe"
                 return "Uma <strong>função</strong> recebe parâmetros e <strong>devolve um valor</strong> usando a palavra-chave <code>retornar</code> (<code>Return</code>) (Q11, Q17). Um <strong>procedimento</strong> executa ações sem devolver valor.";
             }
 
-            return "Em algoritmia, tudo parte de variáveis declaradas com tipo (<code>Integer</code>, <code>Real</code>, <code>String</code>, <code>Boolean</code>), estruturas de decisão (<code>if</code>) e repetição (<code>for</code>/<code>while</code>), arrays, operadores e funções (<code>retornar</code>). Podes abrir a aba <strong>Simulados (12Q + 100% SW)</strong>, <strong>V. Formação IEFP (ZIP)</strong> ou <strong>VI. UC 600 &amp; Redes</strong>!";
+            return "Em algoritmia, tudo parte de variáveis declaradas com tipo (<code>Integer</code>, <code>Real</code>, <code>String</code>, <code>Boolean</code>), estruturas de decisão (<code>if</code>) e repetição (<code>for</code>/<code>while</code>), arrays, operadores e funções (<code>retornar</code>). Podes abrir a aba <strong>Simulados (12Q + 100% SW)</strong>, <strong>V. Formação IEFP (ZIP)</strong> ou <strong>VI. Resumos Completos</strong>!";
         }
 
         function askHolocronPreset(text) {
@@ -2659,15 +2486,15 @@ nomes["aluno"]      ← "Filipe"
             {
                 id: "org",
                 title: "Analisar as funções e estrutura da organização",
-                subtitle: "Gestão, organização do trabalho, estrutura organizacional, projetos/Gantt, redes/OSI e metodologias ágeis Scrum.",
+                subtitle: "Gestão, organização do trabalho, estrutura organizacional e metodologias ágeis Scrum.",
                 items: [
-                    { id: "org-1", name: "Estrutur.docx", meta: "Processos, comunicação, projetos (Front/Back) e Gantt" },
-                    { id: "org-2", name: "Fundamentos_de_Gestao_e_Organizacao_do_Trabalho.docx", meta: "41.9 KB • Eras, Taylor/Fordismo, Contingencial e Scrum" },
-                    { id: "org-3", name: "Organizacao_e_Gestao_Empresarial_Guia_Estudo.docx", meta: "32.9 KB • Pilares, níveis de gestão, SMART, setores e formas jurídicas" },
+                    { id: "org-1", name: "Estrutur.docx", meta: "15.4 KB • Estrutura organizacional" },
+                    { id: "org-2", name: "Fundamentos_de_Gestao_e_Organizacao_do_Trabalho.docx", meta: "41.9 KB • Fundamentos de gestão" },
+                    { id: "org-3", name: "Organizacao_e_Gestao_Empresarial_Guia_Estudo.docx", meta: "32.9 KB • Guia de estudo empresarial" },
                     { id: "org-4", name: "resumo par aprova estudar/Gestão e Organização do Trabalho.pptx", meta: "137.3 KB • Apresentação para prova" },
                     { id: "org-5", name: "Resumo_Scrum_Guide_PT_BR.docx", meta: "39.1 KB • Papéis, eventos e artefactos Scrum" },
                     { id: "org-6", name: "Scrum_Pratico_App_Barbearia_Ciclo_Completo.docx", meta: "40.0 KB • Caso prático Scrum completo" },
-                    { id: "org-7", name: "Modelo de Referência OSI.pptx & redes.docx", meta: "7 camadas OSI, TCP/UDP, switch/router e redes" }
+                    { id: "org-7", name: "Novo Documento do Microsoft Word.docx & (2).docx", meta: "13.6 KB / 15.7 KB • Apontamentos auxiliares" }
                 ]
             },
             {
@@ -2812,6 +2639,201 @@ nomes["aluno"]      ← "Filipe"
             `).join("");
         }
 
+        /* ===================================================================== */
+        /* CATÁLOGO COMPLETO DE RESUMOS ENVIADOS PELO UTILIZADOR               */
+        /* ===================================================================== */
+        let activeSummaryCategory = "all";
+
+        const userSummariesCatalog = [
+            {
+                id: "sum-bd-modelacao",
+                cat: "bd",
+                tag: "BASE DE DADOS • MODELAÇÃO",
+                title: "Modelação de Dados e Relacionamentos (Entidades, PK/FK, 1:1, 1:N, N:M)",
+                body: `
+                    <p><strong>Princípio do Modelo Relacional:</strong> Tabelas = Entidades, Colunas = Atributos, Linhas = Ocorrências/Registos. Integridade referencial liga <strong>PK (Primary Key — única e não nula)</strong> a <strong>FK (Foreign Key)</strong>.</p>
+                    <ul class="list-disc list-inside space-y-1 text-xs sm:text-sm">
+                        <li><strong>1 : 1:</strong> FK numa tabela (geralmente opcional) com restrição <code>UNIQUE</code> (ex.: Cliente — Ficha Médica).</li>
+                        <li><strong>1 : N:</strong> FK fica obrigatoriamente na tabela do lado <strong>N</strong> (Muitos) (ex.: Cliente 1 — * Encomenda).</li>
+                        <li><strong>N : M:</strong> Exige <strong>3.ª Tabela Intermédia / Ligação</strong> com FKs de ambas + atributos próprios do relacionamento (ex.: <code>Itens_Reparacao</code> com <code>ID_Ordem</code>, <code>ID_Peca</code>, <code>Quantidade_Utilizada</code>, <code>Preco_Unitario_Aplicado</code>).</li>
+                    </ul>
+                `
+            },
+            {
+                id: "sum-bd-fundamentos",
+                cat: "bd",
+                tag: "BASE DE DADOS • FUNDAMENTOS & DDL/DML",
+                title: "Introdução, Armazenamento, Níveis de Modelação, SQL e Integridade",
+                body: `
+                    <p><strong>Armazenamento &amp; Modelos:</strong> Fitas/cartões → HDD (acesso aleatório) → SSD/Flash/ROM → Nuvem/Big Data. Modelos: Ficheiros Planos → Hierárquico → Rede → <strong>Relacional (E. F. Codd)</strong> → NoSQL/OO.</p>
+                    <p><strong>3 Níveis:</strong> Conceitual (entidades/relações do negócio) → Lógico (tabelas/chaves no modelo relacional) → Físico (SGBD, tipos, índices).</p>
+                    <p><strong>SQL &amp; Integridade:</strong> <strong>DDL</strong> (<code>CREATE</code>, <code>ALTER</code>, <code>DROP</code>) e <strong>DML</strong> (<code>SELECT</code>, <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>). Integridade de Entidade, Referencial, Domínio, Unicidade e Consistência de Stock.</p>
+                `
+            },
+            {
+                id: "sum-bd-normalizacao",
+                cat: "bd",
+                tag: "BASE DE DADOS • NORMALIZAÇÃO (1FN–3FN)",
+                title: "Normalização em Linguagem Simples: Evitar Anomalias e Arrumar Tabelas",
+                body: `
+                    <p>Evita redundância, erro de atualização e erro de eliminação:</p>
+                    <ul class="list-disc list-inside space-y-1 text-xs sm:text-sm">
+                        <li><strong>1FN (Valores Atómicos):</strong> Sem listas na mesma célula (ex.: separar <code>Rato, Teclado</code> em linhas próprias) e com PK definida.</li>
+                        <li><strong>2FN (Dependência Total da Chave):</strong> O que depende apenas de parte de uma chave composta (ex.: preço/categoria do produto) vai para a sua tabela.</li>
+                        <li><strong>3FN (Sem Dependências Transitivas/Indiretas):</strong> Atributos que dependem de outro atributo não-chave (ex.: cidade do cliente) vão para a tabela própria (<code>CLIENTES</code>, <code>PRODUTOS</code>, <code>VENDAS / ITENS</code>).</li>
+                    </ul>
+                `
+            },
+            {
+                id: "sum-bd-sql-joins",
+                cat: "bd",
+                tag: "BASE DE DADOS • SQL JOINs & CONJUNTOS",
+                title: "Consultas SQL: INNER/LEFT/RIGHT/FULL/CROSS JOIN e UNION/INTERSECT/EXCEPT",
+                body: `
+                    <ul class="list-disc list-inside space-y-1 text-xs sm:text-sm">
+                        <li><strong>INNER JOIN:</strong> Apenas correspondências em ambas as tabelas; <strong>LEFT JOIN:</strong> Todos da esquerda (preenche <code>NULL</code> à direita); <strong>LEFT JOIN + WHERE ... IS NULL:</strong> Sem correspondência à direita (anti-join).</li>
+                        <li><strong>RIGHT JOIN:</strong> Prioridade à direita; <strong>FULL OUTER JOIN:</strong> Todos dos dois lados com <code>NULL</code> onde faltar (<code>NULLS LAST</code> ordena nulos no fim).</li>
+                        <li><strong>ON vs. WHERE em LEFT JOIN:</strong> Filtro no <code>ON</code> ocorre antes da junção sem eliminar linhas da esquerda; no <code>WHERE</code> pode excluir linhas <code>NULL</code>.</li>
+                        <li><strong>Agregação &amp; CROSS JOIN:</strong> Use <code>COUNT(i.id)</code> com <code>LEFT JOIN</code> para manter zeros; <code>CROSS JOIN</code> gera produto cartesiano.</li>
+                        <li><strong>Conjuntos (verticais, mesmas colunas e tipos compatíveis):</strong> <code>UNION</code> (sem duplicados), <code>UNION ALL</code> (mantém duplicados, mais rápido), <code>INTERSECT</code> (em comum), <code>EXCEPT</code> (1.ª menos 2.ª).</li>
+                    </ul>
+                `
+            },
+            {
+                id: "sum-si-fundamentos",
+                cat: "si",
+                tag: "SISTEMAS DE INFORMAÇÃO • ARQUITETURA & QUALIDADE",
+                title: "Fundamentos de SI: Dado vs. Informação, 4 Pilares, Ciclo e 3-Tier",
+                body: `
+                    <p><strong>SI vs. Software vs. TI:</strong> SI é sociotécnico (Pessoas, Dados, Processos, Tecnologia); Software é a aplicação; TI é a infraestrutura.</p>
+                    <p><strong>Dado → Informação → Conhecimento:</strong> Facto bruto → Contextualizado → Analisado com experiência para decidir.</p>
+                    <p><strong>Ciclo &amp; Qualidade:</strong> Entrada (Input) → Processamento → Saída (Output) → Feedback. Qualidade: Exatidão, Atualidade, Completude, Consistência, Acessibilidade e Rastreabilidade. Arquitetura 3-Tier: Frontend, Backend/API e Base de Dados.</p>
+                `
+            },
+            {
+                id: "sum-si-requisitos-uml",
+                cat: "si",
+                tag: "SISTEMAS DE INFORMAÇÃO • REQUISITOS, RGPD & UML",
+                title: "Engenharia de Requisitos (TechHelp), Caso TecnoRepara, RGPD e UML",
+                body: `
+                    <p><strong>Erro caro:</strong> Programar cedo demais sem levantar requisitos verificáveis (evitar termos vagos como "rápido" ou "intuitivo"; usar métricas e Gherkin <code>Given / When / Then</code> + rastreabilidade P → N → RF → CA → T).</p>
+                    <p><strong>RF vs. RNF vs. RN:</strong> RF = comportamento/o que faz; RNF = qualidade/desempenho/segurança/usabilidade; RN = política/regra de negócio.</p>
+                    <p><strong>TecnoRepara &amp; RGPD:</strong> Transição de AS-IS (Excel/Chat/silos) para TO-BE integrado com RBAC, minimização de dados, consentimento e KPIs (TMR, intervenções por técnico, taxa de reincidência). Viabilidade TELO (Técnica, Económica, Legal, Operacional). UML: Casos de Uso (atores), Classes (<code>1..*</code>, <code>0..*</code>), Atividades, Sequência (tempo no eixo vertical) e Estados.</p>
+                `
+            },
+            {
+                id: "sum-git",
+                cat: "git",
+                tag: "GIT & GITHUB • CONTROLE DE VERSÃO",
+                title: "Comandos Git, 3 Áreas Locais, Push/Pull e Gestão de Branches",
+                body: `
+                    <p><strong>3 Áreas &amp; Fluxo:</strong> Working Directory → (<code>git add</code>) → Staging Area → (<code>git commit -m "..."</code>) → Local Repository → (<code>git pull</code> / <code>git push</code>) → GitHub.</p>
+                    <p><strong>Comandos &amp; Boas Práticas:</strong> <code>git init</code>, <code>git status</code>, <code>git log --oneline</code>, <code>git diff</code>, <code>git stash</code>, <code>git reset --hard</code>, <code>git branch</code>, <code>git checkout -b</code>, <code>git merge</code>. Faça sempre <code>git pull</code> antes, use branches (<code>main</code>, <code>feature/...</code>, <code>hotfix/...</code>), commits claros, Pull Requests e <code>.gitignore</code>.</p>
+                `
+            },
+            {
+                id: "sum-eng-tenses",
+                cat: "eng",
+                tag: "INGLÊS INFORMÁTICO • TEMPOS VERBAIS",
+                title: "Present Simple, Present Continuous, Past Simple, Past Continuous & Perfect",
+                body: `
+                    <ul class="list-disc list-inside space-y-1 text-xs sm:text-sm">
+                        <li><strong>Present Simple:</strong> Rotinas, hábitos, verdades gerais. Afirmativa 3.ª pessoa (<em>he/she/it</em>): <code>-es</code>, <code>-ies</code>, <code>-s</code>; negativa/pergunta usam <code>do/does</code> e verbo base (exceto <em>to be</em>, <em>have got</em>, <em>there is/are</em>).</li>
+                        <li><strong>Present Continuous:</strong> <code>am/is/are + verbo-ing</code> (ações agora, temporárias ou planos futuros; atenção a <code>-e</code>, <code>-ie</code> e CVC como <em>running</em>, vs. <em>happening</em>).</li>
+                        <li><strong>Past Simple vs. Past Continuous:</strong> Ações concluídas no passado (regulares <code>-ed</code>, irregulares; <code>did/didn't</code> + base; <em>was/were</em>) vs. <code>was/were + verbo-ing</code> (ação em curso no passado ou interrompida).</li>
+                        <li><strong>Present Perfect vs. Past Perfect:</strong> <code>have/has + V3</code> (ligação ao presente, experiências, <em>for/since/just</em>) vs. <code>had + V3</code> (ação anterior a outro evento no passado, <em>by the time</em>, arrependimentos).</li>
+                    </ul>
+                `
+            },
+            {
+                id: "sum-math-bases-sign",
+                cat: "math",
+                tag: "MATEMÁTICA • BASES, ARITMÉTICA & SINAL",
+                title: "Sistemas de Numeração, Unidades Digitais, Conversões e Complemento para 2",
+                body: `
+                    <p><strong>Bases &amp; Unidades:</strong> Decimal (base 10), Binário (base 2), Octal (base 8, grupos de 3 bits), Hexadecimal (base 16, 0–9 e A–F, grupos de 4 bits). 1 Byte = 8 bits; 1 KB = 1.024 Bytes; <code>b</code> = bit vs. <code>B</code> = Byte.</p>
+                    <p><strong>Conversões &amp; Aritmética:</strong> Divisões sucessivas (decimal → base) e soma de potências (base → decimal). Adição binária (<code>1 + 1 = 10₂</code>, vai 1) e subtração com empréstimo (<code>borrow</code>).</p>
+                    <p><strong>Bit de Sinal (MSB):</strong> <code>0</code> = positivo, <code>1</code> = negativo. Sinal e Magnitude, Complemento para 1 (inverte bits) e <strong>Complemento para 2</strong> (inverte bits + 1; em 8 bits vai de <code>-128</code> a <code>+127</code>, zero único e subtração via soma).</p>
+                `
+            },
+            {
+                id: "sum-math-logic-sets",
+                cat: "math",
+                tag: "MATEMÁTICA • CONJUNTOS & LÓGICA",
+                title: "Teoria de Conjuntos, Lógica Proposicional, Álgebra de Boole e Portas Lógicas",
+                body: `
+                    <p><strong>Conjuntos:</strong> Compreensão vs. extensão; 0 é par; pertença (<code>∈</code>, <code>∉</code>) e inclusão (<code>⊂</code>, <code>⊆</code>, <code>⊄</code>, <code>⊃</code>); União (<code>∪</code>), Interseção (<code>∩</code>) e Diferença (<code>A - B</code>).</p>
+                    <p><strong>Lógica &amp; Boole:</strong> Proposições (V/F; não são perguntas, exclamações ou ordens). Negação (<code>~p</code>/<code>¬p</code>/<code>NOT</code>), Conjunção (<code>∧</code>/<code>AND</code>: só V se todas V), Disjunção (<code>∨</code>/<code>OR</code>: V se pelo menos uma V).</p>
+                    <p><strong>Portas Lógicas:</strong> NOT, AND, OR, NAND (universal), NOR (universal), XOR (<code>1</code> se entradas diferentes), XNOR (<code>1</code> se entradas iguais).</p>
+                `
+            },
+            {
+                id: "sum-math-stats-comb-mat-graphs",
+                cat: "math",
+                tag: "MATEMÁTICA • ESTATÍSTICA, COMBINATÓRIA, MATRIZES & GRAFOS",
+                title: "Estatística, Cálculo Combinatório, Matrizes e Teoria dos Grafos",
+                body: `
+                    <p><strong>Estatística:</strong> Descritiva vs. Indutiva; população, amostra, censo, sondagem, amostragem (aleatória simples, sistemática, estratificada); evitar amostras enviesadas ou automáticas; correlação linear <code>r ∈ [-1, 1]</code> e regressão.</p>
+                    <p><strong>Combinatória (Casio fx-82MS):</strong> Fatorial <code>n!</code> (<code>0! = 1</code>), Permutação <code>Pₙ = n!</code>, Arranjos simples <code>n!/(n-p)!</code>, Arranjos com repetição <code>nᵖ</code>, Combinações <code>n!/[p!(n-p)!]</code>.</p>
+                    <p><strong>Matrizes &amp; Grafos:</strong> Ordem <code>m × n</code>, elemento <code>aᵢⱼ</code>, tipos (linha, coluna, nula, quadrada, diagonal, identidade, triangular superior/inferior, transposta <code>Aᵀ</code>, simétrica), soma, escalar e produto (colunas de A = linhas de B; não comutativo). Grafos <code>G = (V, A)</code>, grau <code>d(v)</code>, <code>Σ d(v) = 2|A|</code>, caminhos/ciclos e matriz de adjacência.</p>
+                `
+            },
+            {
+                id: "sum-uc600-scrum",
+                cat: "uc600",
+                tag: "UC 600 • GESTÃO, ORGANIZAÇÃO & SCRUM",
+                title: "Funções e Estrutura da Organização, Gestão, Contingência, Agile e Scrum",
+                body: `
+                    <p><strong>Organização &amp; Gestão:</strong> Organização (pessoas, estrutura, objetivos, recursos) vs. Empresa (fins económicos/lucrativos). Níveis estratégico, tático e operacional; fluxo Input → Processo → Output → Feedback; metas SMART; setores e formas jurídicas em Portugal (ENI, Unipessoal, Lda., S.A.).</p>
+                    <p><strong>Evolução &amp; Estruturas:</strong> Artesanato, Industrialização, Produção em Massa, Economia do Conhecimento; Taylorismo, Fordismo, Fayol, Weber; Teoria Contingencial; Mecanicista vs. Orgânico; Preditivo (Waterfall) vs. Adaptativo (Agile).</p>
+                    <p><strong>Scrum:</strong> Pilares (Transparência, Inspeção, Adaptação), 5 valores, papéis (Product Owner, Scrum Master, Developers), eventos (Sprint, Sprint Planning, Daily Scrum, Sprint Review, Sprint Retrospective) e artefactos (Product Backlog, Sprint Backlog, Incremento).</p>
+                `
+            }
+        ];
+
+        function setSummaryCategory(cat) {
+            activeSummaryCategory = cat;
+            document.querySelectorAll('.sum-cat-btn').forEach(btn => {
+                btn.className = "sum-cat-btn shrink-0 px-3 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-200 hover:bg-slate-700 cursor-pointer";
+            });
+            const activeBtn = document.getElementById(`sum-cat-${cat}`);
+            if (activeBtn) {
+                activeBtn.className = "sum-cat-btn shrink-0 px-3 py-2 rounded-xl text-xs font-bold bg-amber-400 text-slate-950 cursor-pointer";
+            }
+            renderSummariesCatalog();
+        }
+
+        function renderSummariesCatalog() {
+            const container = document.getElementById("summaries-catalog-container");
+            if (!container) return;
+
+            const query = (document.getElementById("summarySearchInput")?.value || "").toLowerCase().trim();
+            const filtered = userSummariesCatalog.filter(item => {
+                const matchesCat = activeSummaryCategory === "all" || item.cat === activeSummaryCategory;
+                const matchesQuery = !query || (item.tag + " " + item.title + " " + item.body).toLowerCase().includes(query);
+                return matchesCat && matchesQuery;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="bg-white border border-slate-200 rounded-2xl p-6 text-center text-sm text-slate-500">Nenhum resumo encontrado para "${query}".</div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(item => `
+                <article class="module-card bg-white border border-slate-200 rounded-2xl shadow-xs overflow-hidden">
+                    <div class="bg-slate-950 text-white px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-2 border-b border-emerald-500/30">
+                        <div class="flex items-center gap-2.5 flex-wrap">
+                            <span class="px-2.5 py-1 rounded bg-emerald-400 text-slate-950 font-mono text-[11px] font-bold">${item.tag}</span>
+                            <h3 class="font-serif text-base sm:text-lg font-bold text-amber-300">${item.title}</h3>
+                        </div>
+                    </div>
+                    <div class="p-4 sm:p-6 space-y-2.5 text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        ${item.body}
+                    </div>
+                </article>
+            `).join("");
+        }
+
         function switchMainTab(tabName) {
             document.querySelectorAll('.tab-section').forEach(sec => sec.classList.add('hidden'));
             const targetSec = document.getElementById(`section-tab-${tabName}`);
@@ -2834,6 +2856,10 @@ nomes["aluno"]      ← "Filipe"
                 renderIefpCatalog();
             }
 
+            if (tabName === 'summaries') {
+                renderSummariesCatalog();
+            }
+
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -2843,6 +2869,7 @@ nomes["aluno"]      ← "Filipe"
             updateHeaderAndHistoryUI();
             rebuildActiveSimulado(false);
             renderIefpCatalog();
+            renderSummariesCatalog();
         });
     </script>
 </body>
